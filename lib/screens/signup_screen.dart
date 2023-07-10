@@ -49,80 +49,78 @@ class _LogInScreenState extends State<SignUpScreen> {
                   ),
                   Container(
                     height: screenHeight * 0.85,
-                    padding: EdgeInsets.fromLTRB(
-                      screenWidth * 0.15, 
-                      0,
-                      screenWidth * 0.15,
-                      0
-                    ),
                     width: screenWidth,
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFFFFF),
                       borderRadius: BorderRadius.circular(20)
                     ),
 // ---------------> THIS COLUMN COULD BE SEEN AS THE ACTUAL CONTENT BODY OF THIS VIEW TEMPLATE
-                    child: Column( 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const TextCustomWidget( //Custom widget for predifined text style generation.
-                          'Registro', 
-                          style: TextCustomWidget.wizardTitleStyle,
-                        ),
-
-                        Form(
-                          key: _formKey,
-                          child: const Column(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        screenWidth * 0.12, 30, screenWidth * 0.12, 30
+                      ),
+                      child: Column( 
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                            'Registro', 
+                            style: TextCustomWidget.wizardTitleStyle,
+                          ),
+                          Form(
+                            key: _formKey,
+                            child: const Column(
+                              children: [
+                                LabeledTextBoxCustomWidget(
+                                  label: 'Nombre',
+                                  type: LabeledTextBoxCustomWidget.normal,
+                                  icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
+                                ),
+                                SizedBox( height: 20,),
+                                LabeledTextBoxCustomWidget(
+                                  label: 'Correo Electrónico',
+                                  placeholder: 'ejemplo@gmail.com',
+                                  type: LabeledTextBoxCustomWidget.email,
+                                ),
+                                SizedBox( height: 20,),
+                                LabeledTextBoxCustomWidget(
+                                  label: 'Contraseña',
+                                  placeholder: '*******',
+                                  type: LabeledTextBoxCustomWidget.password,
+                                ),
+                                SizedBox( height: 20,),
+                                LabeledTextBoxCustomWidget(
+                                  label: 'Confirmar Contraseña',
+                                  placeholder: '*******',
+                                  type: LabeledTextBoxCustomWidget.password,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const BtnCustomWidget(text: 'Siguiente', route: '/signup2', style: BtnCustomWidget.continueLargeBtn),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              LabeledTextBoxCustomWidget(
-                                label: 'Nombre',
-                                type: LabeledTextBoxCustomWidget.normal,
-                                icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
+                              const TextCustomWidget( //Custom widget for predifined text style generation.
+                                '¿Ya tienes una cuenta?', 
+                                style: TextCustomWidget.normalStyle,
                               ),
-                              SizedBox( height: 20,),
-                              LabeledTextBoxCustomWidget(
-                                label: 'Correo Electrónico',
-                                placeholder: 'ejemplo@gmail.com',
-                                type: LabeledTextBoxCustomWidget.email,
-                              ),
-                              SizedBox( height: 20,),
-                              LabeledTextBoxCustomWidget(
-                                label: 'Contraseña',
-                                placeholder: '*******',
-                                type: LabeledTextBoxCustomWidget.password,
-                              ),
-                              SizedBox( height: 20,),
-                              LabeledTextBoxCustomWidget(
-                                label: 'Confirmar Contraseña',
-                                placeholder: '*******',
-                                type: LabeledTextBoxCustomWidget.password,
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0x00000000),
+                                  fixedSize: Size(screenWidth * 0.6, 44)
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/login'); 
+                                },
+                                child: const TextCustomWidget( //Custom widget for predifined text style generation.
+                                  'Acceder', 
+                                  style: TextCustomWidget.nudeStyle,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        const BtnCustomWidget(text: 'Siguiente', route: '/not_found', style: BtnCustomWidget.continueLargeBtn),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const TextCustomWidget( //Custom widget for predifined text style generation.
-                              '¿Ya tienes una cuenta?', 
-                              style: TextCustomWidget.normalStyle,
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: const Color(0x00000000),
-                                fixedSize: Size(screenWidth * 0.6, 44)
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/login'); 
-                              }, 
-                              child: const TextCustomWidget( //Custom widget for predifined text style generation.
-                                'Acceder', 
-                                style: TextCustomWidget.nudeStyle,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],

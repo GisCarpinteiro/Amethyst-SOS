@@ -20,13 +20,7 @@ class TextCustomWidget extends StatelessWidget {
   final double? size;
   final String? style;
 
-  const TextCustomWidget(
-    this.text,{
-      super.key,
-      this.size = 18,
-      this.style
-      }
-  );
+  const TextCustomWidget(this.text,{super.key,this.size = 18,this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +41,7 @@ class TextCustomWidget extends StatelessWidget {
       case TextCustomWidget.wizardTitleStyle: //wizardTitleWidget is bold and "UpperCased"
         return Text(
           text.toUpperCase(), 
+          textAlign: TextAlign.center,
           style: GoogleFonts.lexend(
             textStyle: const TextStyle(
               fontWeight: FontWeight.w700,
