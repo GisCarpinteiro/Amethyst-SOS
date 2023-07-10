@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vistas_amatista/screens/confirm_email_screen.dart';
 import 'package:vistas_amatista/screens/login_screen.dart';
 import 'package:vistas_amatista/screens/not_found_screen.dart';
 import 'package:vistas_amatista/screens/signup_screen.dart';
+import 'package:vistas_amatista/screens/signup_screen_2.dart';
 import 'package:vistas_amatista/screens/startup_screen.dart';
 
 void main() {
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
         '/startup': (context) => const StartupScreen(),
         '/login': (context) => const LogInScreen(),
         '/signup': (context) => const SignUpScreen(),
+        '/signup2': (context) => const SignUpScreen2(),
+        '/confirm_email': (context) => const ConfirmEmailScreen(),
         '/not_found': (context) => const NotFoundScreen()
       },
       //This allow us to define a default page when an unexisting route is requested
