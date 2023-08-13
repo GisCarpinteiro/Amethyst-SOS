@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Enumerations allowUs to stablish a "type" with a limited group of valid values.
-//This one allows to manage specific styles for the TextWidget
-
 
 /* This class allow us to manage text widgets by defining predifined styles for 
 re usability */

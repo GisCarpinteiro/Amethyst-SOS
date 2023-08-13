@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/custom_widgets/text_custom.dart';
 
+/* Este es un widget custom para definir los estilos o plantillas de los botones 
+que son usados de forma recurrente en la aplicación */
+
 class BtnCustomWidget extends StatelessWidget {
   static const continueLargeBtn = 0; // wizard btn style for "continue" kind of options
 
@@ -13,7 +16,7 @@ class BtnCustomWidget extends StatelessWidget {
       required this.text,
       required this.route,
       super.key,
-      required this.style
+      required this.style,
   });
 
   @override

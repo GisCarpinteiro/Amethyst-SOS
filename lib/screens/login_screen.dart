@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
 import '../custom_widgets/labeled_textbox_custom.dart';
 import '../custom_widgets/text_custom.dart';
 
 
-/* This class is the interface base/template that corresponds to the views of 
-the LogIn, SignUp and Wizard, used by all of them for a cohesive UI */
+/* Vista para ingresar a la cuenta por medio de correo/teléfono y contraseña o por medio 
+de un servicio de autentificación (facebook, google, gmail) */
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -66,35 +65,14 @@ class _LogInScreenState extends State<LogInScreen> {
                             'Inicio de Sesión', 
                             style: TextCustomWidget.wizardTitleStyle,
                           ),
-                          Form(
-                            key: _formKey,
-                            child: const Column(
-                              children: [
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Correo Electrónico',
-                                  placeholder: 'ejemplo@gmail.com',
-                                  type: LabeledTextBoxCustomWidget.email,
-                                ),
-                                SizedBox( height: 20,),
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Contraseña',
-                                  placeholder: '*******',
-                                  type: LabeledTextBoxCustomWidget.password,
-                                ),
-                              ],
-                            ),
-                          ),
+                          FormCustomWidget(formKey: _formKey),
                           ClipRect(
                             child: Image.asset(
                               'lib/assets/auth_services.png',
                               fit: BoxFit.cover
                               ),
                           ),
-                          const BtnCustomWidget(
-                            text: 'Iniciar Sesión', 
-                            route: '/not_found',
-                            style: BtnCustomWidget.continueLargeBtn
-                          ),         
+                                  
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -126,6 +104,69 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
           ],
         )
+      ),
+    );
+  }
+}
+
+
+//Maybe this class could be reusable
+class FormCustomWidget extends StatelessWidget {
+  const FormCustomWidget({
+    super.key,
+    required GlobalKey<FormState> formKey,
+  }) : _formKey = formKey;
+
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Form(
+            key: _formKey,
+            child: const Column(
+              children: [
+                LabeledTextBoxCustomWidget(
+                  label: 'Correo Electrónico',
+                  placeholder: 'ejemplo@gmail.com',
+                  type: LabeledTextBoxCustomWidget.email,
+                ),
+                SizedBox( height: 20,),
+                LabeledTextBoxCustomWidget(
+                  label: 'Contraseña',
+                  placeholder: '*******',
+                  type: LabeledTextBoxCustomWidget.password,
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:const Color(0xFFEF8496),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()){
+                      Navigator.pushNamed(context, '/not_found');
+                    } else {ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Datos Inválidos'))
+                        );
+                    } // go to next screen
+                  }, 
+                  child: const TextCustomWidget(
+                    "Iniciar Sesión",
+                    style: TextCustomWidget.buttonStyle,
+                  )
+                ),
+              ),
+            ]
+          )
+        ],
       ),
     );
   }

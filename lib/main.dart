@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/screens/confirm_email_screen.dart';
+import 'package:vistas_amatista/screens/trust_group_wizard.dart';
+import 'package:vistas_amatista/screens/emergency_message_config_screen.dart';
 import 'package:vistas_amatista/screens/login_screen.dart';
 import 'package:vistas_amatista/screens/not_found_screen.dart';
 import 'package:vistas_amatista/screens/signup_screen.dart';
 import 'package:vistas_amatista/screens/signup_screen_2.dart';
 import 'package:vistas_amatista/screens/startup_screen.dart';
+
+/* Esta es la clase Main de la aplicación, en ella definimos las rutas por medio 
+de las cuales podemos acceder a las otras vistas */
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +37,9 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignUpScreen(),
         '/signup2': (context) => const SignUpScreen2(),
         '/confirm_email': (context) => const ConfirmEmailScreen(),
-        '/not_found': (context) => const NotFoundScreen()
+        '/not_found': (context) => const NotFoundScreen(),
+        '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
+        '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
       },
       //This allow us to define a default page when an unexisting route is requested
       onGenerateRoute: (settings) {

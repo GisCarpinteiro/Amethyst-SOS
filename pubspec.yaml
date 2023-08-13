@@ -34,6 +34,7 @@ dependencies:
   google_fonts: ^5.1.0
   email_validator: '^2.1.16'
   flutter_verification_code: '1.1.6'
+  google_sign_in: ^6.1.4
 
 dev_dependencies:
 
@@ -63,6 +64,7 @@ flutter:
   assets:
     - lib/assets/wizard_landscape.png
     - lib/assets/auth_services.png
+    - lib/assets/trust_group.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

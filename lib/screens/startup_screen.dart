@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../custom_widgets/btn_custom.dart';
 import '../custom_widgets/text_custom.dart';
 
-/* This class is the interface base/template that corresponds to the views of 
-the LogIn, SignUp and Wizard, used by all of them for a cohesive UI */
+/* Esta es la vista inicial, invocada cuando aún no se ha detectado una sesión
+iniciada o se ha cerrado la sesión que estaba abierta */
 
 class StartupScreen extends StatefulWidget {
   const StartupScreen({super.key});
@@ -20,7 +20,7 @@ class _StartupScreenState extends State<StartupScreen> {
 
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: false, //Used to not resize when keyboard appears
@@ -38,7 +38,7 @@ class _StartupScreenState extends State<StartupScreen> {
               children: [
 //------------> This containar is used only to make dynamic the size that the image shows
                 Container(
-                  height: screenHeight * 0.35,
+                  height: screenHeight * 0.15,
                   decoration: const BoxDecoration(
                   )
                 ),

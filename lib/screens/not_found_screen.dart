@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
 
 
-/* This class is the interface base/template that corresponds to the views of 
-the LogIn, SignUp and Wizard, used by all of them for a cohesive UI */
+/* Es la página 404 not found, usada para poder probar la funcionalidad de ruteo
+sin ser redirigido a una página random */
 
 class NotFoundScreen extends StatefulWidget {
   const NotFoundScreen({super.key});

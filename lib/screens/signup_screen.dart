@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
 import '../custom_widgets/labeled_textbox_custom.dart';
 import '../custom_widgets/text_custom.dart';
 
 
-/* This class is the interface base/template that corresponds to the views of 
-the LogIn, SignUp and Wizard, used by all of them for a cohesive UI */
+/* Esta vista es la primera dos que sirve para la creación de una nueva cuenta
+por medio del llenado de un formulario  */
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _LogInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LogInScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   //Key used for the login formulary
   final _formKey = GlobalKey<FormState>();
   
@@ -66,37 +65,7 @@ class _LogInScreenState extends State<SignUpScreen> {
                             'Registro', 
                             style: TextCustomWidget.wizardTitleStyle,
                           ),
-                          Form(
-                            key: _formKey,
-                            child: const Column(
-                              children: [
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Nombre',
-                                  type: LabeledTextBoxCustomWidget.normal,
-                                  icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
-                                ),
-                                SizedBox( height: 20,),
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Correo Electrónico',
-                                  placeholder: 'ejemplo@gmail.com',
-                                  type: LabeledTextBoxCustomWidget.email,
-                                ),
-                                SizedBox( height: 20,),
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Contraseña',
-                                  placeholder: '*******',
-                                  type: LabeledTextBoxCustomWidget.password,
-                                ),
-                                SizedBox( height: 20,),
-                                LabeledTextBoxCustomWidget(
-                                  label: 'Confirmar Contraseña',
-                                  placeholder: '*******',
-                                  type: LabeledTextBoxCustomWidget.password,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const BtnCustomWidget(text: 'Siguiente', route: '/signup2', style: BtnCustomWidget.continueLargeBtn),
+                          FormCustomWidget(formKey: _formKey),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -128,6 +97,79 @@ class _LogInScreenState extends State<SignUpScreen> {
             ),
           ],
         )
+      ),
+    );
+  }
+}
+
+class FormCustomWidget extends StatelessWidget {
+  const FormCustomWidget({
+    super.key,
+    required GlobalKey<FormState> formKey,
+  }) : _formKey = formKey;
+
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Form(
+            key: _formKey,
+            child: const Column(
+              children: [
+                LabeledTextBoxCustomWidget(
+                  label: 'Nombre',
+                  type: LabeledTextBoxCustomWidget.normal,
+                  icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
+                ),
+                SizedBox( height: 20,),
+                LabeledTextBoxCustomWidget(
+                  label: 'Correo Electrónico',
+                  placeholder: 'ejemplo@gmail.com',
+                  type: LabeledTextBoxCustomWidget.email,
+                ),
+                SizedBox( height: 20,),
+                LabeledTextBoxCustomWidget(
+                  label: 'Contraseña',
+                  placeholder: '*******',
+                  type: LabeledTextBoxCustomWidget.password,
+                ),
+                SizedBox( height: 20,),
+                LabeledTextBoxCustomWidget( //TODO: Create "passwordConfirmation" LabeledTextBoxCutimWidget Type and read "password" to compare with "passwordConfirmation" on submit or realtime.
+                  label: 'Confirmar Contraseña',
+                  placeholder: '*******',
+                  type: LabeledTextBoxCustomWidget.password,
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:const Color(0xFFEF8496),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()){
+                      Navigator.pushNamed(context, '/signup2');
+                    } else {ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Datos Inválidos'))
+                      );
+                    } // go to next screen
+                  }, 
+                  child: const TextCustomWidget(
+                    "Siguiente",
+                    style: TextCustomWidget.buttonStyle,
+                  )
+                ),
+              ),
+            ]
+          )
+        ],
       ),
     );
   }

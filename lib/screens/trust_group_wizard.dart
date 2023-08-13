@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import '../custom_widgets/btn_custom.dart';
-import '../custom_widgets/text_custom.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
+import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-/* Vista para la confirmación de el email/teléfono por medio de un código enviado por correo
-o mensaje SMS que deberá ser ingresado para poder crear una cuenta*/
+/* Vista del wizard de configuración inicial para definir un mensaje personalizado
+de emergencia (o hacer uso del mensaje por defecto si no se ingresa ninguno) */
 
-class ConfirmEmailScreen extends StatefulWidget {
-  const ConfirmEmailScreen({super.key});
+class CreateTrustGroupWizardScreen extends StatefulWidget {
+  const CreateTrustGroupWizardScreen({super.key});
 
   @override
-  State<ConfirmEmailScreen> createState() => _StartupScreenState();
+  State<CreateTrustGroupWizardScreen> createState() => _CreateTrustGroupWizardScreenState();
 }
 
-class _StartupScreenState extends State<ConfirmEmailScreen> {
+class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScreen> {
   
-
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +23,7 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false, //Used to not resize when keyboard appears
+      resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       body: Container(
         alignment: Alignment.topCenter,
         child: Stack(
@@ -46,7 +45,7 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                     )
                   ),
                   Container(
-                    height: screenHeight* 0.85,
+                    height: screenHeight * 0.85,
                     width: screenWidth,
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFFFFF),
@@ -57,35 +56,30 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                       padding: EdgeInsets.fromLTRB(
                         screenWidth * 0.12, 30, screenWidth * 0.12, 50
                       ),
-                      child: Column(
+                      child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column( 
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const TextCustomWidget( //Custom widget for predifined text style generation.
-                                'Verifica tu correo electrónico', 
-                                style: TextCustomWidget.wizardTitleStyle,
+                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                            'Grupos de Confianza', 
+                            style: TextCustomWidget.wizardTitleStyle,
+                          ),
+                          ClipRect(
+                            child: Image.asset(
+                              'lib/assets/trust_group.png',
+                              fit: BoxFit.cover
                               ),
-                              const SizedBox(height: 30),
-                              const TextCustomWidget(
-                                'Intruduce el pin de verificación que hemos enviado al correo que registraste',
+                          ),
+                          const TextCustomWidget(
+                                'Puedes agregar varios contactos a un grupo de confianza para notificarlos de forma simultánea cuando actives una alerta',
                                 style: TextCustomWidget.normalStyle,
                               ),
-                              const SizedBox(height: 30),
-                              VerificationCode(
-                                onCompleted: (String value){
-                                },
-                                onEditing: (bool value){}
-                              ),
-                              
+                          
+                          const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //TODO: Redirigir a la vista de configuración de grupos de confianza cuándo esté implementado
+                              BtnCustomWidget(text: 'Crear Grupo', route:'/not_found', style: BtnCustomWidget.continueLargeBtn)
                             ],
-                          ),
-                          const BtnCustomWidget(
-                                text: 'Verificar',
-                                route: '/emergency_message_wizard',
-                                style: BtnCustomWidget.continueLargeBtn,
                           ),
                         ],
                       ),
@@ -100,7 +94,4 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
     );
   }
 }
-
-
-
 
