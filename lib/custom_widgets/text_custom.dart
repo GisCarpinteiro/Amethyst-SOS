@@ -16,8 +16,10 @@ class TextCustomWidget extends StatelessWidget {
   final String text;
   final double? size;
   final String? style;
+  final IconData? icon;
+  final double? iconSize;
 
-  const TextCustomWidget(this.text,{super.key,this.size = 18,this.style});
+  const TextCustomWidget(this.text,{super.key,this.size = 18,this.style, this.icon, this.iconSize = 28});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // PINK BUTTON TEXT STYLE
-      case TextCustomWidget.buttonStyle: // TODO: define a title style for the appViews
+      case TextCustomWidget.buttonStyle: 
         return Text(
           text.toUpperCase(), 
           style: GoogleFonts.lexend(
@@ -84,18 +86,43 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // GENERIC SECTION/SCREEN TITLE STYLE
-      case TextCustomWidget.sectionTitleStyle: // TODO: define a title style for the appViews
-        return Text(
-          text, 
-          style: GoogleFonts.lexend(
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 24
+      case TextCustomWidget.sectionTitleStyle:
+        const Color textColor = Color(0xFF6A6868);
+        if (icon != null){
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                text.toUpperCase(), 
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lexend(
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 24,
+                    color: textColor
+                  )
+                )
+              ),
+              const SizedBox(width: 6,),
+              Icon(icon, size: iconSize, color: textColor, weight: 1,),
+            ],
+          );
+        } 
+        else {
+          return Text(
+            text.toUpperCase(), 
+            textAlign: TextAlign.center,
+            style: GoogleFonts.lexend(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 24
+              )
             )
-          )
-        );
+          );
+        }
+        
       // DEFAULT TEXT STYLE
-      default:  // TODO: define a default style, for now it's just the normal one.
+      default:  
         return Text(
           text, 
           style: GoogleFonts.lexend(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
 import 'package:vistas_amatista/custom_widgets/text_custom.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 /* Vista del wizard de configuración inicial para definir un mensaje personalizado
 de emergencia (o hacer uso del mensaje por defecto si no se ingresa ninguno) */

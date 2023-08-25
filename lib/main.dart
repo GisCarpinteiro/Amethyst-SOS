@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/screens/confirm_email_screen.dart';
+import 'package:vistas_amatista/screens/demo_menu_screen.dart';
+import 'package:vistas_amatista/screens/trigger_settings_screen.dart';
 import 'package:vistas_amatista/screens/trust_group_wizard.dart';
 import 'package:vistas_amatista/screens/emergency_message_config_screen.dart';
 import 'package:vistas_amatista/screens/login_screen.dart';
@@ -30,8 +32,9 @@ class MyApp extends StatelessWidget {
       ),
       /*Here we define the value of the initial route and all the avaliable routes 
       that allow us to display all the screen of the app*/
-      initialRoute: '/startup',
+      initialRoute: '/test_demo',
       routes: {
+        '/test_demo': (context) => const DemoScreen(),
         '/startup': (context) => const StartupScreen(),
         '/login': (context) => const LogInScreen(),
         '/signup': (context) => const SignUpScreen(),
@@ -40,11 +43,12 @@ class MyApp extends StatelessWidget {
         '/not_found': (context) => const NotFoundScreen(),
         '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
         '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
+        '/trigger_settings':(context) => const TriggerSettingsScreen()
       },
       //This allow us to define a default page when an unexisting route is requested
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
-          builder: (context) => const StartupScreen(),
+          builder: (context) => const NotFoundScreen(),
         );
       }, 
     );

@@ -52,7 +52,7 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
                 )
               )
             ),
-            const BtnCustomWidget(text: 'Llévame al inicio!', route: '/startup', style: BtnCustomWidget.continueLargeBtn)
+            const BtnCustomWidget(text: 'Llévame al inicio!', route: '/test_demo', style: BtnCustomWidget.continueLargeBtn)
           ]),
           )
       ),
