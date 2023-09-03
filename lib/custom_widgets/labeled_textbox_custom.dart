@@ -31,10 +31,26 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
   });
 
   //REGEX VALIDATIONS
-  static RegExp passwordMatcher = RegExp(r'.{8,}', caseSensitive: false, multiLine: false);
+  // For password we check that it is at least 8 characters long, has at least 1 number and no spaces.  
+  static RegExp passwordMatchAtLeast8 = RegExp(r'^.{8,}$', caseSensitive: false, multiLine: false);
+  static RegExp passwordMatchNoSpaces = RegExp(r'^[^\s]+$', caseSensitive: false, multiLine: false);
+  static RegExp passwordMatchAtLeast1Digit = RegExp(r'\d', caseSensitive: false, multiLine: false);
+  static RegExp passwordMatchAtLeast1Letter = RegExp(r'\[a-zA-Z]', caseSensitive: false, multiLine: true);
   static RegExp phoneMatcher = RegExp(r'\d{8}', caseSensitive: false, multiLine: false);
   
-
+  passwordValidation(value){
+    if (value == null || value.isEmpty){
+      return 'Defina una contraseña!';
+    } else if (!passwordMatchAtLeast8.hasMatch(value)){
+      return  'Debe tener mínimo 8 caracteres!';
+    } else if (!passwordMatchNoSpaces.hasMatch(value)){
+      return  'No debe incluir espacios!';
+    } else if (!passwordMatchAtLeast1Digit.hasMatch(value)){
+      return  'Debe tener al menos un número!';
+    } else if (!passwordMatchAtLeast1Letter.hasMatch(value)){
+      return  'Debe tener al menos una letra!';
+    } else {return null;}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +119,7 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
             const SizedBox(height: 8,),
             TextFormField(
               validator: (value){
-                if (value == null || value.isEmpty){
-                  return 'Defina una contraseña';
-                } else {
-                  return passwordMatcher.hasMatch(value) ? null : 'Debe tener mínimo 8 caracateres';
-                }
+                return passwordValidation(value);
               },
               obscureText: true,
               enableSuggestions: false,

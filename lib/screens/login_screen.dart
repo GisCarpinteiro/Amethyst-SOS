@@ -161,6 +161,7 @@ class FormCustomWidget extends StatelessWidget {
                   child: const TextCustomWidget(
                     "Iniciar Sesión",
                     style: TextCustomWidget.buttonStyle,
+                    textColor: Color(0xFFFFFFFF),
                   )
                 ),
               ),

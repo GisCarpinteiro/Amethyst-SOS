@@ -20,7 +20,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
   
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => const Size(double.maxFinite, 80);
+  Size get preferredSize => const Size(double.maxFinite, 60);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderStateMixin{
@@ -53,10 +53,9 @@ class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 30, 10, 20),
+      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
       child: Column(
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,11 +69,14 @@ class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderSt
                 onPressed: _onPressed, 
               ),
               TextCustomWidget(
-                widget.title, style: TextCustomWidget.sectionTitleStyle, 
-                icon: Icons.crisis_alert,
+                widget.title, 
+                style: TextCustomWidget.sectionTitleStyle, 
+                icon: widget.icon,
+                // TODO: Econtrar una forma de hacer el tamaño del título responsivo.
+                size: widget.title.length > 16? (widget.title.length > 18? 16 :20): null, 
                 iconSize: 24,
               ),
-              const SizedBox(width: 0,)
+              const SizedBox(width: 42,) 
             ],
           ),
         ],

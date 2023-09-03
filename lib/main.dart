@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/screens/confirm_email_screen.dart';
 import 'package:vistas_amatista/screens/demo_menu_screen.dart';
-import 'package:vistas_amatista/screens/trigger_settings_screen.dart';
+import 'package:vistas_amatista/screens/triggers/disconnection_trigger_settings_screen.dart';
+import 'package:vistas_amatista/screens/triggers/trigger_settings_screen.dart';
+import 'package:vistas_amatista/screens/triggers/trigger_tests.dart';
 import 'package:vistas_amatista/screens/trust_group_wizard.dart';
 import 'package:vistas_amatista/screens/emergency_message_config_screen.dart';
 import 'package:vistas_amatista/screens/login_screen.dart';
@@ -43,7 +45,9 @@ class MyApp extends StatelessWidget {
         '/not_found': (context) => const NotFoundScreen(),
         '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
         '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
-        '/trigger_settings':(context) => const TriggerSettingsScreen()
+        '/trigger_settings':(context) => const TriggerSettingsScreen(),
+        '/trigger_settings/internet_disconnection':(context) => const DiscconectTriggerSettingsScreen(),
+        '/trigger_test': (context) => const TriggerTestScreen()
       },
       //This allow us to define a default page when an unexisting route is requested
       onGenerateRoute: (settings) {

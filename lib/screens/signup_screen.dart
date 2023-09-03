@@ -163,6 +163,7 @@ class FormCustomWidget extends StatelessWidget {
                   }, 
                   child: const TextCustomWidget(
                     "Siguiente",
+                    textColor: Color(0xFFFFFFFF),
                     style: TextCustomWidget.buttonStyle,
                   )
                 ),

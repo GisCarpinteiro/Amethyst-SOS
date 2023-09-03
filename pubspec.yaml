@@ -35,6 +35,7 @@ dependencies:
   email_validator: '^2.1.16'
   flutter_verification_code: '1.1.6'
   google_sign_in: ^6.1.4
+  connectivity_plus: ^4.0.2
 
 dev_dependencies:
 
@@ -44,6 +45,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
