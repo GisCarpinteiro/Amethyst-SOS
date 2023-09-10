@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
-import '../custom_widgets/labeled_textbox_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import '../../custom_widgets/msos_wizard_textbox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -61,17 +61,17 @@ class _LogInScreenState extends State<SignUpScreen2> {
                       child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                          const MSosText( //Custom widget for predifined text style generation.
                             'Registro', 
-                            style: TextCustomWidget.wizardTitleStyle,
+                            style: MSosText.wizardTitleStyle,
                           ),
                           FormCustomWidget(formKey: _formKey),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const TextCustomWidget( //Custom widget for predifined text style generation.
+                              const MSosText( //Custom widget for predifined text style generation.
                                 '¿Ya tienes una cuenta?', 
-                                style: TextCustomWidget.normalStyle,
+                                style: MSosText.normalStyle,
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
@@ -81,9 +81,9 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/login'); 
                                 }, 
-                                child: const TextCustomWidget( //Custom widget for predifined text style generation.
+                                child: const MSosText( //Custom widget for predifined text style generation.
                                   'Acceder', 
-                                  style: TextCustomWidget.nudeStyle,
+                                  style: MSosText.nudeStyle,
                                 ),
                               ),
                             ],
@@ -125,24 +125,24 @@ class FormCustomWidget extends StatelessWidget {
             key: _formKey,
             child: const Column(
               children: [
-                LabeledTextBoxCustomWidget(
+                MSosWizardTextBox(
                   label: 'País',
                   placeholder: 'México',
-                  type: LabeledTextBoxCustomWidget.normal,
+                  type: MSosWizardTextBox.normal,
                 ),
                 SizedBox( height: 20,),
-                LabeledTextBoxCustomWidget(
+                MSosWizardTextBox(
                   label: 'Teléfono',
-                  type: LabeledTextBoxCustomWidget.normal,
+                  type: MSosWizardTextBox.normal,
                   icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
                 ),
                 SizedBox( height: 20,),
                 CustomDropDownWidget(label: 'Género', items: items),
                 SizedBox( height: 20,),
-                LabeledTextBoxCustomWidget(
+                MSosWizardTextBox(
                   label: 'Fecha de Nacimiento',
                   placeholder: '01/01/2000',
-                  type: LabeledTextBoxCustomWidget.normal,
+                  type: MSosWizardTextBox.normal,
                 ),
               ],
             ),
@@ -162,9 +162,9 @@ class FormCustomWidget extends StatelessWidget {
                       );
                     } // go to next screen
                   }, 
-                  child: const TextCustomWidget(
+                  child: const MSosText(
                     "Siguiente",
-                    style: TextCustomWidget.buttonStyle,
+                    style: MSosText.buttonStyle,
                   )
                 ),
               ),

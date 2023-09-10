@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import '../custom_widgets/labeled_textbox_custom.dart';
-import '../custom_widgets/text_custom.dart';
+import '../../custom_widgets/msos_wizard_textbox.dart';
+import '../../custom_widgets/msos_text.dart';
 
 
-/* Vista para ingresar a la cuenta por medio de correo/teléfono y contraseña o por medio 
-de un servicio de autentificación (facebook, google, gmail) */
+/* Esta vista es la primera dos que sirve para la creación de una nueva cuenta
+por medio del llenado de un formulario  */
 
-class LogInScreen extends StatefulWidget {
-  const LogInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   //Key used for the login formulary
   final _formKey = GlobalKey<FormState>();
   
@@ -53,7 +53,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       color: const Color(0xFFFFFFFF),
                       borderRadius: BorderRadius.circular(20)
                     ),
-                    // ---------------> This column could be seen as the actual content body of this view template
+// ---------------> THIS COLUMN COULD BE SEEN AS THE ACTUAL CONTENT BODY OF THIS VIEW TEMPLATE
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
                         screenWidth * 0.12, 30, screenWidth * 0.12, 30
@@ -61,24 +61,17 @@ class _LogInScreenState extends State<LogInScreen> {
                       child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextCustomWidget( //Custom widget for predifined text style generation.
-                            'Inicio de Sesión', 
-                            style: TextCustomWidget.wizardTitleStyle,
+                          const MSosText( //Custom widget for predifined text style generation.
+                            'Registro', 
+                            style: MSosText.wizardTitleStyle,
                           ),
                           FormCustomWidget(formKey: _formKey),
-                          ClipRect(
-                            child: Image.asset(
-                              'lib/assets/auth_services.png',
-                              fit: BoxFit.cover
-                              ),
-                          ),
-                                  
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const TextCustomWidget( //Custom widget for predifined text style generation.
-                                '¿Aún no tienes cuenta?', 
-                                style: TextCustomWidget.normalStyle,
+                              const MSosText( //Custom widget for predifined text style generation.
+                                '¿Ya tienes una cuenta?', 
+                                style: MSosText.normalStyle,
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
@@ -86,11 +79,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                   fixedSize: Size(screenWidth * 0.6, 44)
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/signup'); 
+                                  Navigator.pushNamed(context, '/login'); 
                                 },
-                                child: const TextCustomWidget( //Custom widget for predifined text style generation.
-                                  'Registrarse', 
-                                  style: TextCustomWidget.nudeStyle,
+                                child: const MSosText( //Custom widget for predifined text style generation.
+                                  'Acceder', 
+                                  style: MSosText.nudeStyle,
                                 ),
                               ),
                             ],
@@ -109,8 +102,6 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 }
 
-
-//Maybe this class could be reusable
 class FormCustomWidget extends StatelessWidget {
   const FormCustomWidget({
     super.key,
@@ -129,16 +120,28 @@ class FormCustomWidget extends StatelessWidget {
             key: _formKey,
             child: const Column(
               children: [
-                LabeledTextBoxCustomWidget(
-                  label: 'Correo Electrónico',
-                  placeholder: 'ejemplo@gmail.com',
-                  type: LabeledTextBoxCustomWidget.email,
+                MSosWizardTextBox(
+                  label: 'Nombre',
+                  type: MSosWizardTextBox.normal,
+                  icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
                 ),
                 SizedBox( height: 20,),
-                LabeledTextBoxCustomWidget(
+                MSosWizardTextBox(
+                  label: 'Correo Electrónico',
+                  placeholder: 'ejemplo@gmail.com',
+                  type: MSosWizardTextBox.email,
+                ),
+                SizedBox( height: 20,),
+                MSosWizardTextBox(
                   label: 'Contraseña',
                   placeholder: '*******',
-                  type: LabeledTextBoxCustomWidget.password,
+                  type: MSosWizardTextBox.password,
+                ),
+                SizedBox( height: 20,),
+                MSosWizardTextBox( //TODO: Create "passwordConfirmation" LabeledTextBoxCutimWidget Type and read "password" to compare with "passwordConfirmation" on submit or realtime.
+                  label: 'Confirmar Contraseña',
+                  placeholder: '*******',
+                  type: MSosWizardTextBox.password,
                 ),
               ],
             ),
@@ -152,16 +155,16 @@ class FormCustomWidget extends StatelessWidget {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()){
-                      Navigator.pushNamed(context, '/not_found');
+                      Navigator.pushNamed(context, '/signup2');
                     } else {ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Datos Inválidos'))
-                        );
+                        const SnackBar(content: Text('Datos Inválidos'))
+                      );
                     } // go to next screen
                   }, 
-                  child: const TextCustomWidget(
-                    "Iniciar Sesión",
-                    style: TextCustomWidget.buttonStyle,
+                  child: const MSosText(
+                    "Siguiente",
                     textColor: Color(0xFFFFFFFF),
+                    style: MSosText.buttonStyle,
                   )
                 ),
               ),

@@ -1,0 +1,1 @@
+//TODO: Implementar el switch como un custom widget(Requiere el uso de Bloc)

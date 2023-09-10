@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
-import '../custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_button.dart';
+import '../custom_widgets/msos_text.dart';
 
 
 /* Esta vista es temporal, usada para probar las funcionalidades del proyecto por separado de 
@@ -37,11 +37,13 @@ class _DemoScreenState extends State<DemoScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextCustomWidget("Test/Demo Screen!", style: TextCustomWidget.sectionTitleStyle, icon: Icons.construction_outlined,),
+                MSosText("Test/Demo Screen!", style: MSosText.sectionTitleStyle, icon: Icons.construction_outlined,),
                 SizedBox(height: 20,),
-                BtnCustomWidget(text: "Wizard", route: '/startup', style: BtnCustomWidget.continueLargeBtn),
+                MSosButton(text: "Wizard", route: '/startup', style: MSosButton.continueLargeBtn),
                 SizedBox(height: 20,),
-                BtnCustomWidget(text: "TriggerConfig", route: '/trigger_settings', style: BtnCustomWidget.continueLargeBtn),
+                MSosButton(text: "TriggerConfig", route: '/trigger_settings', style: MSosButton.continueLargeBtn),
+                SizedBox(height: 20,),
+                MSosButton(text: "Home", route: '/home', style: MSosButton.continueLargeBtn),
               ],
             ),
           ),

@@ -1,7 +1,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:vistas_amatista/custom_widgets/labeled_textbox_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_wizard_textbox.dart';
 
 
 void main() {
@@ -9,7 +9,7 @@ void main() {
 
   group('Test de Validaciones de Contraseñas', () {
     test('Rechazo de contraseñas con menos de 8 caractéres', (){
-      const textBoxCustomWidget = LabeledTextBoxCustomWidget(label: "test");
+      const textBoxCustomWidget = MSosWizardTextBox(label: "test");
 
       var testResult = textBoxCustomWidget.passwordValidation("passwd1");
     
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('Rechazo de contraseñas vacías', (){
-      const textBoxCustomWidget = LabeledTextBoxCustomWidget(label: "test");
+      const textBoxCustomWidget = MSosWizardTextBox(label: "test");
 
       var testResult = textBoxCustomWidget.passwordValidation("");
       
@@ -26,7 +26,7 @@ void main() {
     });
 
     test('Rechazo de contraseñas con espacios', (){
-      const textBoxCustomWidget = LabeledTextBoxCustomWidget(label: "test");
+      const textBoxCustomWidget = MSosWizardTextBox(label: "test");
 
       var testResult = textBoxCustomWidget.passwordValidation("Hello World1!");
       
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('Rechazo de contraseñas sin al menos un número', (){
-      const textBoxCustomWidget = LabeledTextBoxCustomWidget(label: "test");
+      const textBoxCustomWidget = MSosWizardTextBox(label: "test");
 
       var testResult = textBoxCustomWidget.passwordValidation("MyPassword");
       
@@ -42,7 +42,7 @@ void main() {
     });
 
     test('Rechazo de contraseñas sin al menos una letra', (){
-      const textBoxCustomWidget = LabeledTextBoxCustomWidget(label: "test");
+      const textBoxCustomWidget = MSosWizardTextBox(label: "test");
 
       var testResult = textBoxCustomWidget.passwordValidation("12345678");
       

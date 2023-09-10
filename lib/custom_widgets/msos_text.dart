@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 /* This class allow us to manage text widgets by defining predifined styles for 
 re usability */
 
-class TextCustomWidget extends StatelessWidget {
+class MSosText extends StatelessWidget {
   static const String normalStyle = 'normal';
   static const String wizardTitleStyle = 'wizard_title';
   static const String sectionTitleStyle = 'section_title';
@@ -22,7 +22,7 @@ class TextCustomWidget extends StatelessWidget {
   final IconData? icon;
   final double? iconSize;
 
-  const TextCustomWidget(this.text,{
+  const MSosText(this.text,{
     super.key,
     this.size,
     this.style, 
@@ -35,10 +35,10 @@ class TextCustomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (style){
       //NORMAL TEXT STYLE
-      case TextCustomWidget.normalStyle: //normal is the default font
+      case MSosText.normalStyle: //normal is the default font
         return Text(
           text,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.justify,
           style: GoogleFonts.lexend(
             textStyle: TextStyle(
               fontWeight: FontWeight.w400,
@@ -48,7 +48,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // WIZARD SECTION TITLE STYLE
-      case TextCustomWidget.wizardTitleStyle: //wizardTitleWidget is bold and "UpperCased"
+      case MSosText.wizardTitleStyle: //wizardTitleWidget is bold and "UpperCased"
         return Text(
           text.toUpperCase(), 
           textAlign: TextAlign.center,
@@ -60,7 +60,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // HYPERLINK TEXT
-      case TextCustomWidget.nudeStyle: //normal is the default font
+      case MSosText.nudeStyle: //normal is the default font
         return Text(
           text,
           textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // TEXTBOX LABEL TEXT STYLE
-      case TextCustomWidget.textboxLabelStyle: 
+      case MSosText.textboxLabelStyle: 
         return Text(
           text.toUpperCase(), 
           style: GoogleFonts.lexend(
@@ -85,7 +85,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // PINK BUTTON TEXT STYLE
-      case TextCustomWidget.buttonStyle: 
+      case MSosText.buttonStyle: 
         return Text(
           text.toUpperCase(), 
           style: GoogleFonts.lexend(
@@ -97,7 +97,7 @@ class TextCustomWidget extends StatelessWidget {
           )
         );
       // GENERIC SECTION/SCREEN TITLE STYLE
-      case TextCustomWidget.sectionTitleStyle:
+      case MSosText.sectionTitleStyle:
         if (icon != null){
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +132,7 @@ class TextCustomWidget extends StatelessWidget {
             )
           );
         }
-      case TextCustomWidget.subtitleStyle:
+      case MSosText.subtitleStyle:
         return Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
           child: Row(
@@ -158,7 +158,7 @@ class TextCustomWidget extends StatelessWidget {
           ),
         );
       // STYLE FOR INFO/DESCRIPTION TEXT
-      case TextCustomWidget.infoStyle:
+      case MSosText.infoStyle:
         return Text(
           textAlign: TextAlign.justify,
           text, 

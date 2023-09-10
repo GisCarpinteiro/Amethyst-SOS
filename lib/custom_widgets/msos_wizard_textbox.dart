@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 /* Este es un widget custom que define la plantilla de un TextBox acompañado de 
 una etiqueta, usado para los campos de los formularios dentro de la app */
 
-class LabeledTextBoxCustomWidget extends StatelessWidget {
+class MSosWizardTextBox extends StatelessWidget {
 
   //parameters
   final String label;
@@ -22,7 +22,7 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
   static const Color color = Color(0xFF999999);
   static const Color focussedBorderColor = Color(0xFF7CC5E4);
 
-  const LabeledTextBoxCustomWidget({
+  const MSosWizardTextBox({
     required this.label,
     this.placeholder = '',
     this.type = normal,
@@ -35,7 +35,7 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
   static RegExp passwordMatchAtLeast8 = RegExp(r'^.{8,}$', caseSensitive: false, multiLine: false);
   static RegExp passwordMatchNoSpaces = RegExp(r'^[^\s]+$', caseSensitive: false, multiLine: false);
   static RegExp passwordMatchAtLeast1Digit = RegExp(r'\d', caseSensitive: false, multiLine: false);
-  static RegExp passwordMatchAtLeast1Letter = RegExp(r'\[a-zA-Z]', caseSensitive: false, multiLine: true);
+  static RegExp passwordMatchAtLeast1Letter = RegExp(r'[a-zA-Z]', caseSensitive: false, multiLine: true);
   static RegExp phoneMatcher = RegExp(r'\d{8}', caseSensitive: false, multiLine: false);
   
   passwordValidation(value){
@@ -54,11 +54,16 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Directionality(textDirection: TextDirection.ltr, child: chooseText());
+  }
+
+  Widget chooseText(){
     switch (type){
       case normal:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: TextDirection.ltr,
           children: [
             Text(
               '   ${label.toUpperCase()}', 
@@ -155,9 +160,11 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: TextDirection.ltr,
           children: [
             Text(
               '   ${label.toUpperCase()}', 
+              textDirection: TextDirection.ltr,
               style: GoogleFonts.lexend(
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
@@ -257,4 +264,5 @@ class LabeledTextBoxCustomWidget extends StatelessWidget {
         return const Text('Aquí debería haber un widget :(');
     }
   }
+  
 }

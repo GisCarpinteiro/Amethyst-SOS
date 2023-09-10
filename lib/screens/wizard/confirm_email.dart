@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../custom_widgets/btn_custom.dart';
-import '../custom_widgets/text_custom.dart';
+import '../../custom_widgets/msos_button.dart';
+import '../../custom_widgets/msos_text.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 /* Vista para la confirmación de el email/teléfono por medio de un código enviado por correo
@@ -64,14 +64,14 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const TextCustomWidget( //Custom widget for predifined text style generation.
+                              const MSosText( //Custom widget for predifined text style generation.
                                 'Verifica tu correo electrónico', 
-                                style: TextCustomWidget.wizardTitleStyle,
+                                style: MSosText.wizardTitleStyle,
                               ),
                               const SizedBox(height: 30),
-                              const TextCustomWidget(
+                              const MSosText(
                                 'Intruduce el pin de verificación que hemos enviado al correo que registraste',
-                                style: TextCustomWidget.normalStyle,
+                                style: MSosText.normalStyle,
                               ),
                               const SizedBox(height: 30),
                               VerificationCode(
@@ -82,10 +82,10 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                               
                             ],
                           ),
-                          const BtnCustomWidget(
+                          const MSosButton(
                                 text: 'Verificar',
                                 route: '/emergency_message_wizard',
-                                style: BtnCustomWidget.continueLargeBtn,
+                                style: MSosButton.continueLargeBtn,
                           ),
                         ],
                       ),

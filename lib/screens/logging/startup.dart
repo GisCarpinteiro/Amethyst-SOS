@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../custom_widgets/btn_custom.dart';
-import '../custom_widgets/text_custom.dart';
+import '../../custom_widgets/msos_button.dart';
+import '../../custom_widgets/msos_text.dart';
 
 /* Esta es la vista inicial, invocada cuando aún no se ha detectado una sesión
 iniciada o se ha cerrado la sesión que estaba abierta */
@@ -60,26 +60,26 @@ class _StartupScreenState extends State<StartupScreen> {
                       child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                          const MSosText( //Custom widget for predifined text style generation.
                             'Mantente segura', 
-                            style: TextCustomWidget.wizardTitleStyle,
+                            style: MSosText.wizardTitleStyle,
                           ),
-                          const TextCustomWidget(
+                          const MSosText(
                             'Cuida a tus seres queridos y permite que ellos cuiden de ti',
-                            style: TextCustomWidget.normalStyle,
+                            style: MSosText.normalStyle,
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const BtnCustomWidget(
+                              const MSosButton(
                                 text: 'Iniciar Sesión',
                                 route: '/login',
-                                style: BtnCustomWidget.continueLargeBtn,
+                                style: MSosButton.continueLargeBtn,
                               ),
                               const SizedBox(height: 40,),
-                              const TextCustomWidget( //Custom widget for predifined text style generation.
+                              const MSosText( //Custom widget for predifined text style generation.
                                 '¿Aún no tienes cuenta?', 
-                                style: TextCustomWidget.normalStyle,
+                                style: MSosText.normalStyle,
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
@@ -89,9 +89,9 @@ class _StartupScreenState extends State<StartupScreen> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/signup'); 
                                 }, 
-                                child: const TextCustomWidget( //Custom widget for predifined text style generation.
+                                child: const MSosText( //Custom widget for predifined text style generation.
                                   'Registrarse', 
-                                  style: TextCustomWidget.nudeStyle,
+                                  style: MSosText.nudeStyle,
                                 ),
                               ),
                             ],

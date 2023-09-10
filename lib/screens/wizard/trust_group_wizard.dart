@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
 
 
 /* Vista del wizard de configuración inicial para definir un mensaje personalizado
@@ -59,9 +59,9 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
                       child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                          const MSosText( //Custom widget for predifined text style generation.
                             'Grupos de Confianza', 
-                            style: TextCustomWidget.wizardTitleStyle,
+                            style: MSosText.wizardTitleStyle,
                           ),
                           ClipRect(
                             child: Image.asset(
@@ -69,16 +69,16 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
                               fit: BoxFit.cover
                               ),
                           ),
-                          const TextCustomWidget(
+                          const MSosText(
                                 'Puedes agregar varios contactos a un grupo de confianza para notificarlos de forma simultánea cuando actives una alerta',
-                                style: TextCustomWidget.normalStyle,
+                                style: MSosText.normalStyle,
                               ),
                           
                           const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               //TODO: Redirigir a la vista de configuración de grupos de confianza cuándo esté implementado
-                              BtnCustomWidget(text: 'Crear Grupo', route:'/not_found', style: BtnCustomWidget.continueLargeBtn)
+                              MSosButton(text: 'Crear Grupo', route:'/not_found', style: MSosButton.continueLargeBtn)
                             ],
                           ),
                         ],

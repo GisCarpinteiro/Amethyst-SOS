@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_button.dart';
 
 
 /* Es la página 404 not found, usada para poder probar la funcionalidad de ruteo
@@ -52,7 +52,7 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
                 )
               )
             ),
-            const BtnCustomWidget(text: 'Llévame al inicio!', route: '/test_demo', style: BtnCustomWidget.continueLargeBtn)
+            const MSosButton(text: 'Llévame al inicio!', route: '/test_demo', style: MSosButton.continueLargeBtn)
           ]),
           )
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
-  const CustomAppBar({
+class MSosAppBar extends StatefulWidget implements PreferredSizeWidget{
+  const MSosAppBar({
     super.key,
     this.title = '',
     this.icon,
@@ -16,14 +16,14 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
   final IconData? icon;
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+  State<MSosAppBar> createState() => _MSosAppBarState();
   
   @override
   // TODO: implement preferredSize
   Size get preferredSize => const Size(double.maxFinite, 60);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderStateMixin{
+class _MSosAppBarState extends State<MSosAppBar> with SingleTickerProviderStateMixin{
 
   late AnimationController _animationController;
 
@@ -53,7 +53,7 @@ class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
       child: Column(
         children: [
           Row(
@@ -68,9 +68,9 @@ class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderSt
                 ),
                 onPressed: _onPressed, 
               ),
-              TextCustomWidget(
+              MSosText(
                 widget.title, 
-                style: TextCustomWidget.sectionTitleStyle, 
+                style: MSosText.sectionTitleStyle, 
                 icon: widget.icon,
                 // TODO: Econtrar una forma de hacer el tamaño del título responsivo.
                 size: widget.title.length > 16? (widget.title.length > 18? 16 :20): null, 

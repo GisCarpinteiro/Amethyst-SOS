@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
-import 'package:vistas_amatista/custom_widgets/custom_app_bar.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
 
 
 /* Vista de configuración para el disparador/activador de alerta provocado
@@ -29,7 +29,7 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
-      appBar: const CustomAppBar(title: 'desconexión a red', icon: Icons.signal_wifi_connected_no_internet_4),
+      appBar: const MSosAppBar(title: 'desconexión a red', icon: Icons.signal_wifi_connected_no_internet_4),
       body: Container(
         alignment: Alignment.topLeft,
         child: SingleChildScrollView(
@@ -46,21 +46,21 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextCustomWidget("Funcionamiento", style: TextCustomWidget.subtitleStyle, icon: Icons.info,),
-                      const TextCustomWidget(
+                      const MSosText("Funcionamiento", style: MSosText.subtitleStyle, icon: Icons.info,),
+                      const MSosText(
                         "El activador por desconexión registrará la ubicación de tu dispositivo móvil de forma periódica a través de internet. Cuando una solicitud sea rechazada debido a una desconexión se esperará cierto tiempo para volver a intentar obtener la ubicación, si el segundo intento falla la alerta se activará desde un servidor que enviará los mensajes de alerta a los contactos de emergencia registrados",
                         size: 12,
-                        style: TextCustomWidget.infoStyle,
+                        style: MSosText.infoStyle,
                       ),
                       const SizedBox(height: 20,),
-                      const TextCustomWidget("Configuración de Activación", style: TextCustomWidget.subtitleStyle,),
-                      const TextCustomWidget('¿Disponible en las alertas?', style: TextCustomWidget.normalStyle,),
+                      const MSosText("Configuración de Activador", style: MSosText.subtitleStyle,),
+                      const MSosText('¿Disponible en las alertas?', style: MSosText.normalStyle,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           isTriggerEnabled?
-                            const TextCustomWidget('Activado para todas las alertas', style: TextCustomWidget.normalStyle, size: 12, textColor: Color(0xFF777777),)
-                            : const TextCustomWidget('Desactivado para todas las alertas', style: TextCustomWidget.normalStyle, size: 12, textColor: Color(0xFF777777),),
+                            const MSosText('Activado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: Color(0xFF777777),)
+                            : const MSosText('Desactivado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: Color(0xFF777777),),
                           CupertinoSwitch(
                             value: isTriggerEnabled,
                             activeColor: const Color(0xFF7CC5E4),
@@ -74,26 +74,26 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
                         ],
                       ),
                       const SizedBox(height: 20,),
-                      const TextCustomWidget('Minutos de tolerancia ante desconexión:', style: TextCustomWidget.normalStyle,),
+                      const MSosText('Minutos de tolerancia ante desconexión:', style: MSosText.normalStyle,),
                       const SizedBox(height: 10,),
                       CupertinoSlidingSegmentedControl<int>(
                         thumbColor: const Color(0xFF7CC5E4),
                         groupValue: toleranceTimeValue,
                         children: {
-                          0: TextCustomWidget('uno', style: TextCustomWidget.normalStyle, textColor: toleranceTimeValue!=0? null:const Color(0xFFFFFFFF) ,),
-                          1: TextCustomWidget('dos', style: TextCustomWidget.normalStyle, textColor: toleranceTimeValue!=1? null:const Color(0xFFFFFFFF)),
-                          2: TextCustomWidget('cinco', style: TextCustomWidget.normalStyle, textColor: toleranceTimeValue!=2? null:const Color(0xFFFFFFFF)),
-                          3: TextCustomWidget('diez', style: TextCustomWidget.normalStyle, textColor: toleranceTimeValue!=3? null:const Color(0xFFFFFFFF))
+                          0: MSosText('uno', style: MSosText.normalStyle, textColor: toleranceTimeValue!=0? null:const Color(0xFFFFFFFF) ,),
+                          1: MSosText('dos', style: MSosText.normalStyle, textColor: toleranceTimeValue!=1? null:const Color(0xFFFFFFFF)),
+                          2: MSosText('cinco', style: MSosText.normalStyle, textColor: toleranceTimeValue!=2? null:const Color(0xFFFFFFFF)),
+                          3: MSosText('diez', style: MSosText.normalStyle, textColor: toleranceTimeValue!=3? null:const Color(0xFFFFFFFF))
                         }, onValueChanged: (groupValue){
                           setState(() {
                             toleranceTimeValue = groupValue;                     
                           });
                         }
                       ),
-                      const BtnCustomWidget(text: "Prueba de Activador", route: '/trigger_test', style: BtnCustomWidget.subMenuLargeBtn)
+                      const MSosButton(text: "Prueba de Activador", route: '/trigger_test', style: MSosButton.subMenuLargeBtn)
                     ],
                   ),
-                  const BtnCustomWidget(text: 'Guardar', route: '/not_found', style: BtnCustomWidget.continueLargeBtn)
+                  const MSosButton(text: 'Guardar', route: '/not_found', style: MSosButton.continueLargeBtn)
                 ],
               ),
             ),

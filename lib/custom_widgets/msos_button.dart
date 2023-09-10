@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
 
 /* Este es un widget custom para definir los estilos o plantillas de los botones 
 que son usados de forma recurrente en la aplicación */
 
-class BtnCustomWidget extends StatelessWidget {
+class MSosButton extends StatelessWidget {
   static const continueLargeBtn = 0; // wizard btn style for "continue" kind of options
   static const subMenuLargeBtn = 1;
 
@@ -14,7 +14,7 @@ class BtnCustomWidget extends StatelessWidget {
   final IconData? icon;
   final Color? textColor;
 
-  const BtnCustomWidget(
+  const MSosButton(
       {
       required this.text,
       required this.route,
@@ -27,7 +27,7 @@ class BtnCustomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (style) {
-      case BtnCustomWidget.continueLargeBtn:
+      case MSosButton.continueLargeBtn:
         return Row(
           children: [
             Expanded(
@@ -38,16 +38,16 @@ class BtnCustomWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, route); // go to next screen
                 }, 
-                child: TextCustomWidget(
+                child: MSosText(
                   text,
-                  style: TextCustomWidget.buttonStyle,
+                  style: MSosText.buttonStyle,
                   textColor: textColor?? const Color(0xFFFFFFFF),
                 )
               ),
             ),
           ]
         );
-      case BtnCustomWidget.subMenuLargeBtn:
+      case MSosButton.subMenuLargeBtn:
         return Row(
           children: [
             Expanded(
@@ -65,10 +65,10 @@ class BtnCustomWidget extends StatelessWidget {
                   children: [
                     Icon(icon, color: textColor?? const Color(0xFF5E5D5D),),
                     const SizedBox(width: 10, height: 40,),
-                    TextCustomWidget(
+                    MSosText(
                       text,
                       size: 16,
-                      style: TextCustomWidget.buttonStyle,
+                      style: MSosText.buttonStyle,
                       textColor: textColor?? const Color(0xFF5E5D5D),
                     ),
                   ],
@@ -83,9 +83,9 @@ class BtnCustomWidget extends StatelessWidget {
           ),
           onPressed: () {
           }, 
-          child: TextCustomWidget(
+          child: MSosText(
             text,
-            style: TextCustomWidget.buttonStyle,
+            style: MSosText.buttonStyle,
           )
         );
     }

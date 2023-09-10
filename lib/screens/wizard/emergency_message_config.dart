@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/btn_custom.dart';
-import 'package:vistas_amatista/custom_widgets/text_custom.dart';
+import 'package:vistas_amatista/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/custom_widgets/msos_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /* Vista del wizard de configuración inicial para definir un mensaje personalizado
@@ -59,13 +59,13 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
                       child: Column( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextCustomWidget( //Custom widget for predifined text style generation.
+                          const MSosText( //Custom widget for predifined text style generation.
                             'Mensaje de Alerta', 
-                            style: TextCustomWidget.wizardTitleStyle,
+                            style: MSosText.wizardTitleStyle,
                           ),
-                          const TextCustomWidget(
+                          const MSosText(
                                 'Define un mensaje personalizado que será enviado cuando una alerta sea activada a la par de otra información útil como tu ubicación',
-                                style: TextCustomWidget.normalStyle,
+                                style: MSosText.normalStyle,
                               ),
                           //TODO: Text Area for custom message.
                           TextFormField(
@@ -97,7 +97,7 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
                           const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              BtnCustomWidget(text: 'Siguiente', route:'/trust_group_wizard', style: BtnCustomWidget.continueLargeBtn)
+                              MSosButton(text: 'Siguiente', route:'/trust_group_wizard', style: MSosButton.continueLargeBtn)
                             ],
                           ),
                         ],
