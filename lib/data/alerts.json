@@ -1,0 +1,47 @@
+[
+    {
+        "id": 0,
+        "name" : "casa - escuela",
+        "message" : "holaaa estoy en peligro, please ayuda",
+        "toleranceTime" : 30,
+        "shareLocation" : true,
+        "triggers": {
+            "button_trigger" : true,
+            "backtap_trigger" : false,
+            "voice_trigger" : true,
+            "smartwatch_trigger": false,
+            "smartwatch_disconnection_trigger" : true,
+            "disconnection_trigger" : false
+        }
+    },
+    {
+        "id": 1,
+        "name" : "escuela - trabajo",
+        "message" : "caminaba de mi escuela al trabajo y me sucedió algo malo :(",
+        "toleranceTime" : 60,
+        "shareLocation" : true,
+        "triggers": {
+            "button_trigger" : true,
+            "backtap_trigger" : false,
+            "voice_trigger" : true,
+            "smartwatch_trigger": false,
+            "smartwatch_disconnection_trigger" : true,
+            "disconnection_trigger" : false
+        }
+    },  
+    {
+        "id": 2,
+        "name" : "trabajo - casa",
+        "message" : "Tengo problemas para llegar del trabajo a mi casa, ayuda!",
+        "toleranceTime" : 30,
+        "shareLocation" : true,
+        "triggers": {
+            "button_trigger" : true,
+            "backtap_trigger" : false,
+            "voice_trigger" : true,
+            "smartwatch_trigger": false,
+            "smartwatch_disconnection_trigger" : true,
+            "disconnection_trigger" : false
+        }
+    }
+]

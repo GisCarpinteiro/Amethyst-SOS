@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_appbar.dart';
-import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

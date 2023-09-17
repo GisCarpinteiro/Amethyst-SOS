@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  shared_preferences: ^2.2.1
   bloc: ^8.1.2
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
@@ -39,6 +40,7 @@ dependencies:
   flutter_verification_code: ^1.1.6
   google_fonts: ^5.1.0
   google_sign_in: ^6.1.4
+  font_awesome_flutter: ^10.5.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -62,10 +64,12 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - lib/assets/images/wizard_landscape.png
-    - lib/assets/images/auth_services.png
-    - lib/assets/images/trust_group.png
-  # An image asset can refer to one or more resolution-specific "variants", see
+    - lib/resources/assets/images/wizard_landscape.png
+    - lib/resources/assets/images/auth_services.png
+    - lib/resources/assets/images/trust_group.png
+    - lib/data/alerts.json
+    - lib/data/groups.json
+  # An image asset can refer to one or more resolution-specific "variants", see   
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

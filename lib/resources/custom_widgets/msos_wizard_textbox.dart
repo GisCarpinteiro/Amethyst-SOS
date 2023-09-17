@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
 
 /* Este es un widget custom que define la plantilla de un TextBox acompañado de 
 una etiqueta, usado para los campos de los formularios dentro de la app */
@@ -19,8 +20,8 @@ class MSosWizardTextBox extends StatelessWidget {
   static const String phone = 'phone_number_input_type';
 
   //constant
-  static const Color color = Color(0xFF999999);
-  static const Color focussedBorderColor = Color(0xFF7CC5E4);
+  static const Color color = MSosColors.grayLight;
+  static const Color focussedBorderColor = MSosColors.blue;
 
   const MSosWizardTextBox({
     required this.label,
@@ -71,7 +72,7 @@ class MSosWizardTextBox extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: Color(0xFF999999)
+                  color: MSosColors.grayLight
                 ),
               )
             ),
@@ -117,7 +118,7 @@ class MSosWizardTextBox extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: Color(0xFF999999)
+                  color: MSosColors.grayLight
                 ),
               )
             ),
@@ -169,7 +170,7 @@ class MSosWizardTextBox extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: Color(0xFF999999)
+                  color: MSosColors.grayLight
                 ),
               )
             ),
@@ -185,7 +186,7 @@ class MSosWizardTextBox extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
                 isCollapsed: true,
-                suffixIcon: const Icon(Icons.email_rounded, color: Color(0xFF999999), size: 18,),
+                suffixIcon: const Icon(Icons.email_rounded, color: MSosColors.grayLight, size: 18,),
                 border: OutlineInputBorder(
     //----------  >The border radius value could be more than needed to force "roundness"
                   borderRadius: BorderRadius.circular(30)
@@ -220,7 +221,7 @@ class MSosWizardTextBox extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: Color(0xFF999999)
+                  color: MSosColors.grayLight
                 ),
               )
             ),

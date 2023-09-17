@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/custom_widgets/msos_appbar.dart';
-import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado

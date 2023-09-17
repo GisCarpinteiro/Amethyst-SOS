@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vistas_amatista/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 
 
 /* Es la página 404 not found, usada para poder probar la funcionalidad de ruteo
@@ -38,7 +39,7 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 100,
-                  color: Color(0xFFef8496)
+                  color: MSosColors.pink
                 )
               )
             ),
@@ -48,7 +49,7 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 44,
-                  color: Color(0xFF5E5D5D)
+                  color: MSosColors.grayDark
                 )
               )
             ),

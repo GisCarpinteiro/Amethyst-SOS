@@ -64,7 +64,7 @@ class SmartWatchDisconnectionTrigger extends Trigger {
 }
 
 class InternetDisconnectionTrigger extends Trigger {
-  InternetDisconnectionTrigger(super.globalyEnabled, super.toleranceSeconds, {super.type = 'internet_disconnection_trigger'});
+  InternetDisconnectionTrigger(super.globalyEnabled, super.toleranceSeconds, {super.type = 'disconnection_trigger'});
 
   InternetDisconnectionTrigger copyWith({bool? globalyEnabled, String? type, int? toleranceSeconds}) {
     return InternetDisconnectionTrigger(globalyEnabled ?? this.globalyEnabled, toleranceSeconds ?? this.toleranceSeconds, type: type ?? this.type);

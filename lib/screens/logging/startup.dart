@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../custom_widgets/msos_button.dart';
-import '../../custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import '../../resources/custom_widgets/msos_button.dart';
+import '../../resources/custom_widgets/msos_text.dart';
 
 /* Esta es la vista inicial, invocada cuando aún no se ha detectado una sesión
 iniciada o se ha cerrado la sesión que estaba abierta */
@@ -46,7 +47,7 @@ class _StartupScreenState extends State<StartupScreen> {
                   child: Container(
                     width: screenWidth,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFFFFFF),
+                      color: MSosColors.white,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
                     ),
 // ---------------> This column could be seen as the actual content body of this view template
@@ -83,7 +84,7 @@ class _StartupScreenState extends State<StartupScreen> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  backgroundColor: const Color(0x00000000),
+                                  backgroundColor: MSosColors.transparent,
                                   fixedSize: Size(screenWidth * 0.6, 44)
                                 ),
                                 onPressed: () {

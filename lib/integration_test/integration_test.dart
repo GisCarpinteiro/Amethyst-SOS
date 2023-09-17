@@ -1,7 +1,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:vistas_amatista/custom_widgets/msos_wizard_textbox.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_wizard_textbox.dart';
 
 
 void main() {

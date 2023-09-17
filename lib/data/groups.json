@@ -1,0 +1,30 @@
+[
+    {   
+        "id": 0,
+        "name": "familia",
+        "contacts" : [
+            {
+              "contact_name" : "Mamá",
+              "phone" : "3313995423"
+            },
+            {
+                "contact_name" : "Papá",
+                "phone" : "3315884567"
+            }
+        ]
+    },
+    {   
+        "id": 1,
+        "name": "amigos",
+        "contacts" : [
+            {
+                "contact_name" : "Alejandra",
+                "phone" : "3313995428"
+            },
+            {
+                "contact_name" : "Roberto",
+                "phone" : "3366453288"
+            }
+        ]
+    }
+]

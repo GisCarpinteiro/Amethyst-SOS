@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /* Vista del wizard de configuración inicial para definir un mensaje personalizado
@@ -48,7 +49,7 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
                     height: screenHeight * 0.85,
                     width: screenWidth,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF),
+                      color: MSosColors.white,
                       borderRadius: BorderRadius.circular(20)
                     ),
                     // ---------------> This column could be seen as the actual content body of this view template
@@ -81,7 +82,7 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
                   //----------  >The border radius value could be more than needed to force "roundness"
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                  color: Color(0xFF7CC5E4),
+                                  color: MSosColors.blue,
                                   width: 2.0
                                 )
                               ),
@@ -89,7 +90,7 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
                               hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 14,
-                                  color: Color(0xFF999999)
+                                  color: MSosColors.grayLight
                                 )
                               )
                             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../custom_widgets/msos_wizard_textbox.dart';
-import '../../custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import '../../resources/custom_widgets/msos_wizard_textbox.dart';
+import '../../resources/custom_widgets/msos_text.dart';
 
 
 /* Esta vista es la primera dos que sirve para la creación de una nueva cuenta
@@ -50,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: screenHeight * 0.85,
                     width: screenWidth,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF),
+                      color: MSosColors.white,
                       borderRadius: BorderRadius.circular(20)
                     ),
 // ---------------> THIS COLUMN COULD BE SEEN AS THE ACTUAL CONTENT BODY OF THIS VIEW TEMPLATE
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  backgroundColor: const Color(0x00000000),
+                                  backgroundColor: MSosColors.transparent,
                                   fixedSize: Size(screenWidth * 0.6, 44)
                                 ),
                                 onPressed: () {
@@ -123,7 +124,7 @@ class FormCustomWidget extends StatelessWidget {
                 MSosWizardTextBox(
                   label: 'Nombre',
                   type: MSosWizardTextBox.normal,
-                  icon: Icon(Icons.face_3_rounded, color: Color(0xFF999999), size: 16,),
+                  icon: Icon(Icons.face_3_rounded, color: MSosColors.grayLight, size: 16,),
                 ),
                 SizedBox( height: 20,),
                 MSosWizardTextBox(
@@ -151,7 +152,7 @@ class FormCustomWidget extends StatelessWidget {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor:const Color(0xFFEF8496),
+                    backgroundColor:MSosColors.pink,
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()){
@@ -163,7 +164,7 @@ class FormCustomWidget extends StatelessWidget {
                   }, 
                   child: const MSosText(
                     "Siguiente",
-                    textColor: Color(0xFFFFFFFF),
+                    textColor: MSosColors.white,
                     style: MSosText.buttonStyle,
                   )
                 ),

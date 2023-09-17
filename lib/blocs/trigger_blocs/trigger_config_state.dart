@@ -17,7 +17,7 @@ class TriggerConfigInitialState extends TriggerConfigState {
       : super(isEnabled: false, toleranceTime: 0, voiceCommand: 'amatista morada');
 }
 
-class TriggerConfigSetEnabledState extends TriggerConfigState {
+class TriggerConfigSetEnabledState extends TriggerConfigState { 
   const TriggerConfigSetEnabledState(bool isEnabled) : super(isEnabled: isEnabled);
 }
 

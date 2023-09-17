@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 
 
 /* Vista del menú de configuración de disparadores/activadores*/

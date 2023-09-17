@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../custom_widgets/msos_button.dart';
-import '../../custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import '../../resources/custom_widgets/msos_button.dart';
+import '../../resources/custom_widgets/msos_text.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 /* Vista para la confirmación de el email/teléfono por medio de un código enviado por correo
@@ -49,7 +50,7 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                     height: screenHeight* 0.85,
                     width: screenWidth,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF),
+                      color: MSosColors.white,
                       borderRadius: BorderRadius.circular(20)
                     ),
                     // ---------------> This column could be seen as the actual content body of this view template

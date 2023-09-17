@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
-class MSosAppBar extends StatefulWidget implements PreferredSizeWidget{
-  const MSosAppBar({
-    super.key,
-    this.title = '',
-    this.icon,
-    this.leading,
-    this.titleWidget
-  });
+class MSosAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const MSosAppBar({super.key, this.title = '', this.icon, this.leading, this.titleWidget});
 
   final String title;
   final Widget? leading;
@@ -17,14 +11,13 @@ class MSosAppBar extends StatefulWidget implements PreferredSizeWidget{
 
   @override
   State<MSosAppBar> createState() => _MSosAppBarState();
-  
+
   @override
   // TODO: implement preferredSize
   Size get preferredSize => const Size(double.maxFinite, 60);
 }
 
-class _MSosAppBarState extends State<MSosAppBar> with SingleTickerProviderStateMixin{
-
+class _MSosAppBarState extends State<MSosAppBar> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -66,17 +59,19 @@ class _MSosAppBarState extends State<MSosAppBar> with SingleTickerProviderStateM
                   size: 28,
                   progress: _animationController,
                 ),
-                onPressed: _onPressed, 
+                onPressed: _onPressed,
               ),
               MSosText(
-                widget.title, 
-                style: MSosText.sectionTitleStyle, 
+                widget.title,
+                style: MSosText.sectionTitleStyle,
                 icon: widget.icon,
                 // TODO: Econtrar una forma de hacer el tamaño del título responsivo.
-                size: widget.title.length > 16? (widget.title.length > 18? 16 :20): null, 
+                size: widget.title.length > 16 ? (widget.title.length > 18 ? 16 : 20) : null,
                 iconSize: 24,
               ),
-              const SizedBox(width: 42,) 
+              const SizedBox(
+                width: 42,
+              )
             ],
           ),
         ],
@@ -84,4 +79,3 @@ class _MSosAppBarState extends State<MSosAppBar> with SingleTickerProviderStateM
     );
   }
 }
-

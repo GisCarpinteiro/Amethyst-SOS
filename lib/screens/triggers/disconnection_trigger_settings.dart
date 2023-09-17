@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/custom_widgets/msos_appbar.dart';
-import 'package:vistas_amatista/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 
 /* Vista de configuración para el disparador/activador de alerta provocado
@@ -59,11 +60,11 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           isTriggerEnabled?
-                            const MSosText('Activado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: Color(0xFF777777),)
-                            : const MSosText('Desactivado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: Color(0xFF777777),),
+                            const MSosText('Activado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: MSosColors.grayMedium,)
+                            : const MSosText('Desactivado para todas las alertas', style: MSosText.normalStyle, size: 12, textColor: MSosColors.grayMedium,),
                           CupertinoSwitch(
                             value: isTriggerEnabled,
-                            activeColor: const Color(0xFF7CC5E4),
+                            activeColor: MSosColors.blue,
                             onChanged: (value) {
                               setState(() {
                                 isTriggerEnabled = value;
@@ -77,13 +78,13 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
                       const MSosText('Minutos de tolerancia ante desconexión:', style: MSosText.normalStyle,),
                       const SizedBox(height: 10,),
                       CupertinoSlidingSegmentedControl<int>(
-                        thumbColor: const Color(0xFF7CC5E4),
+                        thumbColor: MSosColors.blue,
                         groupValue: toleranceTimeValue,
                         children: {
-                          0: MSosText('uno', style: MSosText.normalStyle, textColor: toleranceTimeValue!=0? null:const Color(0xFFFFFFFF) ,),
-                          1: MSosText('dos', style: MSosText.normalStyle, textColor: toleranceTimeValue!=1? null:const Color(0xFFFFFFFF)),
-                          2: MSosText('cinco', style: MSosText.normalStyle, textColor: toleranceTimeValue!=2? null:const Color(0xFFFFFFFF)),
-                          3: MSosText('diez', style: MSosText.normalStyle, textColor: toleranceTimeValue!=3? null:const Color(0xFFFFFFFF))
+                          0: MSosText('uno', style: MSosText.normalStyle, textColor: toleranceTimeValue!=0? null: MSosColors.white ,),
+                          1: MSosText('dos', style: MSosText.normalStyle, textColor: toleranceTimeValue!=1? null: MSosColors.white),
+                          2: MSosText('cinco', style: MSosText.normalStyle, textColor: toleranceTimeValue!=2? null: MSosColors.white),
+                          3: MSosText('diez', style: MSosText.normalStyle, textColor: toleranceTimeValue!=3? null: MSosColors.white)
                         }, onValueChanged: (groupValue){
                           setState(() {
                             toleranceTimeValue = groupValue;                     

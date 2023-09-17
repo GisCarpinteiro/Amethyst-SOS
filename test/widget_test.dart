@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vistas_amatista/custom_widgets/msos_wizard_textbox.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_wizard_textbox.dart';
 import 'package:vistas_amatista/screens/triggers/trigger_tests.dart';
 
 void main() {

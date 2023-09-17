@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vistas_amatista/blocs/trigger_config/trigger_config_bloc.dart';
+import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
+import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
+import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
+import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dart';
+import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
+import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
+import 'package:vistas_amatista/screens/alerts/alert_list.dart';
+import 'package:vistas_amatista/screens/groups/group_list.dart';
+import 'package:vistas_amatista/screens/groups/group_menu.dart';
 import 'package:vistas_amatista/screens/wizard/confirm_email.dart';
 import 'package:vistas_amatista/screens/demo_menu.dart';
 import 'package:vistas_amatista/screens/home.dart';
@@ -30,7 +38,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => TriggerConfigBloc())],
+      providers: [
+        BlocProvider(create: (_) => TriggerConfigBloc()),
+        BlocProvider(create: (_) => AlertListBloc()),
+        BlocProvider(create: (_) => AlertMenuBloc()),
+        BlocProvider(create: (_) => GroupListBloc()),
+        BlocProvider(create: (_) => GroupMenuBloc())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -55,7 +69,11 @@ class MyApp extends StatelessWidget {
           '/trigger_settings': (context) => const TriggerSettingsScreen(),
           '/trigger_settings/internet_disconnection': (context) => const DiscconectTriggerSettingsScreen(),
           '/trigger_test': (context) => const TriggerTestScreen(),
-          '/trigger_settings/voice_recognition': (context) => const VoiceTriggerSettingsScreen()
+          '/trigger_settings/voice_recognition': (context) => const VoiceTriggerSettingsScreen(),
+          '/alert_list': (context) => const AlertSettingsScreen(),
+          '/alert_menu': (context) => const AlertMenuScreen(),
+          '/group_list': (context) => const GroupListScreen(),
+          '/group_menu': (context) => const GroupMenuScreen()
         },
         //This allow us to define a default page when an unexisting route is requested
         onGenerateRoute: (settings) {
