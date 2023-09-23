@@ -5,10 +5,10 @@ class Contact {
 
   Contact({required this.name, required this.phone});
 
-  Map toJson() => {'name': name, 'phone': phone};
+  Map toJson() => {'contact_name': name, 'phone': phone};
 
   factory Contact.fromJson(Map<String, dynamic> data) {
-    final String name = data['name'];
+    final String name = data['contact_name'];
     final String phone = data['phone'];
     return Contact(name: name, phone: phone);
   }

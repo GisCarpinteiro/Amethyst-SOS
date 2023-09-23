@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^5.1.0
   google_sign_in: ^6.1.4
   font_awesome_flutter: ^10.5.0
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_lints: ^2.0.0

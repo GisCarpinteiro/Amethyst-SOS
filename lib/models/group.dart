@@ -1,16 +1,16 @@
 // Model for Group Properties
-import 'package:vistas_amatista/models/contact.dart';
-
 class Group {
-  final int id;
+  final int? id; // EL id es nulo en el modelo por que quien lo define es la BD. Así podemos crear uno de forma local sin definir esa propiedad
   final String name;
   List<dynamic> contacts;
 
   Group({
-    required this.id,
+    this.id,
     required this.name,
     required this.contacts,
   });
+
+  
 
   Map toJson() => {'id': id, 'name': name, 'contatcs': contacts};
 

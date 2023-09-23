@@ -8,8 +8,7 @@ class MSosListItemCard extends StatelessWidget {
   final String? cardDescription;
   final IconData? cardIcon;
 
-  const MSosListItemCard(
-      {super.key, required this.title, this.cardDescription, this.cardIcon, this.callback});
+  const MSosListItemCard({super.key, required this.title, this.cardDescription, this.cardIcon, this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +22,12 @@ class MSosListItemCard extends StatelessWidget {
       onPressed: callback,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         MSosText(title),
-        Row(
-          children: [
-            IconButton(
-              color: MSosColors.grayMedium,
-              visualDensity: VisualDensity.compact,
-              onPressed: () => {callback},
-              icon: const Icon(Icons.edit),
-              iconSize: 18,
-            ),
-            IconButton(
-              color: MSosColors.grayMedium,
-              visualDensity: VisualDensity.compact,
-              onPressed: () => {callback},
-              icon: const Icon(Icons.delete),
-              iconSize: 18,
-            ),
-          ],
+        IconButton(
+          color: MSosColors.grayMedium,
+          visualDensity: VisualDensity.compact,
+          onPressed: () => {callback},
+          icon: const Icon(Icons.delete),
+          iconSize: 18,
         )
       ]),
     );

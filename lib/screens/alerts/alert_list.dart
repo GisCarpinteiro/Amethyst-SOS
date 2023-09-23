@@ -11,14 +11,9 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 /* Vista de configuración para el disparador/activador de alerta provocado
 por una desconexión a internet.*/
 
-class AlertSettingsScreen extends StatefulWidget {
+class AlertSettingsScreen extends StatelessWidget {
   const AlertSettingsScreen({super.key});
 
-  @override
-  State<AlertSettingsScreen> createState() => _AlertSettingsScreenState();
-}
-
-class _AlertSettingsScreenState extends State<AlertSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<AlertListBloc>(context, listen: true).add(const GetAlertsListEvent());

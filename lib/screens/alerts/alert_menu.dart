@@ -301,10 +301,9 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                 color: MSosColors.blue,
                                 callbackFunction: () {
                                   // We Build The Aler Item on Creation.
-                                  if (isEdition){
-                                    
-                                  } else {  // We update the values for the alert with the same ID
-
+                                  if (isEdition) {
+                                  } else {
+                                    // We update the values for the alert with the same ID
                                   }
                                 },
                               )

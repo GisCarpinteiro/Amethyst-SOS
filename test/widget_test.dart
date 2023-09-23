@@ -74,5 +74,9 @@ void main() {
   //   expect(connectedIcon, findsOneWidget);
   // });
 
-  
+  test('Obtener contactos desde mapa', (){
+    const textBoxCustomWidget = MSosWizardTextBox(label: "test");
+    var testResult = textBoxCustomWidget.passwordValidation("12345678");
+    expect (testResult, 'Debe tener al menos una letra!');
+  });
 }

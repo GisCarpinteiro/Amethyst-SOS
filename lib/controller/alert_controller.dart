@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'dart:io';
 
@@ -12,42 +14,29 @@ class AlertController {
   // This method updates the local alerts data.
   static updateAlert(Alert targetAlert) {}
 
-  // This method adds a new alert to local alerts data
-  static addAlert(Alert newAlert) {
-    String jsonFormatAlert = "null";
-    jsonFormatAlert = jsonEncode(newAlert);
-
-    File('lib/data/alerts.json').readAsString().then((alertsJson) {
-      alertsJson.trimRight();
-      alertsJson = alertsJson.replaceRange(alertsJson.length - 1, null, '');
-      jsonFormatAlert = "${alertsJson},${jsonFormatAlert}]";
-
-      File('lib/data/alerts.json').writeAsString(jsonFormatAlert, encoding: Utf8Codec());
-
-      File('lib/data/alerts.json').readAsString().then((alertsJson) {
-        print(jsonDecode(alertsJson));
-      });
-    });
+  static Future<String> getAlertsAsString() async {
+    // TODO: Esto eso solo la simulación de una base de datos remota ;)
+    return rootBundle.loadString('lib/data/alerts.json');
   }
+
+  // This method adds a new alert to local alerts data
+  static addAlert(Alert newAlert) {}
 
   static deleteAlert(int id) {
     // TODO: eliminar alerta
   }
-  // This method obtains all the alerts from local alerts data
-  static List<Alert> getAllAlerts() {
-    List<Alert> alerts = List.empty(growable: true);
 
-    //Read from the alerts json
-    rootBundle.loadString('lib/data/alerts.json').then((input) {
-      final parsedJson = jsonDecode(input);
-      // Add each one to the alert list
-      for (var alert in parsedJson) {
-        alerts.add(Alert.fromJson(alert));
-      }
-      return alerts;
-    });
+  // We get all the values from JSON configs
+  static List<Alert> getAlerts() {
+    SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
+    List<Alert> groups = List.empty(growable: true);
 
-    // JSON String to objects
-    return alerts;
+    String? groupsAsString = sharedPreferences?.getString('alerts');
+    final paresedJson = jsonDecode(groupsAsString ?? "[]"); //TODO No retornar un [], hacer reintentos de obtener la info desde la BD o mostrar mensaje de error
+    for (var group in paresedJson) {
+      groups.add(Alert.fromJson(group));
+    }
+
+    return groups;
   }
 }

@@ -1,48 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
-import 'package:vistas_amatista/models/group.dart';
+import 'package:vistas_amatista/models/contact.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado
 por una desconexión a internet.*/
 
-class GroupMenuScreen extends StatefulWidget {
+class GroupMenuScreen extends StatelessWidget {
   const GroupMenuScreen({super.key});
-
-  @override
-  State<GroupMenuScreen> createState() => _GroupMenuScreenState();
-}
-
-class _GroupMenuScreenState extends State<GroupMenuScreen> {
-  //Key used for the login formulary
-  final _formKey = GlobalKey<FormState>();
-  // Utility Variables to Build the status
-  int? toleranceTimeOption;
-  bool? shareLocationEnabled;
-  Map? triggers;
-
-  Map<String, bool> defaultTriggerConfig = {
-    'button_trigger': true,
-    'backtap_trigger': false,
-    'voice_trigger': false,
-    'smartwatch_trigger': false,
-    'smartwatch_disconnection_trigger': false,
-    'disconnection_trigger': true
-  };
 
   @override
   Widget build(BuildContext context) {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height - 60;
+    //Key used for the login formulary
+    final formKey = GlobalKey<FormState>();
 
     return BlocBuilder<GroupMenuBloc, GroupMenuState>(
       builder: (context, state) {
@@ -73,17 +53,50 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                           ),
                           const SizedBox(height: 20),
                           Form(
-                            key: _formKey,
+                            key: formKey,
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                               const MSosText("Nombre del Grupo"),
                               MSosFormField(initialValue: isEdition ? state.group!.name : "Nuevo Grupo"),
                               const SizedBox(height: 10),
                               const MSosText("Lista de contactos"),
                               const SizedBox(height: 10),
-                              const MSosText(
-                                "Bajo Construcción! 👷",
-                                textColor: Colors.red,
+                              SizedBox(
+                                height: state.group!.contacts.length * 70,
+                                child: ListView.separated(
+                                  itemCount: state.group!.contacts.length,
+                                  separatorBuilder: (BuildContext context, int index) => const Divider(
+                                    height: 8,
+                                    color: MSosColors.white,
+                                  ),
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // We get the contact from the map list contained by group under the name of contacts
+                                    Contact contact = Contact.fromJson(state.group!.contacts[index]);
+                                    return MSosListItemCard(title: contact.name, callback: () {});
+                                  },
+                                ),
                               ),
+                              IconButton(
+                                  icon: const Icon(Icons.person_add_rounded),
+                                  onPressed: () {
+                                    if (state.group!.contacts.length > 1) {
+                                      MSosSnackBar.showInfoMessage(context,
+                                          message: "Solo puedes añadir un máximo de 5 contactos", title: "Lo sentimos...");
+                                    }
+                                  },
+                                  color: MSosColors.white,
+                                  style: IconButton.styleFrom(
+                                      backgroundColor: state.group!.contacts.length <= 5 ? MSosColors.blue : MSosColors.grayLight)),
+                              const SizedBox(height: 10),
+                              MSosButton(
+                                text: "Guardar",
+                                style: MSosButton.smallButton,
+                                color: MSosColors.blue,
+                                callbackFunction: () {
+                                  /* TODO: Necesitamos implementar dos cosas: 
+                                  1 - Debemos dar opción de agregar contactos desde su lista de contactos
+                                  2 - Debemos dar opción de agregar un contact con su nombre y su número de teléfonos ingresados desde una vista o un popUp.*/
+                                },
+                              )
                             ]),
                           )
                         ]),

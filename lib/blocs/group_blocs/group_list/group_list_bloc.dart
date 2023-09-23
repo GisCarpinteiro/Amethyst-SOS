@@ -10,12 +10,12 @@ part 'group_list_state.dart';
 class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
   GroupListBloc() : super(const GroupListInitial$()) {
     on<GetGroupsListEvent>((event, emit) {
-      // We get the configured alerts from local data, if null we retry to restore them from database
-      List<Group> groupList = GroupController.getGroupsFromLocal();
-
+      // We get the configured alerts from local data (sharedPreferences), if null we retry to restore them from database
+      List<Group> groupList = GroupController.getGroups();
+      emit(const GroupListInitial$());
       emit(GetGroupList$(groups: groupList));
     });
-    
+
     on<CreateGroupEvent>((event, emit) {
       GroupController.createGroup(event.newGroup);
     });

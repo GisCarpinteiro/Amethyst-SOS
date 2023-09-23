@@ -152,6 +152,7 @@ class MSosText extends StatelessWidget {
       default:
         return Text(text,
             textAlign: isCentered! ? TextAlign.center : TextAlign.justify,
+            maxLines: 10,
             style: GoogleFonts.lexend(
                 textStyle: TextStyle(
               fontWeight: FontWeight.w400,

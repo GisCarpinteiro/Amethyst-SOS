@@ -7,10 +7,10 @@ part 'alert_list_event.dart';
 part 'alert_list_state.dart';
 
 class AlertListBloc extends Bloc<AlertListEvent, AlertListState> {
-  AlertListBloc() : super(GetAlertList$(AlertController.getAllAlerts())) {
+  AlertListBloc() : super(GetAlertList$(AlertController.getAlerts())) {
     on<GetAlertsListEvent>((event, emit) {
       // We get the configured alerts from local data, if null we retry with remote database
-      List<Alert> alertList = AlertController.getAllAlerts();
+      List<Alert> alertList = AlertController.getAlerts();
       emit(GetAlertList$(alertList));
     });
 

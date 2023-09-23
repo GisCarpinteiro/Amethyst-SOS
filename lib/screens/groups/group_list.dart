@@ -10,14 +10,9 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Screen used to view the list of configured groups, edit them or create a new one*/
 
-class GroupListScreen extends StatefulWidget {
+class GroupListScreen extends StatelessWidget {
   const GroupListScreen({super.key});
 
-  @override
-  State<GroupListScreen> createState() => _GroupListScreenState();
-}
-
-class _GroupListScreenState extends State<GroupListScreen> {
   @override
   Widget build(BuildContext context) {
     // We trigger the event to fetch the groups on the screen inicialization
@@ -53,7 +48,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                             height: 20,
                           ),
                           SizedBox(
-                            height: screenHeight * 0.4,
+                            height: state.groups.length * 70,
                             child: ListView.separated(
                               itemCount: state.groups.length,
                               separatorBuilder: (BuildContext context, int index) => const Divider(
