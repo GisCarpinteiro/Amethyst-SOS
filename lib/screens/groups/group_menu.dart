@@ -1,4 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
 import 'package:vistas_amatista/models/contact.dart';
@@ -7,6 +9,8 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_small_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
@@ -21,8 +25,15 @@ class GroupMenuScreen extends StatelessWidget {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height - 60;
-    //Key used for the login formulary
-    final formKey = GlobalKey<FormState>();
+    MSosPopUpMenu popUpFlushMenu;
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    popUpFlushMenu = MSosPopUpMenu(context, formKey: formKey, formChildren: const [
+      MSosText("Nombre:"),
+      MSosFormField(),
+      MSosText("Teléfono"),
+      MSosFormField(inputType: TextInputType.phone),
+    ]);
 
     return BlocBuilder<GroupMenuBloc, GroupMenuState>(
       builder: (context, state) {
@@ -52,53 +63,53 @@ class GroupMenuScreen extends StatelessWidget {
                             icon: Icons.add_circle_rounded,
                           ),
                           const SizedBox(height: 20),
-                          Form(
-                            key: formKey,
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              const MSosText("Nombre del Grupo"),
-                              MSosFormField(initialValue: isEdition ? state.group!.name : "Nuevo Grupo"),
-                              const SizedBox(height: 10),
-                              const MSosText("Lista de contactos"),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                height: state.group!.contacts.length * 70,
-                                child: ListView.separated(
-                                  itemCount: state.group!.contacts.length,
-                                  separatorBuilder: (BuildContext context, int index) => const Divider(
-                                    height: 8,
-                                    color: MSosColors.white,
-                                  ),
-                                  itemBuilder: (BuildContext context, int index) {
-                                    // We get the contact from the map list contained by group under the name of contacts
-                                    Contact contact = Contact.fromJson(state.group!.contacts[index]);
-                                    return MSosListItemCard(title: contact.name, callback: () {});
-                                  },
-                                ),
-                              ),
-                              IconButton(
-                                  icon: const Icon(Icons.person_add_rounded),
-                                  onPressed: () {
-                                    if (state.group!.contacts.length > 1) {
-                                      MSosSnackBar.showInfoMessage(context,
-                                          message: "Solo puedes añadir un máximo de 5 contactos", title: "Lo sentimos...");
-                                    }
-                                  },
+                          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            const MSosText("Nombre del Grupo"),
+                            MSosFormField(initialValue: isEdition ? state.group!.name : "Nuevo Grupo"),
+                            const SizedBox(height: 10),
+                            const MSosText("Lista de contactos"),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              height: state.group!.contacts.length * 70,
+                              child: ListView.separated(
+                                itemCount: state.group!.contacts.length,
+                                separatorBuilder: (BuildContext context, int index) => const Divider(
+                                  height: 8,
                                   color: MSosColors.white,
-                                  style: IconButton.styleFrom(
-                                      backgroundColor: state.group!.contacts.length <= 5 ? MSosColors.blue : MSosColors.grayLight)),
-                              const SizedBox(height: 10),
-                              MSosButton(
-                                text: "Guardar",
-                                style: MSosButton.smallButton,
-                                color: MSosColors.blue,
-                                callbackFunction: () {
-                                  /* TODO: Necesitamos implementar dos cosas: 
-                                  1 - Debemos dar opción de agregar contactos desde su lista de contactos
-                                  2 - Debemos dar opción de agregar un contact con su nombre y su número de teléfonos ingresados desde una vista o un popUp.*/
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  // We get the contact from the map list contained by group under the name of contacts
+                                  Contact contact = Contact.fromJson(state.group!.contacts[index]);
+                                  return MSosListItemCard(title: contact.name, callback: () {});
                                 },
-                              )
-                            ]),
-                          )
+                              ),
+                            ),
+                            IconButton(
+                                icon: const Icon(Icons.person_add_rounded),
+                                onPressed: () {
+                                  if (state.group!.contacts.length > 5) {
+                                    MSosSnackBar.showInfoMessage(context,
+                                        message: "Solo puedes añadir un máximo de 5 contactos", title: "Lo sentimos...");
+                                  } else {
+                                    // ignore: avoid_single_cascade_in_expression_statements
+                                    popUpFlushMenu.showPopUpMenu(context);
+                                  }
+                                },
+                                color: MSosColors.white,
+                                style: IconButton.styleFrom(
+                                    elevation: 2,
+                                    shadowColor: MSosColors.grayLight,
+                                    backgroundColor: state.group!.contacts.length <= 5 ? MSosColors.blue : MSosColors.grayLight)),
+                            const SizedBox(height: 10),
+                            MSosButton(
+                              text: "Guardar",
+                              style: MSosButton.smallButton,
+                              color: MSosColors.blue,
+                              callbackFunction: () {
+                                //TODO: Guardad la configuración en SharedPreferences y en Firebase
+                              },
+                            )
+                          ])
                         ]),
                       ],
                     ),
@@ -107,6 +118,28 @@ class GroupMenuScreen extends StatelessWidget {
               )),
         );
       },
+    );
+  }
+
+  TextFormField getFormField(String text) {
+    return TextFormField(
+      initialValue: text,
+      style: const TextStyle(color: Colors.white),
+      maxLength: 100,
+      maxLines: 1,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      decoration: InputDecoration(
+          fillColor: Colors.white10,
+          filled: true,
+          icon: Icon(
+            Icons.label,
+            color: Colors.grey[500],
+          ),
+          border: const UnderlineInputBorder(),
+          helperText: "Helper Text",
+          helperStyle: const TextStyle(color: Colors.grey),
+          labelText: "Label Text",
+          labelStyle: const TextStyle(color: Colors.grey)),
     );
   }
 }
