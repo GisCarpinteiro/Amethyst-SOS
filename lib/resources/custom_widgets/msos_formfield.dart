@@ -1,21 +1,24 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 
-// TODO: AÑADIR EL PODER HABILITAR VALIDACIONES PARA DISTINTOS TIPOS DE DATOS.
 
 class MSosFormField extends StatelessWidget {
   final String hintText;
   final String initialValue;
   final Color onFocusBorderColor;
   final TextInputType? inputType;
+  final TextEditingController? controller;
 
   const MSosFormField({
     super.key,
     this.hintText = "",
     this.initialValue = "",
     this.onFocusBorderColor = MSosColors.blue,
-    this.inputType
+    this.inputType,
+    this.controller 
   });
 
   @override
@@ -23,6 +26,7 @@ class MSosFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
       child: TextFormField(
+        controller: controller,
         initialValue: initialValue,
         keyboardType: inputType,
         maxLines: 6,

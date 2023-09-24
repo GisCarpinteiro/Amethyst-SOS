@@ -7,13 +7,13 @@ import 'package:vistas_amatista/resources/colors/default_theme.dart';
 una etiqueta, usado para los campos de los formularios dentro de la app */
 
 class MSosWizardTextBox extends StatelessWidget {
-
   //parameters
   final String label;
   final String? placeholder;
   final String? type;
   final Icon? icon;
-  
+  final TextEditingController? controller;
+
   static const String normal = 'normal_input_type';
   static const String email = 'email_input_type';
   static const String password = 'password_input_type';
@@ -27,30 +27,37 @@ class MSosWizardTextBox extends StatelessWidget {
     required this.label,
     this.placeholder = '',
     this.type = normal,
-    this.icon = const Icon(Icons.text_fields_rounded, color: color, size: 18,),
+    this.icon = const Icon(
+      Icons.text_fields_rounded,
+      color: color,
+      size: 18,
+    ),
+    this.controller,
     super.key,
   });
 
   //REGEX VALIDATIONS
-  // For password we check that it is at least 8 characters long, has at least 1 number and no spaces.  
+  // For password we check that it is at least 8 characters long, has at least 1 number and no spaces.
   static RegExp passwordMatchAtLeast8 = RegExp(r'^.{8,}$', caseSensitive: false, multiLine: false);
   static RegExp passwordMatchNoSpaces = RegExp(r'^[^\s]+$', caseSensitive: false, multiLine: false);
   static RegExp passwordMatchAtLeast1Digit = RegExp(r'\d', caseSensitive: false, multiLine: false);
   static RegExp passwordMatchAtLeast1Letter = RegExp(r'[a-zA-Z]', caseSensitive: false, multiLine: true);
   static RegExp phoneMatcher = RegExp(r'\d{8}', caseSensitive: false, multiLine: false);
-  
-  passwordValidation(value){
-    if (value == null || value.isEmpty){
+
+  passwordValidation(value) {
+    if (value == null || value.isEmpty) {
       return 'Defina una contraseña!';
-    } else if (!passwordMatchAtLeast8.hasMatch(value)){
-      return  'Debe tener mínimo 8 caracteres!';
-    } else if (!passwordMatchNoSpaces.hasMatch(value)){
-      return  'No debe incluir espacios!';
-    } else if (!passwordMatchAtLeast1Digit.hasMatch(value)){
-      return  'Debe tener al menos un número!';
-    } else if (!passwordMatchAtLeast1Letter.hasMatch(value)){
-      return  'Debe tener al menos una letra!';
-    } else {return null;}
+    } else if (!passwordMatchAtLeast8.hasMatch(value)) {
+      return 'Debe tener mínimo 8 caracteres!';
+    } else if (!passwordMatchNoSpaces.hasMatch(value)) {
+      return 'No debe incluir espacios!';
+    } else if (!passwordMatchAtLeast1Digit.hasMatch(value)) {
+      return 'Debe tener al menos un número!';
+    } else if (!passwordMatchAtLeast1Letter.hasMatch(value)) {
+      return 'Debe tener al menos una letra!';
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -58,50 +65,37 @@ class MSosWizardTextBox extends StatelessWidget {
     return Directionality(textDirection: TextDirection.ltr, child: chooseText());
   }
 
-  Widget chooseText(){
-    switch (type){
+  Widget chooseText() {
+    switch (type) {
       case normal:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           textDirection: TextDirection.ltr,
           children: [
-            Text(
-              '   ${label.toUpperCase()}', 
-              style: GoogleFonts.lexend(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: MSosColors.grayLight
-                ),
-              )
+            Text('   ${label.toUpperCase()}',
+                style: GoogleFonts.lexend(
+                  textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: MSosColors.grayLight),
+                )),
+            const SizedBox(
+              height: 8,
             ),
-            const SizedBox(height: 8,),
             TextFormField(
+              controller: controller,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
-                isCollapsed: true,
-                suffixIcon: icon,
-                border: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                focusedBorder: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                    color: focussedBorderColor,
-                    width: 2.0
-                  )
-                ),
-                hintText: placeholder,
-                hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: color
-                  )
-                )
-              ),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
+                  isCollapsed: true,
+                  suffixIcon: icon,
+                  border: OutlineInputBorder(
+                    //----------  >The border radius value could be more than needed to force "roundness"
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: focussedBorderColor, width: 2.0)),
+                  hintText: placeholder,
+                  hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: color))),
             )
           ],
         );
@@ -112,48 +106,38 @@ class MSosWizardTextBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '   ${label.toUpperCase()}', 
-              style: GoogleFonts.lexend(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: MSosColors.grayLight
-                ),
-              )
+            Text('   ${label.toUpperCase()}',
+                style: GoogleFonts.lexend(
+                  textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: MSosColors.grayLight),
+                )),
+            const SizedBox(
+              height: 8,
             ),
-            const SizedBox(height: 8,),
             TextFormField(
-              validator: (value){
+              controller: controller,
+              validator: (value) {
                 return passwordValidation(value);
               },
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
-                isCollapsed: true,
-                suffixIcon: const Icon(Icons.key_rounded, color: color, size: 18,),
-                border: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30)
-                ),
-                focusedBorder: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                    color: focussedBorderColor,
-                    width: 2.0
-                  )
-                ),
-                hintText: '*******',
-                hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: color
-                  )
-                )
-              ),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
+                  isCollapsed: true,
+                  suffixIcon: const Icon(
+                    Icons.key_rounded,
+                    color: color,
+                    size: 18,
+                  ),
+                  border: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30)),
+                  focusedBorder: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: focussedBorderColor, width: 2.0)),
+                  hintText: '*******',
+                  hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: color))),
             )
           ],
         );
@@ -163,107 +147,83 @@ class MSosWizardTextBox extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           textDirection: TextDirection.ltr,
           children: [
-            Text(
-              '   ${label.toUpperCase()}', 
-              textDirection: TextDirection.ltr,
-              style: GoogleFonts.lexend(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: MSosColors.grayLight
-                ),
-              )
+            Text('   ${label.toUpperCase()}',
+                textDirection: TextDirection.ltr,
+                style: GoogleFonts.lexend(
+                  textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: MSosColors.grayLight),
+                )),
+            const SizedBox(
+              height: 8,
             ),
-            const SizedBox(height: 8,),
             TextFormField(
-              validator: (value){
-                if (value == null || value.isEmpty){
+              controller: controller,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'Ingresa tu correo';
                 } else {
                   return EmailValidator.validate(value) ? null : 'Ingresa un correo válido';
                 }
               },
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
-                isCollapsed: true,
-                suffixIcon: const Icon(Icons.email_rounded, color: MSosColors.grayLight, size: 18,),
-                border: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30)
-                ),
-                focusedBorder: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                    color: focussedBorderColor,
-                    width: 2.0
-                  )
-                ),
-                hintText: 'MiCorreo@gmail.com',
-                hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: color
-                  )
-                )
-              ),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
+                  isCollapsed: true,
+                  suffixIcon: const Icon(
+                    Icons.email_rounded,
+                    color: MSosColors.grayLight,
+                    size: 18,
+                  ),
+                  border: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30)),
+                  focusedBorder: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: focussedBorderColor, width: 2.0)),
+                  hintText: 'MiCorreo@gmail.com',
+                  hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: color))),
             )
           ],
         );
-      case phone: 
+      case phone:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '   ${label.toUpperCase()}', 
-              style: GoogleFonts.lexend(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: MSosColors.grayLight
-                ),
-              )
+            Text('   ${label.toUpperCase()}',
+                style: GoogleFonts.lexend(
+                  textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: MSosColors.grayLight),
+                )),
+            const SizedBox(
+              height: 8,
             ),
-            const SizedBox(height: 8,),
             TextFormField(
-              validator: (value){
-                if (value == null || value.isEmpty){
+              controller: controller,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'Ingresa tu número de teléfono celular';
                 } else {
                   return EmailValidator.validate(value) ? null : 'Ingresa un teléfono válido';
                 }
               },
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
-                isCollapsed: true,
-                suffixIcon: icon,
-                border: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                focusedBorder: OutlineInputBorder(
-    //----------  >The border radius value could be more than needed to force "roundness"
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                    color: focussedBorderColor,
-                    width: 2.0
-                  )
-                ),
-                hintText: placeholder,
-                hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: color
-                  )
-                )
-              ),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 10, 10, 6),
+                  isCollapsed: true,
+                  suffixIcon: icon,
+                  border: OutlineInputBorder(
+                    //----------  >The border radius value could be more than needed to force "roundness"
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      //----------  >The border radius value could be more than needed to force "roundness"
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: focussedBorderColor, width: 2.0)),
+                  hintText: placeholder,
+                  hintStyle: GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: color))),
             )
           ],
         );
-      default: 
+      default:
         return const Text('Aquí debería haber un widget :(');
     }
   }
-  
 }

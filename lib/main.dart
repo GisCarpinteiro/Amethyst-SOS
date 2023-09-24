@@ -4,6 +4,7 @@ import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dar
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dart';
+import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
     SharedPrefsManager.init();
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => TriggerConfigBloc()),
         BlocProvider(create: (_) => AlertListBloc()),
         BlocProvider(create: (_) => AlertMenuBloc()),

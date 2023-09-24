@@ -60,6 +60,7 @@ class GroupListScreen extends StatelessWidget {
                                   title: state.groups[index].name,
                                   callback: () => BlocProvider.of<GroupMenuBloc>(context, listen: false)
                                       .add(GetGroupEvent(context: context, group: state.groups[index])),
+                                      
                                 );
                               },
                             ),

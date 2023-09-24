@@ -24,7 +24,7 @@ class GroupController {
   static List<Group> getGroups() {
     SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
     List<Group> groups = List.empty(growable: true);
-
+  
     String? groupsAsString = sharedPreferences?.getString('groups');
     final paresedJson = jsonDecode(groupsAsString ?? "[]"); // TODO: En vez de retornar una lista vacía deberíamos de reintentar hacer la consulta y mostrar un mensaje de error.
     for (var group in paresedJson) {
