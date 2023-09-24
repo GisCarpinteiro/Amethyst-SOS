@@ -25,12 +25,17 @@ import 'package:vistas_amatista/screens/not_found.dart';
 import 'package:vistas_amatista/screens/wizard/signup.dart';
 import 'package:vistas_amatista/screens/wizard/signup2.dart';
 import 'package:vistas_amatista/screens/logging/startup.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 /* Esta es la clase Main de la aplicación, en ella definimos las rutas por medio 
 de las cuales podemos acceder a las otras vistas */
 
 void main() async {
-  // We initialize the shared_preferences instance.
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }
@@ -70,12 +75,16 @@ class MyApp extends StatelessWidget {
           '/signup2': (context) => const SignUpScreen2(),
           '/confirm_email': (context) => const ConfirmEmailScreen(),
           '/not_found': (context) => const NotFoundScreen(),
-          '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
-          '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
+          '/emergency_message_wizard': (context) =>
+              const EmergencyMessageWizardScreen(),
+          '/trust_group_wizard': (context) =>
+              const CreateTrustGroupWizardScreen(),
           '/trigger_settings': (context) => const TriggerSettingsScreen(),
-          '/trigger_settings/internet_disconnection': (context) => const DiscconectTriggerSettingsScreen(),
+          '/trigger_settings/internet_disconnection': (context) =>
+              const DiscconectTriggerSettingsScreen(),
           '/trigger_test': (context) => const TriggerTestScreen(),
-          '/trigger_settings/voice_recognition': (context) => const VoiceTriggerSettingsScreen(),
+          '/trigger_settings/voice_recognition': (context) =>
+              const VoiceTriggerSettingsScreen(),
           '/alert_list': (context) => const AlertSettingsScreen(),
           '/alert_menu': (context) => const AlertMenuScreen(),
           '/group_list': (context) => const GroupListScreen(),

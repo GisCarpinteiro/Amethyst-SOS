@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "532321097774",
+    "project_id": "amethyst-sos",
+    "storage_bucket": "amethyst-sos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532321097774:android:eb291aa689cae5520fa7bf",
+        "android_client_info": {
+          "package_name": "com.example.vistas_amatista"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532321097774-i85bdupvcpv9h8m85mt1rhl2nb8io6mv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_0gHdrZZnKNuaqqH0fQ6LB3b6c9R78i4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532321097774-i85bdupvcpv9h8m85mt1rhl2nb8io6mv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "532321097774-1bgdlhtpt5f7v2hva6ucnbcg9imv9vq4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vistasAmatista.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
