@@ -43,6 +43,7 @@ dependencies:
   font_awesome_flutter: ^10.5.0
   another_flushbar: ^1.12.30
   firebase_core: ^2.16.0
+  firebase_auth: ^4.9.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
