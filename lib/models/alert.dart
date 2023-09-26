@@ -8,7 +8,7 @@ class Alert {
   final bool shareLocation; // Share location will be disactivated by default
   final Object triggers; // Only "basic" triggers are activated by default (button and disconnection)
 
-  Alert(
+  const Alert(
       {required this.id,
       required this.name,
       required this.message,

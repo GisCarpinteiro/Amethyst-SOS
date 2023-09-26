@@ -20,6 +20,7 @@ class VoiceTriggerSettingsScreen extends StatefulWidget {
 
 class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen> {
   final _formKey = GlobalKey<FormState>();
+  final safeWordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -131,16 +132,17 @@ class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen>
                           ),
                           Form(
                             key: _formKey,
-                            child: const Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 MSosFormField(
+                                  controller: safeWordController,
                                   hintText: '"amatista morada"',
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                MSosButton(
+                                const MSosButton(
                                   text: 'Cambiar',
                                   style: MSosButton.smallButton,
                                   //TODO: function to update the safe word,

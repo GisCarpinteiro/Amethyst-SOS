@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
@@ -33,6 +34,9 @@ de las cuales podemos acceder a las otras vistas */
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //Initialize Logging
+  initLogs();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -65,7 +69,6 @@ class MyApp extends StatelessWidget {
         ),
         /*Here we define the value of the initial route and all the avaliable routes 
         that allow us to display all the screen of the app*/
-        initialRoute: '/test_demo',
         routes: {
           '/test_demo': (context) => const DemoScreen(),
           '/home': (context) => const HomeScreen(),
@@ -75,21 +78,18 @@ class MyApp extends StatelessWidget {
           '/signup2': (context) => const SignUpScreen2(),
           '/confirm_email': (context) => const ConfirmEmailScreen(),
           '/not_found': (context) => const NotFoundScreen(),
-          '/emergency_message_wizard': (context) =>
-              const EmergencyMessageWizardScreen(),
-          '/trust_group_wizard': (context) =>
-              const CreateTrustGroupWizardScreen(),
+          '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
+          '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
           '/trigger_settings': (context) => const TriggerSettingsScreen(),
-          '/trigger_settings/internet_disconnection': (context) =>
-              const DiscconectTriggerSettingsScreen(),
+          '/trigger_settings/internet_disconnection': (context) => const DiscconectTriggerSettingsScreen(),
           '/trigger_test': (context) => const TriggerTestScreen(),
-          '/trigger_settings/voice_recognition': (context) =>
-              const VoiceTriggerSettingsScreen(),
+          '/trigger_settings/voice_recognition': (context) => const VoiceTriggerSettingsScreen(),
           '/alert_list': (context) => const AlertSettingsScreen(),
           '/alert_menu': (context) => const AlertMenuScreen(),
           '/group_list': (context) => const GroupListScreen(),
           '/group_menu': (context) => const GroupMenuScreen()
         },
+        initialRoute: '/test_demo',
         //This allow us to define a default page when an unexisting route is requested
         onGenerateRoute: (settings) {
           return MaterialPageRoute(
@@ -99,4 +99,18 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+// Enabling The use of logs on app
+Future<void> initLogs() async {
+  await FlutterLogs.initLogs(
+      logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
+      timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
+      directoryStructure: DirectoryStructure.FOR_DATE,
+      logTypesEnabled: ["device", "network", "errors"],
+      logFileExtension: LogFileExtension.LOG,
+      logsWriteDirectoryName: "MyLogs",
+      logsExportDirectoryName: "MyLogs/Exported",
+      debugFileOperations: true,
+      isDebuggable: true);
 }

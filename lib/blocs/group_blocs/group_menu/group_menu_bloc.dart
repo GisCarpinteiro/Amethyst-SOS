@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/models/group.dart';
 

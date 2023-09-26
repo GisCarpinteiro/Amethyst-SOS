@@ -1,16 +1,15 @@
 // Model for Group Properties
 class Group {
-  final int? id; // EL id es nulo en el modelo por que quien lo define es la BD. Así podemos crear uno de forma local sin definir esa propiedad
+  final int?
+      id; // EL id es nulo en el modelo por que quien lo define es la BD. Así podemos crear uno de forma local sin definir esa propiedad
   final String name;
-  List<dynamic> contacts;
+  final List<dynamic> contacts;
 
-  Group({
+  const Group({
     this.id,
     required this.name,
     required this.contacts,
   });
-
-  
 
   Map toJson() => {'id': id, 'name': name, 'contatcs': contacts};
 

@@ -22,6 +22,9 @@ class AlertMenuScreen extends StatefulWidget {
 class _AlertMenuScreenState extends State<AlertMenuScreen> {
   //Key used for the login formulary
   final _formKey = GlobalKey<FormState>();
+  // FormField Controllers:
+  final alertNameCtrl = TextEditingController();
+  final messageCtrl = TextEditingController();
   // Utility Variables to Build the status
   int? toleranceTimeOption;
   bool? shareLocationEnabled;
@@ -46,10 +49,12 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
       builder: (context, state) {
         // We read if either is the Edition Screen or the Creation Screen
         bool isEdition = state.isAlertEditionContext;
-        // Inicialization of some variables for widgets that need re renderization to work
+        // Initialize some values if is an edition of an existing alert or the creation of a new one
         toleranceTimeOption = toleranceTimeOption ?? (isEdition ? getOptionFromValue(state.alert!.toleranceTime) : 0);
         shareLocationEnabled = shareLocationEnabled ?? (isEdition ? state.alert!.shareLocation : false);
         triggers = (triggers ?? (isEdition ? state.alert!.triggers : defaultTriggerConfig)) as Map<String, dynamic>;
+        alertNameCtrl.text = isEdition ? state.alert!.name : "Nueva Alerta";
+        messageCtrl.text = isEdition ? state.alert!.message : "Necesito tu Ayuda!";
 
         return Scaffold(
           resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -78,13 +83,13 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                               const MSosText("Nombre de la Alerta"),
                               MSosFormField(
-                                initialValue: isEdition ? state.alert!.name : "Nueva Alerta",
+                                controller: alertNameCtrl,
                               ),
                               const SizedBox(height: 10),
                               const MSosText("Mensaje de Auxilio"),
                               MSosFormField(
-                                initialValue:
-                                    isEdition ? state.alert!.message : "Me encuentro en una situación de peligro y necesito de tu ayuda",
+                                isMultiLine: true,
+                                controller: messageCtrl,
                               ),
                               const SizedBox(height: 10),
                               const MSosText("Tiempo de tolerancia"),

@@ -47,24 +47,28 @@ class GroupListScreen extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
-                            height: state.groups.length * 70,
-                            child: ListView.separated(
-                              itemCount: state.groups.length,
-                              separatorBuilder: (BuildContext context, int index) => const Divider(
-                                height: 8,
-                                color: MSosColors.white,
-                              ),
-                              itemBuilder: (BuildContext context, int index) {
-                                return MSosListItemCard(
-                                  title: state.groups[index].name,
-                                  callback: () => BlocProvider.of<GroupMenuBloc>(context, listen: false)
-                                      .add(GetGroupEvent(context: context, group: state.groups[index])),
-                                      
-                                );
-                              },
-                            ),
-                          ),
+                          state.groups.isEmpty
+                              ? const MSosText(
+                                  "Aún no ha creado ningún grupo!",
+                                  textColor: MSosColors.pink,
+                                )
+                              : SizedBox(
+                                  height: state.groups.length * 70,
+                                  child: ListView.separated(
+                                    itemCount: state.groups.length,
+                                    separatorBuilder: (BuildContext context, int index) => const Divider(
+                                      height: 8,
+                                      color: MSosColors.white,
+                                    ),
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return MSosListItemCard(
+                                        title: state.groups[index].name,
+                                        callback: () => BlocProvider.of<GroupMenuBloc>(context, listen: false)
+                                            .add(GetGroupEvent(context: context, group: state.groups[index])),
+                                      );
+                                    },
+                                  ),
+                                ),
                           MSosButton(
                             text: "Crear Grupo",
                             callbackFunction: () {

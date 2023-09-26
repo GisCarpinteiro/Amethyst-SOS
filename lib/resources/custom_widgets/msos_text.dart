@@ -63,7 +63,7 @@ class MSosText extends StatelessWidget {
             style: GoogleFonts.lexend(
                 textStyle: const TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: 18,
+              fontSize: 16,
               color: MSosColors.grayLight,
             )));
       // PINK BUTTON TEXT STYLE

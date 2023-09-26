@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
-import '../../resources/custom_widgets/msos_wizard_textbox.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import '../../resources/custom_widgets/msos_text.dart';
 
 /* Vista para ingresar a la cuenta por medio de correo/teléfono y contraseña o por medio 
@@ -17,9 +18,12 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   //Key used for the login formulary
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
+  //Form Controllers to access formfield values
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  final TextFormField formField = TextFormField();
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +68,21 @@ class _LogInScreenState extends State<LogInScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Form(
-                                        key: _formKey,
+                                        key: _loginFormKey,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            const MSosText("Email"),
-                                            TextField(
-                                              key: const Key("email"),
-                                              controller: emailController,
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            const MSosText("Contraseña"),
-                                            TextField(key: const Key("password"), controller: passwordController)
+                                            MSosFormField(
+                                                label: "email",
+                                                controller: emailController,
+                                                style: MSosFormFieldStyle.wizard,
+                                                icon: FontAwesomeIcons.solidEnvelope),
+                                            const SizedBox(height: 10),
+                                            MSosFormField(
+                                                label: "contraseña",
+                                                controller: passwordController,
+                                                style: MSosFormFieldStyle.wizard,
+                                                icon: FontAwesomeIcons.key)
                                           ],
                                         ),
                                       ),
@@ -102,6 +107,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   ),
                                 ),
                                 ClipRect(
+                                  // TODO: Cambiar por botones verdaderos
                                   child: Image.asset('lib/assets/auth_services.png', fit: BoxFit.cover),
                                 ),
                                 Column(

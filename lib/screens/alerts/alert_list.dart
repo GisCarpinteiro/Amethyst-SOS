@@ -7,6 +7,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado
 por una desconexión a internet.*/
@@ -58,10 +59,12 @@ class AlertSettingsScreen extends StatelessWidget {
                               ),
                               itemBuilder: (BuildContext context, int index) {
                                 return MSosListItemCard(
-                                  title: state.alerts[index].name,
-                                  callback: () => BlocProvider.of<AlertMenuBloc>(context, listen: false)
-                                      .add(GetAlertEvent(context: context, alert: state.alerts[index])),
-                                );
+                                    title: state.alerts[index].name,
+                                    callback: () {
+                                      // Load the state of the next Screen, and Push it with the initial values from selected alert
+                                      BlocProvider.of<AlertMenuBloc>(context, listen: false)
+                                          .add(GetAlertEvent(context: context, alert: state.alerts[index]));
+                                    });
                               },
                             ),
                           ),
