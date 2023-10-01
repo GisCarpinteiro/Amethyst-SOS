@@ -13,6 +13,6 @@ final class GroupListInitial$ extends GroupListState {
   const GroupListInitial$() : super(groups: const []);
 }
 
-final class GetGroupList$ extends GroupListState {
-  const GetGroupList$({required super.groups});
+final class SetGroupList$ extends GroupListState {
+  const SetGroupList$({required super.groups});
 }

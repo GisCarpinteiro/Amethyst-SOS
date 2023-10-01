@@ -29,14 +29,23 @@ class AlertController {
   // We get all the values from JSON configs
   static List<Alert> getAlerts() {
     SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
-    List<Alert> groups = List.empty(growable: true);
+    List<Alert> alerts = List.empty(growable: true);
 
-    String? groupsAsString = sharedPreferences?.getString('alerts');
-    final paresedJson = jsonDecode(groupsAsString ?? "[]"); //TODO No retornar un [], hacer reintentos de obtener la info desde la BD o mostrar mensaje de error
-    for (var group in paresedJson) {
-      groups.add(Alert.fromJson(group));
+    String? alertsAsString = sharedPreferences?.getString('alerts');
+    final paresedJson = jsonDecode(
+        alertsAsString ?? "[]"); //TODO No retornar un [], hacer reintentos de obtener la info desde la BD o mostrar mensaje de error
+    for (var alerts in paresedJson) {
+      alerts.add(Alert.fromJson(alerts));
     }
 
-    return groups;
+    return alerts;
+  }
+
+  static Alert? getAlertById(int id) {
+    List<Alert> alerts = getAlerts();
+    for (Alert target in alerts) {
+      if (target.id == id) return target;
+    }
+    return null;
   }
 }

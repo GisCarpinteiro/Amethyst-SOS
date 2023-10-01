@@ -6,12 +6,14 @@ import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dar
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
+import 'package:vistas_amatista/blocs/routine_blocs/routine_list/routine_list_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
 import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/groups/group_menu.dart';
+import 'package:vistas_amatista/screens/routines/routine_list.dart';
 import 'package:vistas_amatista/screens/wizard/confirm_email.dart';
 import 'package:vistas_amatista/screens/demo_menu.dart';
 import 'package:vistas_amatista/screens/home.dart';
@@ -58,7 +60,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AlertListBloc()),
         BlocProvider(create: (_) => AlertMenuBloc()),
         BlocProvider(create: (_) => GroupListBloc()),
-        BlocProvider(create: (_) => GroupMenuBloc())
+        BlocProvider(create: (_) => GroupMenuBloc()),
+        BlocProvider(create: (_) => RoutineListBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -87,7 +90,8 @@ class MyApp extends StatelessWidget {
           '/alert_list': (context) => const AlertSettingsScreen(),
           '/alert_menu': (context) => const AlertMenuScreen(),
           '/group_list': (context) => const GroupListScreen(),
-          '/group_menu': (context) => const GroupMenuScreen()
+          '/group_menu': (context) => const GroupMenuScreen(),
+          '/routine_list': (context) => const RoutineListScreen()
         },
         initialRoute: '/test_demo',
         //This allow us to define a default page when an unexisting route is requested

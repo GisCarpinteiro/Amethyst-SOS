@@ -73,6 +73,7 @@ flutter:
     - lib/resources/assets/images/trust_group.png
     - lib/data/alerts.json
     - lib/data/groups.json
+    - lib/data/routines.json
   # An image asset can refer to one or more resolution-specific "variants", see   
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

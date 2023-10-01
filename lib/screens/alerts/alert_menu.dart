@@ -64,8 +64,6 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: SizedBox(
-                  height: screenHeight,
-                  width: screenWidth,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(screenWidth * 0.08, 0, screenWidth * 0.08, 60),
                     child: Column(
@@ -163,7 +161,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: screenWidth * 0.20,
+                                        width: screenWidth * 0.30,
                                         child: Column(
                                           children: [
                                             IconButton.filled(

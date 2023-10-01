@@ -13,7 +13,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
       // We get the configured alerts from local data (sharedPreferences), if null we retry to restore them from database
       List<Group> groupList = GroupController.getGroups();
       emit(const GroupListInitial$());
-      emit(GetGroupList$(groups: groupList));
+      emit(SetGroupList$(groups: groupList));
     });
 
     on<CreateGroupEvent>((event, emit) {

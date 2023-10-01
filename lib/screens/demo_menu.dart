@@ -63,6 +63,14 @@ class _DemoScreenState extends State<DemoScreen> {
                     height: 20,
                   ),
                   MSosButton(text: "Group List", route: '/group_list', style: MSosButton.continueLargeBtn),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MSosButton(text: "Routines List", route: '/routine_list', style: MSosButton.continueLargeBtn),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.continueLargeBtn),
                 ],
               ),
             ),

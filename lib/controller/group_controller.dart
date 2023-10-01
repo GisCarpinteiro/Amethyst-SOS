@@ -24,15 +24,24 @@ class GroupController {
   static List<Group> getGroups() {
     SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
     List<Group> groups = List.empty(growable: true);
-  
+
+    // TODO: (Gisel) Si no puede obtener datos de shared preferences (no un arreglo vacío sino null) debemos de intentar restaruar shared preferences o mostrar un error
     String? groupsAsString = sharedPreferences?.getString('groups');
-    final paresedJson = jsonDecode(groupsAsString ?? "[]"); // TODO: En vez de retornar una lista vacía deberíamos de reintentar hacer la consulta y mostrar un mensaje de error.
+    final paresedJson = jsonDecode(groupsAsString ??
+        "[]"); // TODO: En vez de retornar una lista vacía deberíamos de reintentar hacer la consulta y mostrar un mensaje de error.
     for (var group in paresedJson) {
       groups.add(Group.fromJson(group));
     }
     return groups;
   }
 
-  static deleteGroup() {}
+  static Group? getGroupById(int id) {
+    List<Group> groups = getGroups();
+    for (Group group in groups) {
+      if (group.id == id) return group;
+    }
+    return null;
+  }
 
+  static deleteGroup() {}
 }
