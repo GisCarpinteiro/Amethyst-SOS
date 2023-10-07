@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
+import '../../resources/custom_widgets/msos_snackbar.dart';
 import '../../resources/custom_widgets/msos_text.dart';
 
 /* Vista para ingresar a la cuenta por medio de correo/teléfono y contraseña o por medio 
@@ -39,22 +40,24 @@ class _LogInScreenState extends State<LogInScreen> {
               alignment: Alignment.topCenter,
               child: Stack(
                 children: [
-                  ClipRect(
-                    child: Image.asset('lib/assets/wizard_landscape.png', fit: BoxFit.cover),
-                  ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Column(
                       children: [
                         //------------> This containar is used only to make dynamic the size that the image shows
-                        Container(height: screenHeight * 0.15, decoration: const BoxDecoration()),
+                        Container(
+                            height: screenHeight * 0.15,
+                            decoration: const BoxDecoration()),
                         Container(
                           height: screenHeight * 0.85,
                           width: screenWidth,
-                          decoration: BoxDecoration(color: MSosColors.white, borderRadius: BorderRadius.circular(20)),
+                          decoration: BoxDecoration(
+                              color: MSosColors.white,
+                              borderRadius: BorderRadius.circular(20)),
                           // ---------------> This column could be seen as the actual content body of this view template
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(screenWidth * 0.12, 30, screenWidth * 0.12, 30),
+                            padding: EdgeInsets.fromLTRB(
+                                screenWidth * 0.12, 30, screenWidth * 0.12, 30),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -65,23 +68,28 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                                 Expanded(
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Form(
                                         key: _loginFormKey,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             MSosFormField(
                                                 label: "email",
                                                 controller: emailController,
-                                                style: MSosFormFieldStyle.wizard,
-                                                icon: FontAwesomeIcons.solidEnvelope),
+                                                style:
+                                                    MSosFormFieldStyle.wizard,
+                                                icon: FontAwesomeIcons
+                                                    .solidEnvelope),
                                             const SizedBox(height: 10),
                                             MSosFormField(
                                                 label: "contraseña",
                                                 controller: passwordController,
-                                                style: MSosFormFieldStyle.wizard,
+                                                style:
+                                                    MSosFormFieldStyle.wizard,
                                                 icon: FontAwesomeIcons.key)
                                           ],
                                         ),
@@ -90,11 +98,23 @@ class _LogInScreenState extends State<LogInScreen> {
                                         Expanded(
                                           child: TextButton(
                                               style: TextButton.styleFrom(
-                                                backgroundColor: MSosColors.pink,
+                                                backgroundColor:
+                                                    MSosColors.pink,
                                               ),
                                               onPressed: () {
-                                                BlocProvider.of<LoginBloc>(context).add(GetUserAndPassword(
-                                                    email: emailController.text, password: passwordController.text, context: context));
+                                                BlocProvider.of<LoginBloc>(
+                                                        context)
+                                                    .add(GetUserAndPassword(
+                                                        email: emailController
+                                                            .text,
+                                                        password:
+                                                            passwordController
+                                                                .text,
+                                                        context: context));
+                                                if (state
+                                                    is LoginAuthenticated) {
+                                                  print("se logro");
+                                                }
                                               },
                                               child: const MSosText(
                                                 "Iniciar Sesión",
@@ -106,10 +126,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                     ],
                                   ),
                                 ),
-                                ClipRect(
-                                  // TODO: Cambiar por botones verdaderos
-                                  child: Image.asset('lib/assets/auth_services.png', fit: BoxFit.cover),
-                                ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -120,7 +136,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                     ),
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
+                                          backgroundColor:
+                                              MSosColors.transparent,
+                                          fixedSize:
+                                              Size(screenWidth * 0.6, 44)),
                                       onPressed: () {
                                         Navigator.pushNamed(context, '/signup');
                                       },

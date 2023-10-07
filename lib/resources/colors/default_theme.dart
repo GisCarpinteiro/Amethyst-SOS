@@ -9,4 +9,5 @@ abstract class MSosColors {
   static const grayLight = Color(0xFF999999);
   static const black = Colors.black;
   static const transparent = Color(0x00000000);
+  static const Color secondaryColor = Color.fromRGBO(194, 165, 186, 1);
 }
