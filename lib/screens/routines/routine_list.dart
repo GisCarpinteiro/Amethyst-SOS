@@ -5,6 +5,7 @@ import 'package:vistas_amatista/blocs/routine_blocs/routine_list/routine_list_bl
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
@@ -26,6 +27,7 @@ class RoutineListScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
+      drawer: const MSosDashboard(),
       body: BlocBuilder<RoutineListBloc, RoutineListState>(
         builder: (context, state) {
           return Container(

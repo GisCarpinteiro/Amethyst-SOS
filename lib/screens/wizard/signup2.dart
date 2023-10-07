@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
-import '../../resources/custom_widgets/msos_wizard_textbox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /* Esta vista es la segunda parte de la creación de la sección de creación de cuenta */

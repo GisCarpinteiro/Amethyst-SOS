@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
-import '../../resources/custom_widgets/msos_wizard_textbox.dart';
 import '../../resources/custom_widgets/msos_text.dart';
 
 /* Esta vista es la primera dos que sirve para la creación de una nueva cuenta

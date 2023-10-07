@@ -6,6 +6,7 @@ import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dar
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
@@ -43,7 +44,6 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
   Widget build(BuildContext context) {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height - 60;
 
     return BlocBuilder<AlertMenuBloc, AlertMenuState>(
       builder: (context, state) {
@@ -59,6 +59,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
         return Scaffold(
           resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
           appBar: MSosAppBar(title: isEdition ? "Editar Alerta" : "Crear Alerta", icon: Icons.crisis_alert),
+          drawer: const MSosDashboard(),
           body: Container(
               alignment: Alignment.topLeft,
               child: SingleChildScrollView(

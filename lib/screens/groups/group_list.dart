@@ -5,6 +5,7 @@ import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dar
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
@@ -24,6 +25,7 @@ class GroupListScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: 'Grupos', icon: Icons.people_alt_rounded),
+      drawer: const MSosDashboard(),
       body: BlocBuilder<GroupListBloc, GroupListState>(
         builder: (context, state) {
           return Container(

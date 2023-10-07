@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_formfields/msos_normal_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_formfields/msos_wizard_formfield.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 enum MSosFormFieldStyle {
   normal,

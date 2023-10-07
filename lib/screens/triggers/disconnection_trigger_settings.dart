@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 
@@ -31,6 +32,7 @@ class _DiscconectTriggerSettingsScreenState extends State<DiscconectTriggerSetti
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: 'desconexión a red', icon: Icons.signal_wifi_connected_no_internet_4),
+      drawer: const MSosDashboard(),
       body: Container(
         alignment: Alignment.topLeft,
         child: SingleChildScrollView(

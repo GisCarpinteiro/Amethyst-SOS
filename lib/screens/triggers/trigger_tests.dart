@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -71,8 +72,8 @@ class _TriggerTestScreenState extends State<TriggerTestScreen> {
       textDirection: TextDirection.ltr,
       child: Scaffold(
         resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
-        
         appBar: const MSosAppBar(title: 'TriggerTesterScreen', icon: Icons.check_rounded),
+        drawer: const MSosDashboard(),
         body: Container(
           alignment: Alignment.topLeft,
           child: SingleChildScrollView(

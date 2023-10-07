@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/alert.dart';
-import 'dart:io';
 
 // This class has the methods to update te JSON of the local User Data
 class AlertController {
@@ -34,8 +33,8 @@ class AlertController {
     String? alertsAsString = sharedPreferences?.getString('alerts');
     final paresedJson = jsonDecode(
         alertsAsString ?? "[]"); //TODO No retornar un [], hacer reintentos de obtener la info desde la BD o mostrar mensaje de error
-    for (var alerts in paresedJson) {
-      alerts.add(Alert.fromJson(alerts));
+    for (var alert in paresedJson) {
+      alerts.add(Alert.fromJson(alert));
     }
 
     return alerts;

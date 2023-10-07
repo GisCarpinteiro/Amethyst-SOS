@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 part 'login_event.dart';
@@ -12,7 +11,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GetUserAndPassword>((event, emit) {
       String email = event.email;
       String password = event.password;
-      print("El correo es ${email}, y la contraseña es ${password}");
+      print("El correo es $email, y la contraseña es $password");
       signInWithEmailPassword(email, password);
       emit(const LoginGetAccount$(
           email: "ejemlo@gmail.com", password: "ContraseñaSuperSegura"));

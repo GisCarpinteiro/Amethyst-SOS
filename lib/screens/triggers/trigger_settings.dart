@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 
 
 /* Vista del menú de configuración de disparadores/activadores*/
@@ -25,6 +26,7 @@ class _TriggerSettingsScreenState extends State<TriggerSettingsScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: 'Activadores', icon: Icons.sensors_rounded),
+      drawer: const MSosDashboard(),
       body: Container(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(

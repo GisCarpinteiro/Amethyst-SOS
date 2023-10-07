@@ -8,5 +8,6 @@ abstract class MSosColors {
   static const grayMedium = Color(0xFF777777);
   static const grayLight = Color(0xFF999999);
   static const black = Colors.black;
+  static const amethyst = Color(0xFF5C6BC0);
   static const transparent = Color(0x00000000);
 }

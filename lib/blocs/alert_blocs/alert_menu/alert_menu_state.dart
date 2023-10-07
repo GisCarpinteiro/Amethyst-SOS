@@ -10,7 +10,7 @@ sealed class AlertMenuState extends Equatable {
   List<Object> get props => [];
 }
 
-final class setAlertFormState$ extends AlertMenuState{
+final class SetAlertFormState$ extends AlertMenuState{
   
 }
 
