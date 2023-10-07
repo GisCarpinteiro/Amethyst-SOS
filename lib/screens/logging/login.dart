@@ -111,10 +111,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                                             passwordController
                                                                 .text,
                                                         context: context));
-                                                if (state
-                                                    is LoginAuthenticated) {
-                                                  print("se logro");
-                                                }
                                               },
                                               child: const MSosText(
                                                 "Iniciar Sesión",
