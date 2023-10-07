@@ -72,6 +72,9 @@ flutter:
     - lib/resources/assets/images/wizard_landscape.png
     - lib/resources/assets/images/auth_services.png
     - lib/resources/assets/images/trust_group.png
+    - lib/resources/assets/images/group_icon.png
+    - lib/resources/assets/images/alert_icon.png
+    - lib/resources/assets/images/alert_list_icon.png
     - lib/data/alerts.json
     - lib/data/groups.json
     - lib/data/routines.json
