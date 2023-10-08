@@ -1,7 +1,5 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
-import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/services/alert_services/permissions_manager.dart';

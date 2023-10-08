@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_small_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_multi_option_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_small_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Este es un widget custom para definir los estilos o plantillas de los botones 
 que son usados de forma recurrente en la aplicación */
 
+enum MSosButtonStyle { continueLargeBtn, subMenuLargeBtn, smallButton, multiOptionButton }
+
 class MSosButton extends StatelessWidget {
   static const continueLargeBtn = 0; // wizard btn style for "continue" kind of options
   static const subMenuLargeBtn = 1;
   static const smallButton = 2;
+  static const multiOptionButton = 3;
 
   final String text;
   final String? route;
@@ -34,12 +38,9 @@ class MSosButton extends StatelessWidget {
     switch (style) {
       case MSosButton.smallButton:
         return MsosSmallButton(
-            text: text,
-            color: color,
-            foregroundColor: textColor,
-            icon: icon,
-            callbackFunction:
-                callbackFunction ?? () => Navigator.pushNamed(context, route ?? './not_found'));
+            text: text, color: color, foregroundColor: textColor, icon: icon, callbackFunction: callbackFunction ?? () {});
+      case MSosButton.multiOptionButton:
+        return MSosMultiOptionButton(text: text, callbackFunction: callbackFunction ?? () {});
       case MSosButton.continueLargeBtn:
         return Row(children: [
           Expanded(
@@ -67,8 +68,7 @@ class MSosButton extends StatelessWidget {
                     elevation: 2,
                     shadowColor: MSosColors.grayLight,
                     backgroundColor: color,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
                 onPressed: () {
                   Navigator.pushNamed(context, route ?? './not_found');
                 },

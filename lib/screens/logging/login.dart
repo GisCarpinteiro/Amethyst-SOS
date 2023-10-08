@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
-import '../../resources/custom_widgets/msos_snackbar.dart';
 import '../../resources/custom_widgets/msos_text.dart';
 
 /* Vista para ingresar a la cuenta por medio de correo/teléfono y contraseña o por medio 
