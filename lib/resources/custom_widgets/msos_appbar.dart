@@ -12,7 +12,9 @@ class MSosAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: const IconThemeData(color: MSosColors.grayDark, opticalSize: CircularProgressIndicator.strokeAlignOutside),
+      iconTheme: const IconThemeData(
+          color: MSosColors.grayDark,
+          opticalSize: CircularProgressIndicator.strokeAlignOutside),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
