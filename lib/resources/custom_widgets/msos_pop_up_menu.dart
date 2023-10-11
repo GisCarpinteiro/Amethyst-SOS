@@ -2,20 +2,24 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 // See that all the flushbar derivate custom widgets are not really widgets but classes that allow us to popUp messages or menus.
 class MSosPopUpMenu {
   late Flushbar<List<String>> popUpFlushMenu;
+  final String? title;
   List<Widget> formChildren;
   final VoidCallback? acceptCallbackFunc;
   final VoidCallback? cancelCallbackFunc;
+  final GlobalKey<FormState>? formKey;
 
   MSosPopUpMenu(
     BuildContext context, {
-    required formKey,
+    this.formKey,
     required this.formChildren,
     this.acceptCallbackFunc,
     this.cancelCallbackFunc,
+    this.title,
   }) {
     popUpFlushMenu = Flushbar<List<String>>(
       backgroundColor: MSosColors.white,
@@ -23,6 +27,7 @@ class MSosPopUpMenu {
       margin: const EdgeInsets.all(10),
       blockBackgroundInteraction: true,
       routeBlur: 3,
+      routeColor: const Color(0x22000000),
       borderRadius: BorderRadius.circular(10),
       boxShadows: const [BoxShadow(color: MSosColors.grayDark, blurRadius: 2)],
       userInputForm: Form(
@@ -32,6 +37,12 @@ class MSosPopUpMenu {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (title != null)
+                MSosText(
+                  title!,
+                  size: 16,
+                ),
+              const SizedBox(height: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: formChildren,
@@ -41,12 +52,13 @@ class MSosPopUpMenu {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   MSosButton(text: "Cancelar", style: MSosButton.smallButton, color: MSosColors.pink, callbackFunction: dismissPopUpMenu),
-                  MSosButton(
-                    text: "Aceptar",
-                    style: MSosButton.smallButton,
-                    color: MSosColors.blue,
-                    callbackFunction: acceptCallbackFunc,
-                  ),
+                  if (acceptCallbackFunc != null)
+                    MSosButton(
+                      text: "Aceptar",
+                      style: MSosButton.smallButton,
+                      color: MSosColors.blue,
+                      callbackFunction: acceptCallbackFunc,
+                    ),
                 ],
               )
             ],

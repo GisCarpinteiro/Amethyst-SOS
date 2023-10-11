@@ -1,3 +1,15 @@
+
+// This enum let us define in which state the selected alert is and react to it.
+enum AlertState {disabled, inactive, active, waiting}
+// The meaning of each status is:
+// * disabled: when the Alert Service hasn't been started, the status of the alert cannot be changed to any other than disabled which means that it cannot be activated by any chance
+// * inactive: this status is acquired when the alert has been picked to start the Alert Service, and now is able to transition to the other two states or to disabled again if Alert Service is turned off.
+// * waiting: this status is aquired if some activator send a signal to activate the alert, the Service will wait for the activation time to finish to fully activate the alert transitioning to active status or to inactive if it's cancelled while waiting.
+// * active: once the tolerance time for desactivation finishes the alert is now active and the messages will start to send to the configured contacts as defined on the alert config. on this state different actions take place before going to inactive or disabled again.
+
+// TODO: Discutir sobre la lógica de cómo debemos operar ante una alerta, bloqueo de reactivaciones, proceso de desactivación, etc. Esta es una versión inicial del servicio con una lógica que puede no tener en consideración todas las situaciones posibles.
+
+
 // This class is the  model used for all the configured alarms.
 class Alert {
   final int? id;

@@ -22,12 +22,15 @@ class MSosMultiOptionButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            MSosText(
-              text,
-              textColor: foregroundColor,
-              style: MSosText.buttonStyle,
-              size: 14,
+            Flexible(
+              child: MSosText(
+                text,
+                isMultiline: false,
+                textColor: foregroundColor,
+                size: 14,
+              ),
             ),
+            const SizedBox(width: 4),
             const FaIcon(
               FontAwesomeIcons.circleChevronDown,
               color: MSosColors.grayLight,

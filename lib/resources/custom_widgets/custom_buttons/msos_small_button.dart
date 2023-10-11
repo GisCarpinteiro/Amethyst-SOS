@@ -9,6 +9,7 @@ class MsosSmallButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback callbackFunction;
 
+
   const MsosSmallButton(
       {super.key,
       required this.text,

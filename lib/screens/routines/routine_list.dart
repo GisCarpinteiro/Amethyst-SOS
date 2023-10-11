@@ -65,9 +65,7 @@ class RoutineListScreen extends StatelessWidget {
                                       color: MSosColors.white,
                                     ),
                                     itemBuilder: (BuildContext context, int index) {
-                                      return MSosListItemCard(
-                                          title: state.routines[index].name,
-                                          callback: () => MSosSnackBar.showInfoMessage(context, message: "aún no hace nada esto jeje"));
+                                      return MSosListItemCard(title: state.routines[index].name, callback: () {});
                                     },
                                   ),
                                 ),

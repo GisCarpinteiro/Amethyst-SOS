@@ -5,27 +5,35 @@ import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 // This class is used to show snackbars, the equivalent of Toast messages on android
-class MSosSnackBar {
+enum MessageType { info, alert, hint }
+
+class MSosFloatingMessage {
   // Info message on Screen
-  static void showInfoMessage(BuildContext context, {required String message, String? title, Icon? icon}) {
+  static void showMessage(BuildContext context, {required String message, String? title, Icon? icon, MessageType? type}) {
     Flushbar(
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(8),
-      titleText: title != null
-          ? MSosText(
-              title,
+            margin: const EdgeInsets.all(8),
+            borderRadius: BorderRadius.circular(8),
+            flushbarPosition: FlushbarPosition.TOP,
+            titleText: title != null
+                ? MSosText(
+                    title,
+                    textColor: MSosColors.white,
+                    size: 16,
+                  )
+                : null,
+            icon: icon,
+            messageText: MSosText(
+              message,
               textColor: MSosColors.white,
-              size: 16,
-            )
-          : null,
-      icon: icon,
-      messageText: MSosText(
-        message,
-        textColor: MSosColors.white,
-      ),
-      duration: const Duration(seconds: 3),
-      backgroundColor: MSosColors.pink,
-    ).show(context);
+            ),
+            duration: const Duration(seconds: 3),
+            backgroundColor: switch (type) {
+              null => MSosColors.grayMedium,
+              MessageType.info => MSosColors.blue,
+              MessageType.alert => MSosColors.pink,
+              MessageType.hint => MSosColors.grayMedium,
+            })
+        .show(context);
   }
 
   // Alert message on Screen

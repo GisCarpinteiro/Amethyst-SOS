@@ -117,7 +117,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                                 icon: const Icon(Icons.person_add_rounded),
                                 onPressed: () {
                                   if (state.group.contacts.length > 5) {
-                                    MSosSnackBar.showInfoMessage(context,
+                                    MSosFloatingMessage.showMessage(context,
                                         message: "Solo puedes añadir un máximo de 5 contactos", title: "Lo sentimos...");
                                   } else {
                                     // ignore: avoid_single_cascade_in_expression_statements

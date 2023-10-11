@@ -22,8 +22,10 @@ class MSosText extends StatelessWidget {
   final IconData? icon;
   final double? iconSize;
   final bool? isCentered;
+  final bool? isMultiline;
 
-  const MSosText(this.text, {super.key, this.size, this.style, this.icon, this.iconSize = 28, this.textColor, this.isCentered = false});
+  const MSosText(this.text,
+      {super.key, this.isMultiline, this.size, this.style, this.icon, this.iconSize = 28, this.textColor, this.isCentered = false});
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,8 @@ class MSosText extends StatelessWidget {
       // PINK BUTTON TEXT STYLE
       case MSosText.buttonStyle:
         return Text(text.toUpperCase(),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: GoogleFonts.lexend(
                 textStyle: TextStyle(
               fontWeight: FontWeight.w500,
@@ -152,7 +156,8 @@ class MSosText extends StatelessWidget {
       default:
         return Text(text,
             textAlign: isCentered! ? TextAlign.center : TextAlign.justify,
-            maxLines: 10,
+            maxLines: isMultiline == true ? 10 : 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.lexend(
                 textStyle: TextStyle(
               fontWeight: FontWeight.w400,
