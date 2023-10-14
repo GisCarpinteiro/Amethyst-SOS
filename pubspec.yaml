@@ -77,6 +77,8 @@ flutter:
     - lib/resources/assets/images/group_icon.png
     - lib/resources/assets/images/alert_icon.png
     - lib/resources/assets/images/alert_list_icon.png
+    - lib/resources/assets/images/group.png
+    - lib/resources/assets/images/user_icon.png
     - lib/data/alerts.json
     - lib/data/groups.json
     - lib/data/routines.json

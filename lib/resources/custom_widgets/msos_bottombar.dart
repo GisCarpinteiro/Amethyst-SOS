@@ -23,33 +23,37 @@ class CustomBottomAppBar extends StatelessWidget {
       notchMargin: 10,
       // ignore: prefer_const_constructors
       shape: automaticNotchedShape,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*IconButton(
-                    icon: Image.asset('assets/icons/alert_list_icon.png'), 
-                    onPressed: () {  },
-                  ),*/
-              SizedBox(height: 4),
-              Text('Alerts'),
+              IconButton(
+                icon: Image.asset(
+                  'lib/resources/assets/images/alert_list_icon.png',
+                ),
+                onPressed: () {},
+                iconSize: 24,
+              ),
+              const Text('Alerts'),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*IconButton(
-                    icon: Image.asset('assets/icons/group_icon.png'),
-                    onPressed: () {},
-                    tooltip: 'Alarm',
-                  ),*/
-              SizedBox(height: 4),
-              Text('Groups'),
+              IconButton(
+                icon: Image.asset(
+                  'lib/resources/assets/images/group_icon.png',
+                ),
+                onPressed: () {},
+                tooltip: 'Alarm',
+                iconSize: 24,
+              ),
+              const Text('Groups'),
             ],
           ),
         ],
