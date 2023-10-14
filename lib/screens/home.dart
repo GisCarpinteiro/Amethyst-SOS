@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
@@ -9,7 +8,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
@@ -25,6 +24,7 @@ class HomeScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     //We initialize the view by fetching the saved values from the configs
     final HomeProvider provider = context.read<HomeProvider>();
+    final BottomBarProvider alertButtonProvider = context.read<BottomBarProvider>();
     final HomeProvider state = context.watch<HomeProvider>();
     provider.getAlertAndGroupList();
     late MSosPopUpMenu selectAlertPopUpMenu;
@@ -58,8 +58,6 @@ class HomeScreen extends StatelessWidget {
           );
         }).toList());
     // * >>>>>> NAVBAR PROVIDER INIT >>>>>>>>
-    final ButtomBarProvider barProvider = context.read<ButtomBarProvider>();
-    final ButtomBarProvider barStatus = context.watch<ButtomBarProvider>();
 
     return Scaffold(
         appBar: const MSosAppBar(
@@ -69,20 +67,7 @@ class HomeScreen extends StatelessWidget {
         drawer: const MSosDashboard(),
         bottomNavigationBar: const CustomBottomAppBar(),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-        floatingActionButton: FloatingActionButton.large(
-          backgroundColor: barStatus.alertButtonEnabled ? MSosColors.pink : MSosColors.grayMedium,
-          shape: const CircleBorder(),
-          onPressed: () {
-            if (!state.isServiceEnabled) return;
-            // TODO: Implementar las alertaaaas!!!
-            MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MessageType.alert);
-          },
-          child: Image.asset(
-            'lib/resources/assets/images/alert_icon.png', // Ruta de la imagen dentro de la carpeta "assets"
-            width: 70, // Ancho de la imagen
-            height: 70,
-          ),
-        ),
+        floatingActionButton: const MSosAlertButton(),
         body: Container(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
@@ -139,21 +124,23 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             callbackFunction: () {
-                              FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
+                              FlutterLogs.logInfo(
+                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
                                 AlertManager.initServiceManually();
-                                if (AlertManager.isServiceActive){
+                                if (AlertManager.isServiceActive) {
                                   MSosFloatingMessage.showMessage(
                                     context,
                                     title: "Servicio Activado",
                                     message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
                                     type: MessageType.info,
                                   );
-                                  barProvider.enableAlertButton();
+                                  alertButtonProvider.enableAlertButton();
                                 } else {
                                   provider.toggleServiceEnabled();
+                                  AlertManager.stopService();
                                   MSosFloatingMessage.showMessage(
                                     context,
                                     title: "Algo ha fallado!",
@@ -162,12 +149,13 @@ class HomeScreen extends StatelessWidget {
                                   );
                                 }
                               } else {
-                                barProvider.disableAlertButton();
+                                AlertManager.stopService();
                                 MSosFloatingMessage.showMessage(
                                   context,
                                   title: "Servicio Desactivado",
                                   message: 'Alerta "${state.alerts[state.selectedAlert]}" deshabilitada',
                                 );
+                                alertButtonProvider.disableAlertButton();
                               }
                             }),
                       ])

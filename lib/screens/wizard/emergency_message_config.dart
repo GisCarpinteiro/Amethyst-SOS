@@ -31,7 +31,7 @@ class _EmergencyMessageWizardScreenState extends State<EmergencyMessageWizardScr
           children: [
             ClipRect(
               child: Image.asset(
-                'lib/assets/wizard_landscape.png',
+                'lib/resources/assets/images/wizard_landscape.png',
                 fit: BoxFit.cover
                 ),
             ),

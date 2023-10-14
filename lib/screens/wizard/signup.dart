@@ -35,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Stack(
             children: [
               ClipRect(
-                child: Image.asset('lib/assets/wizard_landscape.png', fit: BoxFit.cover),
+                child: Image.asset('lib/resources/assets/images/wizard_landscape.png', fit: BoxFit.cover),
               ),
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -103,7 +103,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             if (_formKey.currentState!.validate()) {
                                               Navigator.pushNamed(context, '/signup2');
                                             } else {
-                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
                                             } // go to next screen
                                           },
                                           child: const MSosText(
@@ -125,8 +126,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: MSosText.normalStyle,
                                 ),
                                 TextButton(
-                                  style:
-                                      TextButton.styleFrom(backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
                                   onPressed: () {
                                     Navigator.pushNamed(context, '/login');
                                   },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ButtomBarProvider with ChangeNotifier {
+class BottomBarProvider with ChangeNotifier {
   bool alertButtonEnabled = false;
 
   void enableAlertButton() {

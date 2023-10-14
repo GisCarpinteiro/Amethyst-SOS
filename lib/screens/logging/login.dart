@@ -39,6 +39,12 @@ class _LogInScreenState extends State<LogInScreen> {
               alignment: Alignment.topCenter,
               child: Stack(
                 children: [
+                  ClipRect(
+              child: Image.asset(
+                'lib/resources/assets/images/wizard_landscape.png',
+                fit: BoxFit.cover
+                ),
+            ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Column(

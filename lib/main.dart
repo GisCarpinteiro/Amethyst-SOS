@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
+import 'package:vistas_amatista/blocs/alert_floating_button/alert_button_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
-import 'package:vistas_amatista/blocs/routine_blocs/routine_list/routine_list_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
+import 'package:vistas_amatista/providers/rotine_list_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
 import 'package:vistas_amatista/screens/groups/group_list.dart';
@@ -22,7 +24,7 @@ import 'package:vistas_amatista/screens/demo_menu.dart';
 import 'package:vistas_amatista/screens/home.dart';
 import 'package:vistas_amatista/screens/triggers/disconnection_trigger_settings.dart';
 import 'package:vistas_amatista/screens/triggers/trigger_settings.dart';
-import 'package:vistas_amatista/screens/triggers/trigger_tests.dart'; 
+import 'package:vistas_amatista/screens/triggers/trigger_tests.dart';
 import 'package:vistas_amatista/screens/triggers/voice_trigger_settings_screen.dart';
 import 'package:vistas_amatista/screens/wizard/trust_group_wizard.dart';
 import 'package:vistas_amatista/screens/wizard/emergency_message_config.dart';
@@ -40,8 +42,7 @@ de las cuales podemos acceder a las otras vistas */
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //Initialize Logging
-  initLogs();
+  initialSetup();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -65,12 +66,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AlertMenuBloc()),
         BlocProvider(create: (_) => GroupListBloc()),
         BlocProvider(create: (_) => GroupMenuBloc()),
-        BlocProvider(create: (_) => RoutineListBloc())
+        BlocProvider(create: (_) => AlertButtonBloc())
       ],
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomeProvider()),
-          ChangeNotifierProvider(create: (_) => ButtomBarProvider()),
+          ChangeNotifierProvider(create: (_) => BottomBarProvider()),
+          ChangeNotifierProvider(create: (_) => RoutineListProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -116,7 +118,9 @@ class MyApp extends StatelessWidget {
 }
 
 // Enabling The use of logs on app
-Future<void> initLogs() async {
+Future<void> initialSetup() async {
+  GetIt.I.registerSingleton<BottomBarProvider>(BottomBarProvider());
+
   await FlutterLogs.initLogs(
       logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
       timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,

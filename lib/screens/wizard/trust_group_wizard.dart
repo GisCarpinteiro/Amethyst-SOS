@@ -27,7 +27,7 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
           child: Stack(
             children: [
               ClipRect(
-                child: Image.asset('lib/assets/wizard_landscape.png', fit: BoxFit.cover),
+                child: Image.asset('lib/resources/assets/images/wizard_landscape.png', fit: BoxFit.cover),
               ),
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),

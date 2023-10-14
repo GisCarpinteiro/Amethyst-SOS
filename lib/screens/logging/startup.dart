@@ -14,11 +14,8 @@ class StartupScreen extends StatefulWidget {
 }
 
 class _StartupScreenState extends State<StartupScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
-
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -26,48 +23,38 @@ class _StartupScreenState extends State<StartupScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false, //Used to not resize when keyboard appears
       body: Container(
-        alignment: Alignment.topCenter,
-        child: Stack(
-          children: [
-            ClipRect(
-              child: Image.asset(
-                'lib/assets/wizard_landscape.png',
-                fit: BoxFit.cover
-                ),
-            ),
-            Column(
-              children: [
+          alignment: Alignment.topCenter,
+          child: Stack(
+            children: [
+              ClipRect(
+                child: Image.asset('lib/resources/assets/images/wizard_landscape.png', fit: BoxFit.cover),
+              ),
+              Column(
+                children: [
 //------------> This containar is used only to make dynamic the size that the image shows
-                Container(
-                  height: screenHeight * 0.15,
-                  decoration: const BoxDecoration(
-                  )
-                ),
-                Expanded( //Expanded allows his child to use all the avaliable space
-                  child: Container(
+                  Container(height: screenHeight * 0.15, decoration: const BoxDecoration()),
+                  Expanded(
+                      //Expanded allows his child to use all the avaliable space
+                      child: Container(
                     width: screenWidth,
                     decoration: const BoxDecoration(
-                      color: MSosColors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                    ),
+                        color: MSosColors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
 // ---------------> This column could be seen as the actual content body of this view template
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        screenWidth * 0.15,
-                        50,
-                        screenWidth * 0.15,
-                        30
-                      ),
-                      child: Column( 
+                      padding: EdgeInsets.fromLTRB(screenWidth * 0.15, 50, screenWidth * 0.15, 30),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const MSosText( //Custom widget for predifined text style generation.
-                            'Mantente segura', 
+                          const MSosText(
+                            //Custom widget for predifined text style generation.
+                            'Mantente segura',
                             style: MSosText.wizardTitleStyle,
                           ),
                           const MSosText(
                             'Cuida a tus seres queridos y permite que ellos cuiden de ti',
-                            style: MSosText.normalStyle,
+                            size: 18,
+                            isMultiline: true,
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,21 +64,23 @@ class _StartupScreenState extends State<StartupScreen> {
                                 route: '/login',
                                 style: MSosButton.continueLargeBtn,
                               ),
-                              const SizedBox(height: 40,),
-                              const MSosText( //Custom widget for predifined text style generation.
-                                '¿Aún no tienes cuenta?', 
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              const MSosText(
+                                //Custom widget for predifined text style generation.
+                                '¿Aún no tienes cuenta?',
                                 style: MSosText.normalStyle,
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  backgroundColor: MSosColors.transparent,
-                                  fixedSize: Size(screenWidth * 0.6, 44)
-                                ),
+                                    backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/signup'); 
-                                }, 
-                                child: const MSosText( //Custom widget for predifined text style generation.
-                                  'Registrarse', 
+                                  Navigator.pushNamed(context, '/signup');
+                                },
+                                child: const MSosText(
+                                  //Custom widget for predifined text style generation.
+                                  'Registrarse',
                                   style: MSosText.nudeStyle,
                                 ),
                               ),
@@ -100,17 +89,11 @@ class _StartupScreenState extends State<StartupScreen> {
                         ],
                       ),
                     ),
-                  )
-                )
-              ],
-            ),
-          ],
-        )
-      ),
+                  ))
+                ],
+              ),
+            ],
+          )),
     );
   }
 }
-
-
-
-

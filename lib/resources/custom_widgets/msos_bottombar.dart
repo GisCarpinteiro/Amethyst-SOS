@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
-  const CustomBottomAppBar({Key? key}) : super(key: key);
+  final bool isFromAlertScreen;
+  final bool isFromGroupScreen;
+
+  const CustomBottomAppBar({Key? key, this.isFromAlertScreen = false, this.isFromGroupScreen = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +35,22 @@ class CustomBottomAppBar extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                icon: Image.asset(
-                  'lib/resources/assets/images/alert_list_icon.png',
+              Expanded(
+                child: IconButton(
+                  icon: isFromAlertScreen
+                      ? const FaIcon(
+                          FontAwesomeIcons.house,
+                          color: MSosColors.white,
+                          size: 18,
+                        )
+                      : Image.asset(
+                          'lib/resources/assets/images/alert_list_icon.png',
+                        ),
+                  onPressed: () {},
+                  iconSize: 24,
                 ),
-                onPressed: () {},
-                iconSize: 24,
               ),
-              const Text('Alerts'),
+              MSosText(isFromAlertScreen ? 'Home' : 'Alertas', textColor: MSosColors.white),
             ],
           ),
           const SizedBox(
@@ -45,15 +59,17 @@ class CustomBottomAppBar extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                icon: Image.asset(
-                  'lib/resources/assets/images/group_icon.png',
+              Expanded(
+                child: IconButton(
+                  icon: isFromGroupScreen
+                      ? const FaIcon(FontAwesomeIcons.house)
+                      : Image.asset('lib/resources/assets/images/group_icon.png', fit: BoxFit.fitHeight),
+                  onPressed: () {},
+                  tooltip: 'Alarm',
+                  iconSize: 30,
                 ),
-                onPressed: () {},
-                tooltip: 'Alarm',
-                iconSize: 24,
               ),
-              const Text('Groups'),
+              MSosText(isFromGroupScreen ? 'Home' : 'Grupos', textColor: MSosColors.white),
             ],
           ),
         ],

@@ -1,7 +1,11 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
+import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:get_it/get_it.dart';
+import 'package:vistas_amatista/blocs/alert_floating_button/alert_button_bloc.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
+import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/services/alert_services/permissions_manager.dart';
 import 'package:vistas_amatista/services/trigger_services/backtap_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/button_trigger_service.dart';
@@ -29,11 +33,13 @@ class AlertManager {
   static Future<bool> initServiceManually() async {
     // Verify that there's an alert selected
     if (selectedAlert == null) {
-      FlutterLogs.logError("AlertManager", "initServiceManually()", "No alert has been selected to start the alert service");
+      FlutterLogs.logError(
+          "AlertManager", "initServiceManually()", "No alert has been selected to start the alert service");
       return false;
     } else if (selectedGroup == null) {
-      FlutterLogs.logError("AlertManager", "initServiceManually()", "No group has been seleted to start the alert service");
-    
+      FlutterLogs.logError(
+          "AlertManager", "initServiceManually()", "No group has been seleted to start the alert service");
+
       return false;
     }
 
@@ -43,8 +49,8 @@ class AlertManager {
     if (!basicPermissionsSatisfied) {
       basicPermissionsSatisfied = await PermissionsManager.requestAllBasicPermissions();
       if (!basicPermissionsSatisfied) {
-        FlutterLogs.logError(
-            "AlertManager", "InitServiceManually()", "One or more basic permissions have not been granted, canceling service start");
+        FlutterLogs.logError("AlertManager", "InitServiceManually()",
+            "One or more basic permissions have not been granted, canceling service start");
         return false;
       }
     }
@@ -53,19 +59,26 @@ class AlertManager {
       FlutterLogs.logError("AlertManager", "InitServiceManually()", "One or more services couldn't initiate");
     }
 
+    FlutterLogs.logInfo("AlertManager", "InitServiceManually()", "ALERT SERVICE STARTED");
+
+    final provider = BottomBarProvider();
+
+    provider.enableAlertButton();
     isServiceActive = true;
 
     return true;
   }
 
-  stopService() {
+  static stopService() {
     if (!stopTriggerServices()) {
       FlutterLogs.logError("AlertManager", "stopServices()", "One or more services couldn't been stoped!");
     }
+    GetIt.I<BottomBarProvider>().disableAlertButton();
     isServiceActive = false;
   }
 
-  static bool initServiceWithRoutine({required Alert routineAlert, required Group routineGroup, Duration? desactivationTime}) {
+  static bool initServiceWithRoutine(
+      {required Alert routineAlert, required Group routineGroup, Duration? desactivationTime}) {
     return true;
   }
 
@@ -98,7 +111,6 @@ class AlertManager {
   }
 
   static bool stopTriggerServices() {
-
     if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger]) {
       // TODO: Implementar la inicialización del disconnection trigger
     }
