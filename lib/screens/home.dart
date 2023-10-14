@@ -14,6 +14,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -142,13 +143,24 @@ class HomeScreen extends StatelessWidget {
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
-                                MSosFloatingMessage.showMessage(
-                                  context,
-                                  title: "Servicio Activado",
-                                  message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
-                                  type: MessageType.info,
-                                );
-                                barProvider.enableAlertButton();
+                                AlertManager.initServiceManually();
+                                if (AlertManager.isServiceActive){
+                                  MSosFloatingMessage.showMessage(
+                                    context,
+                                    title: "Servicio Activado",
+                                    message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
+                                    type: MessageType.info,
+                                  );
+                                  barProvider.enableAlertButton();
+                                } else {
+                                  provider.toggleServiceEnabled();
+                                  MSosFloatingMessage.showMessage(
+                                    context,
+                                    title: "Algo ha fallado!",
+                                    message: 'No se ha podido iniciar el servicio',
+                                    type: MessageType.alert,
+                                  );
+                                }
                               } else {
                                 barProvider.disableAlertButton();
                                 MSosFloatingMessage.showMessage(

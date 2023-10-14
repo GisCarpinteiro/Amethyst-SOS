@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 class PermissionsManager {
   // * This method contacts Permissions Manager to request for permissions and evalueate their Status.
   static Future<bool> requestAllBasicPermissions() async {
-    if (requestLocationPermissions() as bool && requestSMSPermissions() as bool && requestNotificationPermissions() as bool) {
+    if (await requestLocationPermissions() && await requestSMSPermissions() && await requestNotificationPermissions()) {
       FlutterLogs.logInfo(
           "PermissionsManager", "requestAllBasicPermissions()", "All basic permissions have been granted! ready to start service");
       return true;
@@ -23,7 +23,7 @@ class PermissionsManager {
     var status = await Permission.location.status;
     // We verify that the permissions still not being granted.
     if (status == PermissionStatus.denied) {
-      FlutterLogs.logInfo("PermissionsManager", "requestLocationPermissions()", "Trying to request for permissions for location...");
+      FlutterLogs.logInfo("PermissionsManager", "requestLocationPermissions()", "Trying to request permissions for location...");
       // if yes, then we try to ask for them
       // ? Maybe Android and iOS permissions should be handled separated
       if (Platform.isAndroid) {
@@ -51,7 +51,7 @@ class PermissionsManager {
     // We verify that the permissions still not being granted.
     if (status == PermissionStatus.denied) {
       FlutterLogs.logInfo(
-          "PermissionsManager", "requestNotificationPermissions()", "Trying to request for permissions for Notification...");
+          "PermissionsManager", "requestNotificationPermissions()", "Trying to request permissions for Notifications...");
       // if yes, then we try to ask for them
       if (Platform.isAndroid) {
         status = await Permission.notification.request();
@@ -79,7 +79,7 @@ class PermissionsManager {
     var status = await Permission.bluetooth.status;
     // We verify that the permissions still not being granted.
     if (status == PermissionStatus.denied) {
-      FlutterLogs.logInfo("PermissionsManager", "requestBluetoothPermissions()", "Trying to request for permissions for bluetooth...");
+      FlutterLogs.logInfo("PermissionsManager", "requestBluetoothPermissions()", "Trying to request permissions for bluetooth...");
       // if yes, then we try to ask for them
 
       if (Platform.isAndroid) {
@@ -106,7 +106,7 @@ class PermissionsManager {
     var status = await Permission.sms.status;
     // We verify that the permissions still not being granted.
     if (status == PermissionStatus.denied) {
-      FlutterLogs.logInfo("PermissionsManager", "requestSMSPermissions()", "Trying to request for permissions for SMS...");
+      FlutterLogs.logInfo("PermissionsManager", "requestSMSPermissions()", "Trying to request permissions for SMS...");
       // if yes, then we try to ask for them
 
       if (Platform.isAndroid) {

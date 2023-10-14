@@ -26,9 +26,7 @@ class AlertManager {
   static Duration? programmedDesactivationTime;
 
   // This method is used when starting service from the Home Screen and pressing the start service Button
-  static bool initServiceManually() {
-    // Verify that we have the miminum permissions to start service
-    if (!basicPermissionsSatisfied) return false;
+  static Future<bool> initServiceManually() async {
     // Verify that there's an alert selected
     if (selectedAlert == null) {
       FlutterLogs.logError("AlertManager", "initServiceManually()", "No alert has been selected to start the alert service");
@@ -43,7 +41,7 @@ class AlertManager {
 
     // * First we check if needed permissions have been granted. if not, we try to ask for them.
     if (!basicPermissionsSatisfied) {
-      basicPermissionsSatisfied = PermissionsManager.requestAllBasicPermissions() as bool;
+      basicPermissionsSatisfied = await PermissionsManager.requestAllBasicPermissions();
       if (!basicPermissionsSatisfied) {
         FlutterLogs.logError(
             "AlertManager", "InitServiceManually()", "One or more basic permissions have not been granted, canceling service start");
@@ -54,6 +52,8 @@ class AlertManager {
     if (!initTriggerServices()) {
       FlutterLogs.logError("AlertManager", "InitServiceManually()", "One or more services couldn't initiate");
     }
+
+    isServiceActive = true;
 
     return true;
   }
