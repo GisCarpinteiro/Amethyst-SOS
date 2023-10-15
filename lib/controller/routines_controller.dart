@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/routine.dart';
@@ -28,7 +27,6 @@ class RoutineController {
     List<Routine> routines = List.empty(growable: true);
 
     String? routinesAsString = sharedPreferences?.getString('routines');
-    FlutterLogs.logInfo("RoutineController", "getRoutines", 'the routines from obtained from shared preferences are: $routinesAsString');
     final parsedJson = jsonDecode(routinesAsString ??
         "[]"); // TODO: En vez de retornar una lista vacía deberíamos de reintentar hacer la consulta y mostrar un mensaje de error.
     for (var routine in parsedJson) {

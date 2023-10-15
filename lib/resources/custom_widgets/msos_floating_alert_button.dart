@@ -10,7 +10,6 @@ class MSosAlertButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BottomBarProvider barProvider = context.read<BottomBarProvider>();
     final BottomBarProvider barStatus = context.watch<BottomBarProvider>();
     return FloatingActionButton.large(
       backgroundColor: barStatus.alertButtonEnabled ? MSosColors.pink : MSosColors.grayMedium,

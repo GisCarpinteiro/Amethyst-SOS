@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
-import 'package:vistas_amatista/blocs/alert_floating_button/alert_button_bloc.dart';
-import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
-import 'package:vistas_amatista/blocs/group_blocs/group_list/group_list_bloc.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
+import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
-import 'package:vistas_amatista/providers/rotine_list_provider.dart';
+import 'package:vistas_amatista/providers/rotine_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
 import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/groups/group_menu.dart';
 import 'package:vistas_amatista/screens/routines/routine_list.dart';
+import 'package:vistas_amatista/screens/routines/routine_menu.dart';
 import 'package:vistas_amatista/screens/wizard/confirm_email.dart';
 import 'package:vistas_amatista/screens/demo_menu.dart';
 import 'package:vistas_amatista/screens/home.dart';
@@ -64,15 +62,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => TriggerConfigBloc()),
         BlocProvider(create: (_) => AlertListBloc()),
         BlocProvider(create: (_) => AlertMenuBloc()),
-        BlocProvider(create: (_) => GroupListBloc()),
-        BlocProvider(create: (_) => GroupMenuBloc()),
-        BlocProvider(create: (_) => AlertButtonBloc())
       ],
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomeProvider()),
           ChangeNotifierProvider(create: (_) => BottomBarProvider()),
-          ChangeNotifierProvider(create: (_) => RoutineListProvider())
+          ChangeNotifierProvider(create: (_) => RoutineProvider()),
+          ChangeNotifierProvider(create: (_) => GroupProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -102,7 +98,8 @@ class MyApp extends StatelessWidget {
             '/alert_menu': (context) => const AlertMenuScreen(),
             '/group_list': (context) => const GroupListScreen(),
             '/group_menu': (context) => const GroupMenuScreen(),
-            '/routine_list': (context) => const RoutineListScreen()
+            '/routine_list': (context) => const RoutineListScreen(),
+            '/routine_menu': (context) => const RoutineMenuScreen(),
           },
           initialRoute: '/test_demo',
           //This allow us to define a default page when an unexisting route is requested
@@ -119,8 +116,6 @@ class MyApp extends StatelessWidget {
 
 // Enabling The use of logs on app
 Future<void> initialSetup() async {
-  GetIt.I.registerSingleton<BottomBarProvider>(BottomBarProvider());
-
   await FlutterLogs.initLogs(
       logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
       timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,

@@ -6,7 +6,8 @@ import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
 
 class HomeProvider with ChangeNotifier {
-  bool isServiceEnabled = false; // Status needed to change the color an behavior of some widgets/elements on homescreen.
+  bool isServiceEnabled =
+      false; // Status needed to change the color an behavior of some widgets/elements on homescreen.
   int selectedAlert = 0; // Name of the actual alert picked by the multi option widget
   int selectedGroup = 0; // Name of the actual group picked on the multi option widget
   AlertState alertState = AlertState.disabled; // State of the alert (active, inactive, waiting, disable)

@@ -44,32 +44,16 @@ class _DemoScreenState extends State<DemoScreen> {
                   MSosButton(
                     text: "Wizard",
                     route: '/startup',
-                    style: MSosButton.continueLargeBtn,
+                    style: MSosButton.subMenuLargeBtn,
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  MSosButton(text: "Trigger Settings", route: '/trigger_settings', style: MSosButton.continueLargeBtn),
+                  MSosButton(text: "Home", route: '/home', style: MSosButton.subMenuLargeBtn),
                   SizedBox(
                     height: 20,
                   ),
-                  MSosButton(text: "Home", route: '/home', style: MSosButton.continueLargeBtn),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(text: "Alert List", route: '/alert_list', style: MSosButton.continueLargeBtn),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(text: "Group List", route: '/group_list', style: MSosButton.continueLargeBtn),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(text: "Routines List", route: '/routine_list', style: MSosButton.continueLargeBtn),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.continueLargeBtn),
+                  MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.subMenuLargeBtn),
                 ],
               ),
             ),

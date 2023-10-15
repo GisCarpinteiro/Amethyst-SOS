@@ -6,6 +6,7 @@ import 'package:vistas_amatista/screens/alerts/alert_list.dart';
 import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/home.dart';
 import 'package:vistas_amatista/screens/routines/routine_list.dart';
+import 'package:vistas_amatista/screens/triggers/trigger_settings.dart';
 
 class MSosDashboard extends StatelessWidget {
   const MSosDashboard({super.key});
@@ -53,8 +54,7 @@ class MSosDashboard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
                 ),
@@ -64,8 +64,7 @@ class MSosDashboard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const AlertSettingsScreen()),
+                      MaterialPageRoute(builder: (context) => const AlertSettingsScreen()),
                     );
                   },
                 ),
@@ -75,8 +74,7 @@ class MSosDashboard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const GroupListScreen()),
+                      MaterialPageRoute(builder: (context) => const GroupListScreen()),
                     );
                   },
                 ),
@@ -86,8 +84,7 @@ class MSosDashboard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const RoutineListScreen()),
+                      MaterialPageRoute(builder: (context) => const RoutineListScreen()),
                     );
                   },
                 ),
@@ -95,7 +92,10 @@ class MSosDashboard extends StatelessWidget {
                   leading: const Icon(Icons.gamepad),
                   title: const Text('Activadores'),
                   onTap: () {
-                    // TODO: Agregar ruta
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const TriggerSettingsScreen()),
+                    );
                   },
                 ),
                 ListTile(
@@ -124,15 +124,12 @@ class MSosDashboard extends StatelessWidget {
                 const Divider(),
                 ListTile(
                   leading: const Image(
-                    image:
-                        AssetImage('lib/resources/assets/images/user_icon.png'),
+                    image: AssetImage('lib/resources/assets/images/user_icon.png'),
                   ),
                   title: Container(
-                    alignment: Alignment
-                        .centerRight, // Alinea el contenido a la derecha
+                    alignment: Alignment.centerRight, // Alinea el contenido a la derecha
                     child: const Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceBetween, // Alinear el icono a la derecha
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Alinear el icono a la derecha
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,8 +143,7 @@ class MSosDashboard extends StatelessWidget {
                             //Text('ivanna@gmail.com'),
                           ],
                         ),
-                        Icon(Icons
-                            .settings), // Cambia 'some_icon' por el icono que desees
+                        Icon(Icons.settings), // Cambia 'some_icon' por el icono que desees
                       ],
                     ),
                   ),

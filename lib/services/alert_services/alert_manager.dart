@@ -1,11 +1,7 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
-import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:get_it/get_it.dart';
-import 'package:vistas_amatista/blocs/alert_floating_button/alert_button_bloc.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
-import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/services/alert_services/permissions_manager.dart';
 import 'package:vistas_amatista/services/trigger_services/backtap_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/button_trigger_service.dart';
@@ -60,10 +56,6 @@ class AlertManager {
     }
 
     FlutterLogs.logInfo("AlertManager", "InitServiceManually()", "ALERT SERVICE STARTED");
-
-    final provider = BottomBarProvider();
-
-    provider.enableAlertButton();
     isServiceActive = true;
 
     return true;
@@ -73,7 +65,6 @@ class AlertManager {
     if (!stopTriggerServices()) {
       FlutterLogs.logError("AlertManager", "stopServices()", "One or more services couldn't been stoped!");
     }
-    GetIt.I<BottomBarProvider>().disableAlertButton();
     isServiceActive = false;
   }
 

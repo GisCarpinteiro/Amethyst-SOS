@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vistas_amatista/blocs/group_blocs/group_menu/group_menu_bloc.dart';
-import 'package:vistas_amatista/blocs/routine_blocs/routine_list/routine_list_bloc.dart';
-import 'package:vistas_amatista/providers/rotine_list_provider.dart';
+import 'package:vistas_amatista/providers/rotine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
@@ -19,13 +17,12 @@ class RoutineListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // We trigger the event to fetch the groups on the screen inicialization
-    BlocProvider.of<RoutineListBloc>(context, listen: false).add(const GetRoutineListEvent());
 
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height - 60;
 
-    final RoutineListProvider state = context.read<RoutineListProvider>();
-    final RoutineListProvider provider = context.watch<RoutineListProvider>();
+    final RoutineProvider state = context.read<RoutineProvider>();
+    final RoutineProvider provider = context.watch<RoutineProvider>();
 
     provider.getRoutineList();
     return Scaffold(
@@ -70,16 +67,17 @@ class RoutineListScreen extends StatelessWidget {
                                         color: MSosColors.white,
                                       ),
                                       itemBuilder: (BuildContext context, int index) {
-                                        return MSosListItemCard(title: state.routines[index].name, callback: () {});
+                                        return MSosListItemCard(
+                                            title: state.routines[index].name,
+                                            callback: () => context
+                                                .read<RoutineProvider>()
+                                                .editRoutineContext(context, state.routines[index]));
                                       },
                                     ),
                                   ),
                             MSosButton(
                               text: "Crear Rutina",
-                              callbackFunction: () {
-                                BlocProvider.of<GroupMenuBloc>(context, listen: false)
-                                    .add(InitialCreateGroupEvent(context: context));
-                              },
+                              callbackFunction: () => context.read<RoutineProvider>().createRoutineContext(context),
                               style: MSosButton.smallButton,
                               color: MSosColors.blue,
                             ),

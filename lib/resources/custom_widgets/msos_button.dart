@@ -38,7 +38,11 @@ class MSosButton extends StatelessWidget {
     switch (style) {
       case MSosButton.smallButton:
         return MsosSmallButton(
-            text: text, color: color, foregroundColor: textColor, icon: icon, callbackFunction: callbackFunction ?? () {});
+            text: text,
+            color: color,
+            foregroundColor: textColor,
+            icon: icon,
+            callbackFunction: callbackFunction ?? () {});
       case MSosButton.multiOptionButton:
         return MSosMultiOptionButton(text: text, callbackFunction: callbackFunction ?? () {});
       case MSosButton.continueLargeBtn:
@@ -67,7 +71,7 @@ class MSosButton extends StatelessWidget {
                 style: TextButton.styleFrom(
                     elevation: 2,
                     shadowColor: MSosColors.grayLight,
-                    backgroundColor: color,
+                    backgroundColor: MSosColors.white,
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
                 onPressed: () {
                   Navigator.pushNamed(context, route ?? './not_found');
@@ -76,7 +80,7 @@ class MSosButton extends StatelessWidget {
                   children: [
                     Icon(
                       icon,
-                      color: textColor,
+                      color: MSosColors.grayMedium,
                     ),
                     const SizedBox(
                       width: 10,
@@ -86,7 +90,7 @@ class MSosButton extends StatelessWidget {
                       text,
                       size: 16,
                       style: MSosText.buttonStyle,
-                      textColor: textColor,
+                      textColor: MSosColors.grayMedium,
                     ),
                   ],
                 )),
