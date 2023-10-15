@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
+import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import '../../resources/custom_widgets/msos_text.dart';
@@ -30,6 +32,7 @@ class _LogInScreenState extends State<LogInScreen> {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -40,11 +43,10 @@ class _LogInScreenState extends State<LogInScreen> {
               child: Stack(
                 children: [
                   ClipRect(
-              child: Image.asset(
-                'lib/resources/assets/images/wizard_landscape.png',
-                fit: BoxFit.cover
-                ),
-            ),
+                    child: Image.asset(
+                        'lib/resources/assets/images/wizard_landscape.png',
+                        fit: BoxFit.cover),
+                  ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Column(
@@ -107,15 +109,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                                     MSosColors.pink,
                                               ),
                                               onPressed: () {
-                                                BlocProvider.of<LoginBloc>(
-                                                        context)
-                                                    .add(GetUserAndPassword(
-                                                        email: emailController
-                                                            .text,
-                                                        password:
-                                                            passwordController
-                                                                .text,
-                                                        context: context));
+                                                authNotifier
+                                                    .signInWithEmailAndPassword(
+                                                        emailController.text,
+                                                        passwordController
+                                                            .text);
                                               },
                                               child: const MSosText(
                                                 "Iniciar Sesión",

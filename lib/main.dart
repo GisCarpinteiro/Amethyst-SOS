@@ -10,6 +10,7 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
+import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/providers/rotine_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => BottomBarProvider()),
           ChangeNotifierProvider(create: (_) => RoutineProvider()),
           ChangeNotifierProvider(create: (_) => GroupProvider()),
+          ChangeNotifierProvider(create: (_) => AuthNotifier())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -88,12 +90,16 @@ class MyApp extends StatelessWidget {
             '/signup2': (context) => const SignUpScreen2(),
             '/confirm_email': (context) => const ConfirmEmailScreen(),
             '/not_found': (context) => const NotFoundScreen(),
-            '/emergency_message_wizard': (context) => const EmergencyMessageWizardScreen(),
-            '/trust_group_wizard': (context) => const CreateTrustGroupWizardScreen(),
+            '/emergency_message_wizard': (context) =>
+                const EmergencyMessageWizardScreen(),
+            '/trust_group_wizard': (context) =>
+                const CreateTrustGroupWizardScreen(),
             '/trigger_settings': (context) => const TriggerSettingsScreen(),
-            '/trigger_settings/internet_disconnection': (context) => const DiscconectTriggerSettingsScreen(),
+            '/trigger_settings/internet_disconnection': (context) =>
+                const DiscconectTriggerSettingsScreen(),
             '/trigger_test': (context) => const TriggerTestScreen(),
-            '/trigger_settings/voice_recognition': (context) => const VoiceTriggerSettingsScreen(),
+            '/trigger_settings/voice_recognition': (context) =>
+                const VoiceTriggerSettingsScreen(),
             '/alert_list': (context) => const AlertSettingsScreen(),
             '/alert_menu': (context) => const AlertMenuScreen(),
             '/group_list': (context) => const GroupListScreen(),
@@ -117,7 +123,12 @@ class MyApp extends StatelessWidget {
 // Enabling The use of logs on app
 Future<void> initialSetup() async {
   await FlutterLogs.initLogs(
-      logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
+      logLevelsEnabled: [
+        LogLevel.INFO,
+        LogLevel.WARNING,
+        LogLevel.ERROR,
+        LogLevel.SEVERE
+      ],
       timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
       directoryStructure: DirectoryStructure.FOR_DATE,
       logTypesEnabled: ["device", "network", "errors"],
