@@ -10,5 +10,6 @@ abstract class MSosColors {
   static const black = Colors.black;
   static const amethyst = Color(0xFF5C6BC0);
   static const transparent = Color(0x00000000);
+  static const blueDark = Color.fromARGB(255, 51, 162, 209);
   static const Color secondaryColor = Color.fromRGBO(194, 165, 186, 1);
 }

@@ -84,9 +84,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                         const SizedBox(height: 20),
                         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           const MSosText("Nombre del Grupo"),
-                          MSosFormField(
-                            controller: groupNameController,
-                          ),
+                          MSosFormField(controller: groupNameController),
                           const SizedBox(height: 10),
                           const MSosText("Lista de contactos"),
                           const SizedBox(height: 10),

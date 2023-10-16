@@ -5,31 +5,27 @@ class Routine {
   final int groupId;
   final Map<String, dynamic> days;
   final Map<String, dynamic> startTime;
-  final Map<String, dynamic>? endTime;
+  final int durationMinutes;
 
-  Routine({
-    this.id,
-    required this.name,
-    required this.alertId,
-    required this.groupId,
-    this.days = const {
-      'monday': true,
-      'tuesday': true,
-      'wednesday': true,
-      'thursdat': true,
-      'friday': true,
-      'saturday': false,
-      'sunday': false,
-    },
-    this.startTime = const {
-      'hour': '00',
-      'min': '00',
-    },
-    this.endTime = const {
-      'hour': '01',
-      'min': '00',
-    },
-  });
+  Routine(
+      {this.id,
+      required this.name,
+      required this.alertId,
+      required this.groupId,
+      this.days = const {
+        'monday': true,
+        'tuesday': true,
+        'wednesday': true,
+        'thursdat': true,
+        'friday': true,
+        'saturday': false,
+        'sunday': false,
+      },
+      this.startTime = const {
+        'hour': 0,
+        'min': 0,
+      },
+      this.durationMinutes = 0});
 
   Map toJson() => {
         'id': id,
@@ -38,7 +34,7 @@ class Routine {
         'group': groupId,
         'days': days,
         'start_time': startTime,
-        'end_time': endTime,
+        'duration_minutes': durationMinutes,
       };
 
   factory Routine.fromJson(Map<String, dynamic> data) {
@@ -48,7 +44,14 @@ class Routine {
     final int groupId = data['group_id'];
     final Map<String, dynamic> days = data['days'];
     final Map<String, dynamic> startTime = data['start_time'];
-    final Map<String, dynamic> endTime = data['end_time'];
-    return Routine(id: id, name: name, alertId: alertId, groupId: groupId, days: days, startTime: startTime, endTime: endTime);
+    final int durationMinutes = data['duration_minutes'];
+    return Routine(
+        id: id,
+        name: name,
+        alertId: alertId,
+        groupId: groupId,
+        days: days,
+        startTime: startTime,
+        durationMinutes: durationMinutes);
   }
 }

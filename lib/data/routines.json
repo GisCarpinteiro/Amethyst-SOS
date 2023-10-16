@@ -14,35 +14,29 @@
             "domingo" : false
         },
         "start_time" : {
-            "hour" : "07",
-            "min" : "00"
+            "hour" : 7,
+            "min" : 0
         },
-        "end_time" : {
-            "hour" : "",
-            "min" : ""
-        }
+        "duration_minutes" : 30
     },
     {
         "id" : 0,
         "name" : "Regreso a casa",
         "alert_id" : 2,
-        "group_id" : 1,
+        "group_id" : 0,
         "days": {
-            "lunes": true,
-            "martes" :true,
-            "miercoles": false,
-            "jueves": true,
-            "viernes": false,
-            "sabado": true,
+            "lunes": false,
+            "martes" :false,
+            "miercoles": true,
+            "jueves": false,
+            "viernes": true,
+            "sabado": false,
             "domingo" : false
         },
         "start_time" : {
-            "hour" : "07",
-            "min" : "00"
+            "hour" : 18,
+            "min" : 30
         },
-        "end_time" : {
-            "hour" : "",
-            "min" : ""
-        }
+        "duration_minutes" : 60
     }
 ]

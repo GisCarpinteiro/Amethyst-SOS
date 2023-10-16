@@ -1,6 +1,5 @@
-
 // This enum let us define in which state the selected alert is and react to it.
-enum AlertState {disabled, inactive, active, waiting}
+enum AlertState { disabled, inactive, active, waiting }
 // The meaning of each status is:
 // * disabled: when the Alert Service hasn't been started, the status of the alert cannot be changed to any other than disabled which means that it cannot be activated by any chance
 // * inactive: this status is acquired when the alert has been picked to start the Alert Service, and now is able to transition to the other two states or to disabled again if Alert Service is turned off.
@@ -9,13 +8,12 @@ enum AlertState {disabled, inactive, active, waiting}
 
 // TODO: Discutir sobre la lógica de cómo debemos operar ante una alerta, bloqueo de reactivaciones, proceso de desactivación, etc. Esta es una versión inicial del servicio con una lógica que puede no tener en consideración todas las situaciones posibles.
 
-
 // This class is the  model used for all the configured alarms.
 class Alert {
-  final int? id;
+  final int id;
   final String name;
   final String message;
-  final int? toleranceTime; // This value can be null as is overrided by each of the specified on the triggers
+  final int toleranceTime; // This value can be null as is overrided by each of the specified on the triggers
   final bool shareLocation; // Share location will be disactivated by default
   final Map<String, dynamic> triggers; // Only "basic" triggers are activated by default (button and disconnection)
 
@@ -30,10 +28,10 @@ class Alert {
       {required this.id,
       required this.name,
       required this.message,
-      this.toleranceTime,
+      this.toleranceTime = 30,
       this.shareLocation = false,
       this.triggers = const {
-        buttonTrigger: true,  
+        buttonTrigger: true,
         backtapTrigger: false,
         voiceTrigger: false,
         internetDisconnectionTrigger: true,
@@ -42,8 +40,14 @@ class Alert {
       }});
 
   // Using jsonEncode(object) creates a String on JSON format as it follows:
-  Map toJson() =>
-      {'id': id, 'name': name, 'message': message, 'toleranceTime': toleranceTime, 'shareLocation': shareLocation, 'triggers': triggers};
+  Map toJson() => {
+        'id': id,
+        'name': name,
+        'message': message,
+        'toleranceTime': toleranceTime,
+        'shareLocation': shareLocation,
+        'triggers': triggers
+      };
 
   factory Alert.fromJson(Map<String, dynamic> data) {
     final int id = data['id'];
@@ -53,6 +57,12 @@ class Alert {
     final bool shareLocation = data['shareLocation'];
     final Map<String, dynamic> triggers = data['triggers'];
 
-    return Alert(id: id, name: name, message: message, toleranceTime: toleranceTime, shareLocation: shareLocation, triggers: triggers);
+    return Alert(
+        id: id,
+        name: name,
+        message: message,
+        toleranceTime: toleranceTime,
+        shareLocation: shareLocation,
+        triggers: triggers);
   }
 }

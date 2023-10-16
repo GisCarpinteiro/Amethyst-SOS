@@ -8,8 +8,9 @@ class MSosMultiOptionButton extends StatelessWidget {
   final Color color = MSosColors.white;
   final Color foregroundColor = MSosColors.grayMedium;
   final VoidCallback callbackFunction;
+  final double width;
 
-  const MSosMultiOptionButton({super.key, required this.text, required this.callbackFunction});
+  const MSosMultiOptionButton({super.key, this.width = 120, required this.text, required this.callbackFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class MSosMultiOptionButton extends StatelessWidget {
       style:
           TextButton.styleFrom(elevation: 2, shadowColor: MSosColors.grayLight, backgroundColor: color, foregroundColor: foregroundColor),
       child: SizedBox(
-        width: 120,
+        width: width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
