@@ -4,7 +4,8 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
     <application
         android:label="vistas_amatista"
         android:name="${applicationName}"

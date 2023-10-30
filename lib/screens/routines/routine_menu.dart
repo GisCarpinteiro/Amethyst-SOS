@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vistas_amatista/providers/rotine_provider.dart';
+import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_multi_option_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';

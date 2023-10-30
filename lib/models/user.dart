@@ -6,7 +6,7 @@ class User {
   final String gender;
   final String country;
   final String phone;
-  final String? birthyear;
+  final int? birthyear;
 
   User(
       {required this.id,
@@ -34,7 +34,7 @@ class User {
     final String gender = data['gender'];
     final String country = data['country'];
     final String phone = data['phone'];
-    final String birthyear = data['birthyear'];
+    final int birthyear = data['birthyear'];
     return User(id: id, name: name, email: email, gender: gender, country: country, phone: phone, birthyear: birthyear);
   }
 }

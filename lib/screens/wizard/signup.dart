@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import '../../resources/custom_widgets/msos_text.dart';
 
 /* Esta vista es la primera dos que sirve para la creación de una nueva cuenta
@@ -27,6 +30,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    SignUpProvider provider = context.watch<SignUpProvider>();
+    provider.cleanProvider();
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -73,16 +78,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             icon: FontAwesomeIcons.idCard),
                                         const SizedBox(height: 10),
                                         MSosFormField(
-                                            label: 'Correo Electrónico',
-                                            controller: emailController,
-                                            style: MSosFormFieldStyle.wizard,
-                                            icon: FontAwesomeIcons.solidEnvelope),
+                                          label: 'Correo Electrónico',
+                                          controller: emailController,
+                                          style: MSosFormFieldStyle.wizard,
+                                          icon: FontAwesomeIcons.solidEnvelope,
+                                          validation: MSosFormFieldValidation.email,
+                                        ),
                                         const SizedBox(height: 10),
                                         MSosFormField(
-                                            label: 'Contraseña',
-                                            controller: passwordController,
-                                            style: MSosFormFieldStyle.wizard,
-                                            icon: FontAwesomeIcons.lock),
+                                          label: 'Contraseña',
+                                          controller: passwordController,
+                                          style: MSosFormFieldStyle.wizard,
+                                          icon: FontAwesomeIcons.lock,
+                                          validation: MSosFormFieldValidation.password,
+                                        ),
                                         const SizedBox(height: 10),
                                         MSosFormField(
                                             label: 'Confirmar Contraseña',
@@ -101,10 +110,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                           onPressed: () {
                                             if (_formKey.currentState!.validate()) {
+                                              provider.valuesFromFirstForm(
+                                                  name: nameController.text,
+                                                  email: emailController.text,
+                                                  password: passwordController.text);
                                               Navigator.pushNamed(context, '/signup2');
                                             } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
+                                              MSosFloatingMessage.showMessage(context, message: "Datos no válidos", type: MessageType.alert);
                                             } // go to next screen
                                           },
                                           child: const MSosText(

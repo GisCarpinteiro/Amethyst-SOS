@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
@@ -15,14 +17,16 @@ class SignUpScreen2 extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<SignUpScreen2> {
-  //Key used for the login formulary
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   final countryCtrlr = TextEditingController();
   final phoneCtrlr = TextEditingController();
-  final birthDayCtrl = TextEditingController();
+  final birthyearCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    //Key used for the login formulary
+
+    final SignUpProvider provider = context.watch<SignUpProvider>();
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -64,7 +68,7 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Form(
-                                    key: _formKey,
+                                    key: formKey,
                                     child: Column(
                                       children: [
                                         MSosFormField(
@@ -78,16 +82,19 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                           controller: phoneCtrlr,
                                           label: "Teléfono Celular",
                                           style: MSosFormFieldStyle.wizard,
+                                          inputType: TextInputType.phone,
                                           icon: FontAwesomeIcons.phone,
                                         ),
                                         const SizedBox(height: 10),
                                         const CustomDropDownWidget(label: 'Género', items: items),
                                         const SizedBox(height: 10),
+                                        // TODO: Podríamos cambiarlo por un multiselect "aunque no es 100% necesario"
                                         MSosFormField(
                                           label: 'Fecha de Nacimiento',
-                                          controller: birthDayCtrl,
+                                          controller: birthyearCtrl,
                                           style: MSosFormFieldStyle.wizard,
                                           icon: FontAwesomeIcons.cakeCandles,
+                                          inputType: TextInputType.number,
                                         ),
                                       ],
                                     ),
@@ -100,10 +107,15 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                             backgroundColor: MSosColors.pink,
                                           ),
                                           onPressed: () {
-                                            if (_formKey.currentState!.validate()) {
+                                            if (formKey.currentState!.validate()) {
+                                              provider.valuesFromSecondForm(
+                                                  country: countryCtrlr.text,
+                                                  phone: phoneCtrlr.text,
+                                                  birthyear: int.parse(birthyearCtrl.text));
                                               Navigator.pushNamed(context, '/confirm_email');
                                             } else {
-                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
                                             } // go to next screen
                                           },
                                           child: const MSosText(
@@ -124,8 +136,8 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                   style: MSosText.normalStyle,
                                 ),
                                 TextButton(
-                                  style:
-                                      TextButton.styleFrom(backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: MSosColors.transparent, fixedSize: Size(screenWidth * 0.6, 44)),
                                   onPressed: () {
                                     Navigator.pushNamed(context, '/login');
                                   },
@@ -187,7 +199,8 @@ class CustomDropDownWidget extends StatelessWidget {
                 value: value,
                 child: Text(value,
                     style: GoogleFonts.lexend(
-                        textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))));
+                        textStyle:
+                            const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))));
           }).toList(),
           onChanged: (value) {},
           value: 'Femenino',
@@ -202,8 +215,8 @@ class CustomDropDownWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   borderSide: const BorderSide(color: _focussedBorderColor, width: 2.0)),
               hintText: '*******',
-              hintStyle:
-                  GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))),
+              hintStyle: GoogleFonts.lexend(
+                  textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))),
         ),
       ],
     );

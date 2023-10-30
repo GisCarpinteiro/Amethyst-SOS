@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/alert_controller.dart';
@@ -7,6 +8,14 @@ import 'package:vistas_amatista/controller/routines_controller.dart';
 
 class SharedPrefsManager {
   static SharedPreferences? _sharedPrefs;
+  static FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+
+  @override
+  noSuchMethod(Invocation invocation) {
+    // TODO: implement noSuchMethod
+    return super.noSuchMethod(invocation);
+  }
 
   static init() {
     restoreAllConfigsFromFirebase();
@@ -17,6 +26,14 @@ class SharedPrefsManager {
 
   // This method is used to get all the configurations from firebase to the shared preferences variables on the app
   static Future<bool> restoreAllConfigsFromFirebase({String? password, String? email}) async {
+
+
+    final snapshot = await firestore.collection('User').doc('7Mc4bzfbwiYoOfVpDN0v').get();
+
+    if (snapshot.exists){
+      print("USUARIO: ${snapshot.data()}");
+    }
+
     // TODO: (Gisel) Ahora mismo no hacemos nada con la contraseña y el usuario pero todo lo de abajo marcado con "!" debería ser remplazado para provenir de Firebase a través de una consulta con el usuario y contraseña
     // * Antes este método se llamaba restoreAllConfigsFromLocal pero no tenía mucho sentido ya que eso no era eso lo que hacía y le agregué los parámetros que ahora mismo son opcionales para hacer pruebas pero deben ser required
     String groupsData = await GroupController.getGroupsAsString(); // ! Replace with Firebase
@@ -29,5 +46,9 @@ class SharedPrefsManager {
     await _sharedPrefs?.setString('routines', routinesData);
 
     return true;
+  }
+
+  Future<String?> getUser() async {
+    
   }
 }
