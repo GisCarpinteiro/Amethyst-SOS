@@ -11,7 +11,7 @@ class LoginProvider with ChangeNotifier {
     email ?? (email = "example@gmail.com");
     password ?? (password = "holamundo");
     if (await FireAuthController.logByEmailMethod(email: email, password: password)) {
-      if (await FirestoreController.searchAccount(email, password)) {
+      if (await FirestoreController.getUserData(email, password)) {
         FlutterLogs.logInfo("LoginProvider", "logWithEmail", "SUCCESS: Logging operations complete, going to Home");
         return true;
       }

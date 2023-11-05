@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
@@ -16,9 +18,17 @@ class GroupController {
     // TODO
   }
 
-  static Future<String> getGroupsAsString() async {
-    // TODO: Hacer la implementación para que funcione con una consulta a firebase y no a los JSONs jaja
-    return rootBundle.loadString('lib/data/groups.json');
+  // This method is used to extract the groups from the firestore user data document
+  static Future<String> getGroupsAsString(QueryDocumentSnapshot<Object?> user) async {
+    try {
+      final data = jsonEncode(user.get("groups")).toString();
+      print("This is the data from firebase: $data");
+      return data;
+    } on StateError catch (e) {
+      FlutterLogs.logWarn("GroupController", "substractGroupsAsStringFromFirestoreData",
+          "Couln't get groups from firebase with exception: ${e.message}");
+    }
+    return "";
   }
 
   static List<Group> getGroups() {
@@ -27,7 +37,7 @@ class GroupController {
 
     // TODO: (Gisel) Si no puede obtener datos de shared preferences (no un arreglo vacío sino null) debemos de intentar restaruar shared preferences o mostrar un error
     String? groupsAsString = sharedPreferences?.getString('groups');
-    final paresedJson = jsonDecode(groupsAsString ??
+    final paresedJson = json.decode(groupsAsString ??
         "[]"); // TODO: En vez de retornar una lista vacía deberíamos de reintentar hacer la consulta y mostrar un mensaje de error.
     for (var group in paresedJson) {
       groups.add(Group.fromJson(group));

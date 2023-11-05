@@ -52,7 +52,8 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
         // We read if either is the Edition Screen or the Creation Screen
         bool isEdition = state.isAlertEditionContext;
         // Initialize some values if is an edition of an existing alert or the creation of a new one
-        toleranceTimeOption = toleranceTimeOption ?? (isEdition ? getOptionFromValue(state.alert!.toleranceTime) : 0);
+        toleranceTimeOption =
+            toleranceTimeOption ?? (isEdition ? getOptionFromValue(state.alert!.toleranceSeconds) : 0);
         shareLocationEnabled = shareLocationEnabled ?? (isEdition ? state.alert!.shareLocation : false);
         triggers = (triggers ?? (isEdition ? state.alert!.triggers : defaultTriggerConfig)) as Map<String, dynamic>;
         alertNameCtrl.text = isEdition ? state.alert!.name : "Nueva Alerta";

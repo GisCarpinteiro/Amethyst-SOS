@@ -7,7 +7,7 @@ class FirestoreController {
   // This variable is really important since if it's null it means User is not logged in yet.
   static QueryDocumentSnapshot? user;
 
-  static Future<bool> searchAccount(String? email, String? password) async {
+  static Future<bool> getUserData(String? email, String? password) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FlutterLogs.logInfo(
         "FirestoreController", "restoreAllConfigsFromFirebase", "Retrieving Data for User with email: $email");
@@ -27,7 +27,7 @@ class FirestoreController {
       user = querySnapshot.docs[0];
       FlutterLogs.logInfo("FirestoreController", "restoreAllConfigsFromFirebase",
           "User data has been found! Logging In with data: ${user!.data()}");
-      SharedPrefsManager.restoreAllConfigsFromFirebase(password: password, email: email);
+      SharedPrefsManager.backupFromFirestoreToLocal(user!);
       return true;
     });
   }

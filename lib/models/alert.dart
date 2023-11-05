@@ -10,10 +10,10 @@ enum AlertState { disabled, inactive, active, waiting }
 
 // This class is the  model used for all the configured alarms.
 class Alert {
-  final int id;
+  final int? id;
   final String name;
   final String message;
-  final int toleranceTime; // This value can be null as is overrided by each of the specified on the triggers
+  final int toleranceSeconds; // This value can be null as is overrided by each of the specified on the triggers
   final bool shareLocation; // Share location will be disactivated by default
   final Map<String, dynamic> triggers; // Only "basic" triggers are activated by default (button and disconnection)
 
@@ -25,11 +25,11 @@ class Alert {
   static const smartwatchDisconnectionTrigger = 'smartwatch_disconnection_trigger';
 
   const Alert(
-      {required this.id,
+      {this.id,
       required this.name,
       required this.message,
-      this.toleranceTime = 30,
-      this.shareLocation = false,
+      this.toleranceSeconds = 30,
+      this.shareLocation = true,
       this.triggers = const {
         buttonTrigger: true,
         backtapTrigger: false,
@@ -40,29 +40,14 @@ class Alert {
       }});
 
   // Using jsonEncode(object) creates a String on JSON format as it follows:
-  Map toJson() => {
-        'id': id,
-        'name': name,
-        'message': message,
-        'toleranceTime': toleranceTime,
-        'shareLocation': shareLocation,
-        'triggers': triggers
-      };
+  Map toJson() => {'name': name, 'message': message, 'tolerance_seconds': toleranceSeconds, 'triggers': triggers};
 
   factory Alert.fromJson(Map<String, dynamic> data) {
-    final int id = data['id'];
     final String name = data['name'];
     final String message = data['message'];
-    final int toleranceTime = data['toleranceTime'];
-    final bool shareLocation = data['shareLocation'];
+    final int toleranceSeconds = data['tolerance_seconds'];
     final Map<String, dynamic> triggers = data['triggers'];
 
-    return Alert(
-        id: id,
-        name: name,
-        message: message,
-        toleranceTime: toleranceTime,
-        shareLocation: shareLocation,
-        triggers: triggers);
+    return Alert(name: name, message: message, toleranceSeconds: toleranceSeconds, triggers: triggers);
   }
 }

@@ -12,24 +12,20 @@ class SharedPrefsManager {
   static SharedPreferences? _sharedPrefs;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static init() {
-    restoreAllConfigsFromFirebase();
-  }
-
   // This getter is the used to acces shared preferences AKA local data copies from all other places in the APP. That's why _sharedPrefs is an static variable.
   static SharedPreferences? get instance => _sharedPrefs;
 
-  // This method is used to get all the configurations from firebase to the shared preferences variables on the app
-  static Future<bool> restoreAllConfigsFromFirebase({String? password, String? email}) async {
+  // This method receives an object with all the User data to store it locally through SharedPreferences.
+  static Future<bool> backupFromFirestoreToLocal(QueryDocumentSnapshot<Object?> user) async {
     FlutterLogs.logInfo("SharedPrefsManager", "restoreAllCongfigsFromFirebase", "Starting local backup for account");
-    String groupsData = await GroupController.getGroupsAsString(); // ! Replace with Firebase
-    String alertsData = await AlertController.getAlertsAsString(); // ! Replace with Firebase
+    String groupsData = await GroupController.getGroupsAsString(user);
+    String alertsData = await AlertController.getAlertsAsString(user); // ! Replace with Firebase
     String routinesData = await RoutineController.getRoutinesAsString(); // ! Replace with Firebase
 
     _sharedPrefs ??= await SharedPreferences.getInstance();
-    await _sharedPrefs?.setString('groups', groupsData);
-    await _sharedPrefs?.setString('alerts', alertsData);
-    await _sharedPrefs?.setString('routines', routinesData);
+    await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
+    await _sharedPrefs?.setString('alerts', alertsData == "" ? "[]" : alertsData);
+    await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
     return true;
   }
 }
