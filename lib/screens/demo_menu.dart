@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
+import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import '../resources/custom_widgets/msos_text.dart';
 
@@ -20,6 +23,7 @@ class _DemoScreenState extends State<DemoScreen> {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     //final double screenHeight = MediaQuery.of(context).size.height;
+    final provider = context.read<LoginProvider>();
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -29,31 +33,36 @@ class _DemoScreenState extends State<DemoScreen> {
             physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.fromLTRB(screenWidth * 0.12, 50, screenWidth * 0.12, 50),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  MSosText(
+                  const MSosText(
                     "Test/Demo Screen!",
                     style: MSosText.sectionTitleStyle,
                     icon: Icons.construction_outlined,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  MSosButton(
+                  const MSosButton(
                     text: "Wizard",
                     route: '/startup',
                     style: MSosButton.subMenuLargeBtn,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  MSosButton(text: "Home", route: '/home', style: MSosButton.subMenuLargeBtn),
-                  SizedBox(
+                  MSosButton(
+                    text: "Home",
+                    route: '/home',
+                    style: MSosButton.subMenuLargeBtn,
+                    callbackFunction: () => provider.logWithEmail(),
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
-                  MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.subMenuLargeBtn),
+                  const MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.subMenuLargeBtn),
                 ],
               ),
             ),

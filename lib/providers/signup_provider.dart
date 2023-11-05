@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:vistas_amatista/controller/auth_controller.dart';
+import 'package:vistas_amatista/models/user.dart';
 
-class SignUpProvider with ChangeNotifier{
+class SignUpProvider with ChangeNotifier {
   String name = "";
-  String email = ""; 
+  String email = "";
   String gender = "";
   String country = "";
   String password = "";
@@ -10,9 +12,9 @@ class SignUpProvider with ChangeNotifier{
   int birthyear = 0;
 
   // This method is used to reset the values of this provider. PASSWORD NEEDS TO BE ERRASED AS SON AS POSSIBLE
-  void cleanProvider(){
+  void cleanProvider() {
     name = "";
-    email = ""; 
+    email = "";
     gender = "";
     country = "";
     password = "";
@@ -20,21 +22,26 @@ class SignUpProvider with ChangeNotifier{
     birthyear = 0;
   }
 
-  void valuesFromFirstForm({required String name, required String email, required String password}){
+  void valuesFromFirstForm({required String name, required String email, required String password}) {
     this.name = name;
     this.email = email;
     this.password = password;
   }
 
-  void valuesFromSecondForm({required String country, required String phone, required int birthyear}){
+  void valuesFromSecondForm({required String country, required String phone, required int birthyear}) {
     this.country = country;
     this.phone = phone;
     this.birthyear = birthyear;
   }
 
-  void createAccount(){
-    // * Create an account by creating a profile on Fire Auth and also a user doc on FireStore
-    // TODO: Firestore new document entry for user collection.
+  createAccount() {
+    AuthController.createAccount(
+        user: User(
+            name: name,
+            email: email,
+            phone: phone,
+            country: country,
+            birthyear: birthyear,
+            gender: "not_implemented_yet"));
   }
-
 }

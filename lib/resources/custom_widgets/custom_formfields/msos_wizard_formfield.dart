@@ -37,6 +37,7 @@ class MSosWizardFF extends MSosFormField {
             keyboardType: inputType,
             maxLines: isMultiLine ? 6 : 1,
             minLines: 1,
+            obscureText: validation == MSosFormFieldValidation.password ? true : false,
             onTap: resetOnClick ? () => controller.text = "" : null,
             cursorColor: onFocusBorderColor,
             style: GoogleFonts.lexend(

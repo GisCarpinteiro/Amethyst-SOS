@@ -1,6 +1,6 @@
 class User {
   // We don't add the password ass a property on the model for security reasons
-  final String id;
+  final String? id;
   final String name;
   final String email;
   final String gender;
@@ -9,7 +9,7 @@ class User {
   final int? birthyear;
 
   User(
-      {required this.id,
+      {this.id,
       required this.name,
       required this.email,
       required this.gender,
@@ -17,7 +17,7 @@ class User {
       required this.phone,
       this.birthyear});
 
-  Map toJson() => {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'email': email,

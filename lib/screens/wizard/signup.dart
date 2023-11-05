@@ -31,7 +31,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     SignUpProvider provider = context.watch<SignUpProvider>();
-    provider.cleanProvider();
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -116,7 +115,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   password: passwordController.text);
                                               Navigator.pushNamed(context, '/signup2');
                                             } else {
-                                              MSosFloatingMessage.showMessage(context, message: "Datos no válidos", type: MessageType.alert);
+                                              MSosFloatingMessage.showMessage(context,
+                                                  message: "Datos no válidos", type: MessageType.alert);
                                             } // go to next screen
                                           },
                                           child: const MSosText(

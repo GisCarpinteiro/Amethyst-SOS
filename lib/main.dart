@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
-import 'package:vistas_amatista/blocs/login_blocs/login_bloc/login_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
-import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
+import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
@@ -56,11 +54,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SharedPrefsManager.init();
     return MultiBlocProvider(
       // Blocs will be replaced with providers on the road
       providers: [
-        BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => TriggerConfigBloc()),
         BlocProvider(create: (_) => AlertListBloc()),
         BlocProvider(create: (_) => AlertMenuBloc()),
@@ -72,6 +68,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => RoutineProvider()),
           ChangeNotifierProvider(create: (_) => GroupProvider()),
           ChangeNotifierProvider(create: (_) => SignUpProvider()),
+          ChangeNotifierProvider(create: (_) => LoginProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

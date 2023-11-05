@@ -64,7 +64,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CupertinoTimerPicker(mode: CupertinoTimerPickerMode.hm, onTimerDurationChanged: (Duration) {}),
+          CupertinoTimerPicker(mode: CupertinoTimerPickerMode.hm, onTimerDurationChanged: (value) => {}),
         ],
       )
     ]);

@@ -112,6 +112,7 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                                   country: countryCtrlr.text,
                                                   phone: phoneCtrlr.text,
                                                   birthyear: int.parse(birthyearCtrl.text));
+                                              provider.createAccount();
                                               Navigator.pushNamed(context, '/confirm_email');
                                             } else {
                                               ScaffoldMessenger.of(context)
