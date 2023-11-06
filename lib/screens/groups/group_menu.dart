@@ -68,7 +68,6 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
     // We read if either is the Edition Screen or the Creation Screen
     bool isEdition = state.isGroupEditionContext;
     // Inicialization of some variables for widgets that need re renderization to work
-    groupNameController.text = isEdition ? state.group.name : "Nuevo Grupo";
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
