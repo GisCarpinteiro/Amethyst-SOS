@@ -3,7 +3,6 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/alert_controller.dart';
-import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/routines_controller.dart';
 
 /* About this Class: Shared Preferences is a library used to store data locally to retrieve it later when needed*/

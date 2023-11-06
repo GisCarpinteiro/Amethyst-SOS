@@ -81,6 +81,8 @@ class MSosWizardFF extends MSosFormField {
                   return passwordValidation(value);
                 case MSosFormFieldValidation.email:
                   return emailValidation(value);
+                case MSosFormFieldValidation.phone:
+                  return phoneValidation(value);
               }
             },
           ),

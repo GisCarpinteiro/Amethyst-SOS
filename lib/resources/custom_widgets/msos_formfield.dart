@@ -13,6 +13,7 @@ enum MSosFormFieldStyle {
 enum MSosFormFieldValidation {
   password,
   email,
+  phone,
 }
 
 class MSosFormField extends StatelessWidget {
@@ -68,6 +69,14 @@ class MSosFormField extends StatelessWidget {
     }
   }
 
+  String? standardValidation(String? value) {
+    if (value != null && value != "") {
+      return null;
+    } else {
+      return "Este campo no puede estar vacío";
+    }
+  }
+
   String? passwordValidation(String? value) {
     final RegExp passwordMatchAtLeast8 = RegExp(r'^.{8,}$', caseSensitive: false, multiLine: false);
     final RegExp passwordMatchNoSpaces = RegExp(r'^[^\s]+$', caseSensitive: false, multiLine: false);
@@ -95,5 +104,15 @@ class MSosFormField extends StatelessWidget {
     } else {
       return EmailValidator.validate(value) ? null : 'Ingresa un correo válido';
     }
+  }
+
+  String? phoneValidation(String? value) {
+    final phoneNumberOfAtLeast8 = RegExp(r'^[0-9]{10}$', caseSensitive: true, multiLine: true);
+    if (value == null || value == "") {
+      return "Este campo no puede estar vacío!";
+    } else if (!phoneNumberOfAtLeast8.hasMatch(value)) {
+      return "Número telefónico inválido";
+    }
+    return null;
   }
 }

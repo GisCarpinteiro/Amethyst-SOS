@@ -14,9 +14,6 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
-/* Vista de configuración para el disparador/activador de alerta provocado
-por una desconexión a internet.*/
-
 class GroupMenuScreen extends StatefulWidget {
   const GroupMenuScreen({super.key});
 
@@ -36,22 +33,36 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    final GroupProvider state = context.watch<GroupProvider>();
+    final state = context.watch<GroupProvider>();
+    final provider = context.read<GroupProvider>();
 
+    // PopUp Menu to add a new contact
     late final MSosPopUpMenu popUpFlushMenu;
     popUpFlushMenu = MSosPopUpMenu(context, formKey: formKey, formChildren: [
       const MSosText("Nombre:"),
-      MSosFormField(controller: contactNameController, resetOnClick: true),
+      MSosFormField(
+        controller: contactNameController,
+        resetOnClick: true,
+      ),
       const MSosText("Teléfono"),
-      MSosFormField(controller: phoneController, inputType: TextInputType.phone, resetOnClick: true),
+      MSosFormField(
+        controller: phoneController,
+        inputType: TextInputType.phone,
+        resetOnClick: true,
+        validation: MSosFormFieldValidation.phone,
+      ),
     ], cancelCallbackFunc: () {
       // Reset the values from the popUp menu if cancel is pressed
       FlutterLogs.logInfo("tag", "subTag", "Canceled Action");
       contactNameController.text = "";
       phoneController.text = "";
     }, acceptCallbackFunc: () {
-      // TODO: Guardar nuevo contacto en el grupo
-      popUpFlushMenu.dismissPopUpMenu();
+      if (formKey.currentState!.validate()) {
+        popUpFlushMenu.dismissPopUpMenu();
+        if (!provider.createNewContact(contactName: contactNameController.text, phone: phoneController.text)) {
+          MSosFloatingMessage.showMessage(context, message: "El contacto ya existe", type: MessageType.alert);
+        }
+      }
     });
 
     // We read if either is the Edition Screen or the Creation Screen
@@ -132,7 +143,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                             style: MSosButton.smallButton,
                             color: MSosColors.blue,
                             callbackFunction: () {
-                              //TODO: Guardad la configuración en SharedPreferences y en Firebase
+                              provider.createGroup(newGroupName: groupNameController.text);
                             },
                           )
                         ])

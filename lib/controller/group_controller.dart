@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
@@ -14,15 +13,28 @@ class GroupController {
     // TODO
   }
 
-  static createGroup(Group newGroup) {
-    // TODO
+  static Future<bool> updateGroupListOnFirebase({required List<Group> newGroupList, required String userId}) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
+    List<Map<dynamic, dynamic>> groupListAsMaps = List.empty(growable: true);
+    for (Group group in newGroupList) {
+      groupListAsMaps.add(group.toJson());
+    }
+    users.doc(userId).update({'groups': groupListAsMaps}).then((value) {
+      FlutterLogs.logInfo("GroupController", "updateGroupListOnFirebase",
+          "The list of groups has been updated succesfully with data: $groupListAsMaps");
+      return true;
+    }).catchError((error) {
+      FlutterLogs.logError("GroupController", "updateGroupListOnFirebase",
+          "Error while trying to update the list of groups on firestore with description: $error");
+      return false;
+    });
+    return false;
   }
 
   // This method is used to extract the groups from the firestore user data document
   static Future<String> getGroupsAsString(QueryDocumentSnapshot<Object?> user) async {
     try {
       final data = jsonEncode(user.get("groups")).toString();
-      print("This is the data from firebase: $data");
       return data;
     } on StateError catch (e) {
       FlutterLogs.logWarn("GroupController", "substractGroupsAsStringFromFirestoreData",

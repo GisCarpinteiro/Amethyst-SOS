@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
@@ -29,6 +31,9 @@ class RoutineListScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
         drawer: const MSosDashboard(),
+        bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+        floatingActionButton: const MSosAlertButton(),
         body: Container(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(

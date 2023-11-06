@@ -62,11 +62,13 @@ class MSosFF extends MSosFormField {
             validator: (value) {
               switch (validation) {
                 case null:
-                  return null;
+                  return standardValidation(value);
                 case MSosFormFieldValidation.password:
                   return passwordValidation(value);
                 case MSosFormFieldValidation.email:
                   return emailValidation(value);
+                case MSosFormFieldValidation.phone:
+                  return phoneValidation(value);
               }
             },
           ),
@@ -74,5 +76,4 @@ class MSosFF extends MSosFormField {
       ),
     );
   }
-
 }

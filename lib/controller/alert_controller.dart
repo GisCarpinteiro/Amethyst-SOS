@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';

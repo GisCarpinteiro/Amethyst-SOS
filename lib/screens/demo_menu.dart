@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import '../resources/custom_widgets/msos_text.dart';
