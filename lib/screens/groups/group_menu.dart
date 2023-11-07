@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/models/contact.dart';
+import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -69,6 +70,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
     // We read if either is the Edition Screen or the Creation Screen
     bool isEdition = state.isGroupEditionContext;
     // Inicialization of some variables for widgets that need re renderization to work
+    if (groupNameController.text.isEmpty) groupNameController.text = state.group.name;
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -143,19 +145,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                             style: MSosButton.smallButton,
                             color: MSosColors.blue,
                             callbackFunction: () {
-                              // We try to create the group and send an error message if it fails to do so.
-                              provider.createGroup(newGroupName: groupNameController.text).then((response) => {
-                                    if (response != null)
-                                      {
-                                        MSosFloatingMessage.showMessage(
-                                          context,
-                                          message: response,
-                                          type: MSosMessageType.alert,
-                                        )
-                                      }
-                                    else
-                                      {Navigator.pushNamed(context, '/group_list')}
-                                  });
+                              provider.saveGroup(groupName: groupNameController.text, context: context);
                             },
                           )
                         ])

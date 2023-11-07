@@ -21,7 +21,8 @@ class GroupListScreen extends StatelessWidget {
     // We trigger the event to fetch the groups on the screen inicialization
     final GroupProvider state = context.watch<GroupProvider>();
 
-    context.read<GroupProvider>().getGroupsList();
+    final provider = context.read<GroupProvider>();
+    provider.getGroupsList();
 
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -74,9 +75,13 @@ class GroupListScreen extends StatelessWidget {
                                       itemBuilder: (BuildContext context, int index) {
                                         return MSosListItemCard(
                                             title: state.groups[index].name,
-                                            callback: () => context
-                                                .read<GroupProvider>()
-                                                .editGroupContext(context, state.groups[index]));
+                                            callback: () {
+                                              provider.editGroupContext(context, state.groups[index]);
+                                            },
+                                            deleteCallback: (){
+                                              provider.deleteGroup(targetGroup: state.groups[index]);
+                                            },
+                                            );
                                       },
                                     ),
                                   ),

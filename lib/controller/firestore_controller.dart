@@ -43,11 +43,4 @@ class FirestoreController {
         : false;
   }
 
-  static Future<bool> deleteGroup(String targetName) async {
-    return false;
-  }
-
-  static Future<bool> updateGroup(String targetName) async {
-    return false;
-  }
 }

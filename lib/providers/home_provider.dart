@@ -38,4 +38,5 @@ class HomeProvider with ChangeNotifier {
     alerts = AlertController.getAlerts();
     groups = GroupController.getGroups();
   }
+  
 }
