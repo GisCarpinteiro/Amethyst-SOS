@@ -17,7 +17,7 @@ class MSosAlertButton extends StatelessWidget {
       onPressed: () {
         if (!AlertManager.isServiceActive) return;
         // TODO: Implementar las alertaaaas!!!
-        MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MessageType.alert);
+        MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
       },
       child: Image.asset(
         'lib/resources/assets/images/alert_icon.png', // Ruta de la imagen dentro de la carpeta "assets"

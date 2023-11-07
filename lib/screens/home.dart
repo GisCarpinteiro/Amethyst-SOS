@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     title: "Servicio Activado",
                                     message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
-                                    type: MessageType.info,
+                                    type: MSosMessageType.info,
                                   );
                                   alertButtonProvider.enableAlertButton();
                                 } else {
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     title: "Algo ha fallado!",
                                     message: 'No se ha podido iniciar el servicio',
-                                    type: MessageType.alert,
+                                    type: MSosMessageType.alert,
                                   );
                                 }
                               } else {

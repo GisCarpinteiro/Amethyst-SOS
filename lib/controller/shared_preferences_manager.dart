@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/routines_controller.dart';
+import 'package:vistas_amatista/models/group.dart';
 
 /* About this Class: Shared Preferences is a library used to store data locally to retrieve it later when needed*/
 
@@ -26,5 +29,11 @@ class SharedPrefsManager {
     await _sharedPrefs?.setString('alerts', alertsData == "" ? "[]" : alertsData);
     await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
     return true;
+  }
+
+  static updateGroupList(List<Group> newGroupList) async {
+    String groupsData = jsonEncode(newGroupList).toString();
+    FlutterLogs.logInfo("SharedPrefsManager", "updateGroupList", "Updating group list locally with SharedPreferences");
+    await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
   }
 }

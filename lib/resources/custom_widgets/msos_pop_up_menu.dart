@@ -51,7 +51,16 @@ class MSosPopUpMenu {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  MSosButton(text: "Cancelar", style: MSosButton.smallButton, color: MSosColors.pink, callbackFunction: dismissPopUpMenu),
+                  MSosButton(
+                      text: "Cancelar",
+                      style: MSosButton.smallButton,
+                      color: MSosColors.pink,
+                      callbackFunction: () {
+                        if (cancelCallbackFunc != null) {
+                          cancelCallbackFunc;
+                          dismissPopUpMenu();
+                        }
+                      }),
                   if (acceptCallbackFunc != null)
                     MSosButton(
                       text: "Aceptar",

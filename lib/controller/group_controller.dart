@@ -19,7 +19,7 @@ class GroupController {
     for (Group group in newGroupList) {
       groupListAsMaps.add(group.toJson());
     }
-    users.doc(userId).update({'groups': groupListAsMaps}).then((value) {
+    return users.doc(userId).update({'groups': groupListAsMaps}).then((value) {
       FlutterLogs.logInfo("GroupController", "updateGroupListOnFirebase",
           "The list of groups has been updated succesfully with data: $groupListAsMaps");
       return true;
@@ -28,7 +28,6 @@ class GroupController {
           "Error while trying to update the list of groups on firestore with description: $error");
       return false;
     });
-    return false;
   }
 
   // This method is used to extract the groups from the firestore user data document

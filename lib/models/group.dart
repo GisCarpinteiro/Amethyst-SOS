@@ -11,7 +11,7 @@ class Group {
     required this.contacts,
   });
 
-  Map toJson() => {'id': id, 'name': name, 'contatcs': contacts};
+  Map toJson() => {'id': id, 'name': name, 'contacts': contacts};
 
   factory Group.fromJson(Map<String, dynamic> data) {
     final int id = data['id'];

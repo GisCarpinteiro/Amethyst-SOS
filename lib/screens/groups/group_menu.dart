@@ -26,6 +26,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
   final groupNameController = TextEditingController();
   final phoneController = TextEditingController();
 
+  final GlobalKey<FormState> contactFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -38,7 +39,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
 
     // PopUp Menu to add a new contact
     late final MSosPopUpMenu popUpFlushMenu;
-    popUpFlushMenu = MSosPopUpMenu(context, formKey: formKey, formChildren: [
+    popUpFlushMenu = MSosPopUpMenu(context, formKey: contactFormKey, formChildren: [
       const MSosText("Nombre:"),
       MSosFormField(
         controller: contactNameController,
@@ -57,10 +58,10 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
       contactNameController.text = "";
       phoneController.text = "";
     }, acceptCallbackFunc: () {
-      if (formKey.currentState!.validate()) {
+      if (contactFormKey.currentState!.validate()) {
         popUpFlushMenu.dismissPopUpMenu();
         if (!provider.createNewContact(contactName: contactNameController.text, phone: phoneController.text)) {
-          MSosFloatingMessage.showMessage(context, message: "El contacto ya existe", type: MessageType.alert);
+          MSosFloatingMessage.showMessage(context, message: "El contacto ya existe", type: MSosMessageType.alert);
         }
       }
     });
@@ -142,7 +143,19 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                             style: MSosButton.smallButton,
                             color: MSosColors.blue,
                             callbackFunction: () {
-                              provider.createGroup(newGroupName: groupNameController.text);
+                              // We try to create the group and send an error message if it fails to do so.
+                              provider.createGroup(newGroupName: groupNameController.text).then((response) => {
+                                    if (response != null)
+                                      {
+                                        MSosFloatingMessage.showMessage(
+                                          context,
+                                          message: response,
+                                          type: MSosMessageType.alert,
+                                        )
+                                      }
+                                    else
+                                      {Navigator.pushNamed(context, '/group_list')}
+                                  });
                             },
                           )
                         ])

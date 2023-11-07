@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
+import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 
 class GroupProvider with ChangeNotifier {
@@ -53,6 +54,8 @@ class GroupProvider with ChangeNotifier {
   Future<String?> createGroup({required String newGroupName}) async {
     //Check if the number of already existing groups doesn't exceeds 5 groups:
     if (groups.length >= 5) return "Solo puedes agregar 5 grupos como máximo";
+    //Check if theres at least one contact assigned for that group:
+    if (group.contacts.isEmpty) return "Debes de agregar al menos un contacto";
     //Check if there's not a group with the same name and also assign an id to it
     Set<int> availableIds = {1,2,3,4,5};
     for (Group existingGroup in groups){
@@ -64,11 +67,15 @@ class GroupProvider with ChangeNotifier {
     
     // We try to create it on firebase:
     if(await FirestoreController.updateGroupList(groups)){
+      // Then we update the shared preferences data to store it locally:
+      SharedPrefsManager.updateGroupList(groups);
       FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Created!!!");
     } else{
       FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been created due to an error when trying to update the firestore data");
       return "Ah ocurrido un error al guardar el grupo de forma permanente en nuestros servidores!";
     }
+    getGroupsList();
+    notifyListeners();
     return null;
   }
 }

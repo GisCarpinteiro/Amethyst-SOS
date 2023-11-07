@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               Navigator.pushNamed(context, '/signup2');
                                             } else {
                                               MSosFloatingMessage.showMessage(context,
-                                                  message: "Datos no válidos", type: MessageType.alert);
+                                                  message: "Datos no válidos", type: MSosMessageType.alert);
                                             } // go to next screen
                                           },
                                           child: const MSosText(
