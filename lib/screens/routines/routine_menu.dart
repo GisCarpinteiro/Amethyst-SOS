@@ -5,10 +5,12 @@ import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_multi_option_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 class RoutineMenuScreen extends StatefulWidget {
@@ -46,28 +48,41 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
           );
         }).toList());
 
-    state.isEditionContext ? routineNameController.text = state.targetRoutine.name : "";
+    state.isEditionContext ? routineNameController.text = state.routineName : "";
 
     selectGroupPopUpMenu = MSosPopUpMenu(context,
         title: "Grupos",
         formChildren: state.groups.map((group) {
           return MSosOptionCard(
             title: group.name,
-            isSelected: state.selectedGroup != null ? (group.id == state.selectedAlert!.id) : false,
+            isSelected: state.selectedGroup != null ? (group.id == state.selectedGroup!.id) : false,
             callback: () {
+              print(group.id);
               provider.selectGroup(group);
               selectGroupPopUpMenu.dismissPopUpMenu();
             },
           );
         }).toList());
+
     selectTimePopUpMenu = MSosPopUpMenu(context, title: "Hora de Activación", formChildren: [
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CupertinoTimerPicker(mode: CupertinoTimerPickerMode.hm, onTimerDurationChanged: (value) => {}),
+          SizedBox(
+            height: 120,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.time,
+              initialDateTime: DateTime(0, 0, 0, state.selectedTime['hour']!, state.selectedTime['min']!),
+              onDateTimeChanged: (DateTime value) =>
+                  provider.updateStartTime({"hour": value.hour, "min": value.minute}),
+            ),
+          ),
         ],
       )
-    ]);
+    ], acceptCallbackFunc: () {
+      provider.refreshView();
+      selectTimePopUpMenu.dismissPopUpMenu();
+    });
 
     provider.getRoutineList();
     return Scaffold(
@@ -91,13 +106,12 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             MSosText(
-                              state.isEditionContext ? state.targetRoutine.name : "Crear Rutina",
+                              state.isEditionContext ? state.routineName : "Crear Rutina",
                               style: MSosText.subtitleStyle,
                               icon: Icons.list,
                             ),
                             const SizedBox(height: 20),
-                            const MSosText("Nombre de la Rutina"),
-                            MSosFormField(controller: routineNameController),
+                            MSosFormField(label: "Nombre de la Rutina", controller: routineNameController),
                             const SizedBox(height: 10),
                             const MSosText("Alerta Programada"),
                             MSosMultiOptionButton(
@@ -122,7 +136,6 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                               child: ToggleButtons(
                                 direction: Axis.horizontal,
                                 onPressed: (int index) {
-                                  // All buttons are selectable.
                                   setState(() {
                                     state.selectedDays[index] = !state.selectedDays[index];
                                   });
@@ -134,7 +147,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                                 color: MSosColors.grayMedium,
                                 constraints: const BoxConstraints(
                                   minHeight: 40.0,
-                                  minWidth: 80.0,
+                                  minWidth: 40.0,
                                 ),
                                 isSelected: state.selectedDays,
                                 children: state.days,
@@ -144,9 +157,25 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                             const MSosText("Hora a la que se activa"),
                             MSosMultiOptionButton(
                                 text:
-                                    "${state.targetRoutine.startTime['hour'].toString().padLeft(2, '0')}:${state.targetRoutine.startTime['min'].toString().padLeft(2, '0')}",
+                                    "${state.selectedTime['hour'].toString().padLeft(2, '0')}:${state.selectedTime['min'].toString().padLeft(2, '0')}",
                                 callbackFunction: () => {selectTimePopUpMenu.showPopUpMenu(context)},
-                                width: 100)
+                                width: 100),
+                            const SizedBox(height: 10),
+                            MSosButton(
+                              text: "Guardar",
+                              style: MSosButton.smallButton,
+                              color: MSosColors.blue,
+                              callbackFunction: () {
+                                provider.saveRoutine(newRoutineName: routineNameController.text).then((response) {
+                                  if (response != null) {
+                                    MSosFloatingMessage.showMessage(context,
+                                        message: response, type: MSosMessageType.alert);
+                                  } else {
+                                    Navigator.pushNamed(context, "/routine_list");
+                                  }
+                                });
+                              },
+                            )
                           ]),
                     ],
                   ),

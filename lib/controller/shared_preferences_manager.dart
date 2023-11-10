@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/routines_controller.dart';
+import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
+import 'package:vistas_amatista/models/routine.dart';
 
 /* About this Class: Shared Preferences is a library used to store data locally to retrieve it later when needed*/
 
@@ -22,7 +24,7 @@ class SharedPrefsManager {
     FlutterLogs.logInfo("SharedPrefsManager", "restoreAllCongfigsFromFirebase", "Starting local backup for account");
     String groupsData = await GroupController.getGroupsAsString(user);
     String alertsData = await AlertController.getAlertsAsString(user); // ! Replace with Firebase
-    String routinesData = await RoutineController.getRoutinesAsString(); // ! Replace with Firebase
+    String routinesData = await RoutineController.getRoutinesAsString(user); // ! Replace with Firebase
 
     _sharedPrefs ??= await SharedPreferences.getInstance();
     await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
@@ -36,4 +38,17 @@ class SharedPrefsManager {
     FlutterLogs.logInfo("SharedPrefsManager", "updateGroupList", "Updating group list locally with SharedPreferences");
     await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
   }
+
+  static updateRoutineList(List<Routine> newRoutineList) async {
+    String routinesData = jsonEncode(newRoutineList).toString();
+    FlutterLogs.logInfo("SharedPrefsManager", "updateRoutineList", "Updating routine list locally with SharedPreferences");
+    await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
+  }
+
+  static updateAlertList(List<Alert> newAlertList) async {
+    String alertData = jsonEncode(newAlertList).toString();
+    FlutterLogs.logInfo("SharedPrefsManager", "updateAlertList", "Updating alert list locally with SharedPreferences");
+    await _sharedPrefs?.setString('alerts', alertData == "" ? "[]" : alertData);
+  }
+
 }

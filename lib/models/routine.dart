@@ -40,8 +40,8 @@ class Routine {
   factory Routine.fromJson(Map<String, dynamic> data) {
     final int id = data['id'];
     final String name = data['name'];
-    final int alertId = data['alert_id'];
-    final int groupId = data['group_id'];
+    final int alertId = data['alert'];
+    final int groupId = data['group'];
     final Map<String, dynamic> days = data['days'];
     final Map<String, dynamic> startTime = data['start_time'];
     final int durationMinutes = data['duration_minutes'];

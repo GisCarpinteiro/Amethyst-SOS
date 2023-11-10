@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
+import 'package:vistas_amatista/controller/routines_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
+import 'package:vistas_amatista/models/routine.dart';
 
 // This class is used to retrieve, create and delete the full document data for a certain User on firestore.
 class FirestoreController {
@@ -40,6 +42,13 @@ class FirestoreController {
     // Check if logged, if yes, then we proceed with the creation.
     return loggedUserId != null
         ? await GroupController.updateGroupListOnFirebase(newGroupList: newGroupList, userId: loggedUserId!)
+        : false;
+  }
+
+  static Future<bool> updateRoutineList(List<Routine> newRoutineList) async {
+    // Check if logged, if yes, then we proceed with the creation.
+    return loggedUserId != null
+        ? await RoutineController.updateRotineListOnFirebase(newRoutineList: newRoutineList, userId: loggedUserId!)
         : false;
   }
 

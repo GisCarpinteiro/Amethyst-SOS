@@ -21,11 +21,12 @@ class MSosFF extends MSosFormField {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          label != null ? MSosText(" $label") : const SizedBox(height: 0), // We add the title only if defined.
+          label != null ? MSosText(" $label") : const SizedBox(height: 0),
+          const SizedBox(height: 5),
           TextFormField(
             // TextFormField widget can only have a controller or an initial value, so we have to make sure one takes over the other if both passed as parameters, in this case controller has priority
             controller: controller,

@@ -55,12 +55,7 @@ class MSosPopUpMenu {
                       text: "Cancelar",
                       style: MSosButton.smallButton,
                       color: MSosColors.pink,
-                      callbackFunction: () {
-                        if (cancelCallbackFunc != null) {
-                          cancelCallbackFunc;
-                          dismissPopUpMenu();
-                        }
-                      }),
+                      callbackFunction: dismissPopUpMenu),
                   if (acceptCallbackFunc != null)
                     MSosButton(
                       text: "Aceptar",

@@ -1,6 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/routine.dart';
@@ -9,17 +9,36 @@ class RoutineController {
   // Restores all the data from the data base upon login
   static restoreAll() {}
 
-  static updateRotine() {
-    // TODO
+  static updateRotineListOnFirebase({required List<Routine> newRoutineList, required String userId}) {
+    // We need a reference for the users collection
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
+    // Firebase only accepts maps so we need to convert the list of routines to a list of maps
+    List<Map<dynamic, dynamic>> routinesListAsMaps = List.empty(growable: true);
+    for (Routine routine in newRoutineList){
+      routinesListAsMaps.add(routine.toJson());
+    }
+    // We send the request to firebase with the list of routines as maps
+    return users.doc(userId).update({'routines': routinesListAsMaps}).then((value){
+      FlutterLogs.logInfo("RoutinesController", "updateRoutinesListOnFirebase",
+          "The list of routines has been updated succesfully with data: $routinesListAsMaps");
+      return true;
+    }).catchError((error){
+      FlutterLogs.logError("RoutinesController", "RoutinesGroupListOnFirebase",
+          "Error while trying to update the list of routines on firestore with description: $error");
+      return false;
+    });
   }
 
-  static createRoutine(Routine newRoutine) {
-    // TODO
-  }
 
-  static Future<String> getRoutinesAsString() async {
-    // TODO: Hacer la implementación para que funcione con una consulta a firebase y no a los JSONs jaja
-    return rootBundle.loadString('lib/data/routines.json');
+  static Future<String> getRoutinesAsString(QueryDocumentSnapshot<Object?> user) async {
+    try {
+      final data = jsonEncode(user.get("routines")).toString();
+      return data;
+    } on StateError catch(e){
+      FlutterLogs.logWarn("RoutinesController", "getRoutinesAsString",
+          "Couln't get routines from firebase with exception: ${e.message}");
+    }
+    return "";
   }
 
   static List<Routine> getRoutines() {

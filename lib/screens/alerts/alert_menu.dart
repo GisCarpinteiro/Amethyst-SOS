@@ -89,13 +89,13 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                               Form(
                                 key: _formKey,
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                  const MSosText("Nombre de la Alerta"),
                                   MSosFormField(
+                                    label: "Nombre de la Alerta",
                                     controller: alertNameCtrl,
                                   ),
                                   const SizedBox(height: 10),
-                                  const MSosText("Mensaje de Auxilio"),
                                   MSosFormField(
+                                    label: "Mensaje de auxilio",
                                     isMultiLine: true,
                                     controller: messageCtrl,
                                   ),

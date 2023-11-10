@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/models/contact.dart';
-import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';

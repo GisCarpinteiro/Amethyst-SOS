@@ -112,7 +112,7 @@ class GroupProvider with ChangeNotifier {
     if (finalList.remove(targetGroup)) {
       // Then we try to remove it on firestore
       if (await FirestoreController.updateGroupList(finalList)) {
-        // if removed succesfully on firestore then we delete it locally to.
+        // if removed succesfully on firestore then we delete it locally too.
         groups = finalList;
         SharedPrefsManager.updateGroupList(groups);
         FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Deleted!!!");

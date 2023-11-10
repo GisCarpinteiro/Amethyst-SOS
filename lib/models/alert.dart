@@ -40,14 +40,16 @@ class Alert {
       }});
 
   // Using jsonEncode(object) creates a String on JSON format as it follows:
-  Map toJson() => {'name': name, 'message': message, 'tolerance_seconds': toleranceSeconds, 'triggers': triggers};
+  Map toJson() =>
+      {'id': id, 'name': name, 'message': message, 'tolerance_seconds': toleranceSeconds, 'triggers': triggers};
 
   factory Alert.fromJson(Map<String, dynamic> data) {
+    final int id = data['id'];
     final String name = data['name'];
     final String message = data['message'];
     final int toleranceSeconds = data['tolerance_seconds'];
     final Map<String, dynamic> triggers = data['triggers'];
 
-    return Alert(name: name, message: message, toleranceSeconds: toleranceSeconds, triggers: triggers);
+    return Alert(id: id, name: name, message: message, toleranceSeconds: toleranceSeconds, triggers: triggers);
   }
 }

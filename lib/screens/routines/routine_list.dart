@@ -73,10 +73,12 @@ class RoutineListScreen extends StatelessWidget {
                                       ),
                                       itemBuilder: (BuildContext context, int index) {
                                         return MSosListItemCard(
-                                            title: state.routines[index].name,
-                                            callback: () => context
-                                                .read<RoutineProvider>()
-                                                .editRoutineContext(context, state.routines[index]));
+                                          title: state.routines[index].name,
+                                          callback: () => context
+                                              .read<RoutineProvider>()
+                                              .editRoutineContext(context, state.routines[index]),
+                                          deleteCallback: () => {provider.deleteRoutine(state.routines[index])},
+                                        );
                                       },
                                     ),
                                   ),
@@ -91,6 +93,14 @@ class RoutineListScreen extends StatelessWidget {
                             ),
                             const MSosText(
                               "Las rutinas te permiten habilitar una alerta con un grupo en específico de forma programada en días y horas a las que sueles salir a la calle frecuentemente",
+                              size: 12,
+                              style: MSosText.infoStyle,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const MSosText(
+                              "Las configuraciones como el tiempo de tolerancia o el tiempo de desactivación programada del servicio dependerán de lo que se haya configurado en la alerta seleccionada",
                               size: 12,
                               style: MSosText.infoStyle,
                             ),
