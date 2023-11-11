@@ -6,12 +6,6 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 
 class GroupController {
-  // Restores all the data from the data base upon login
-  static restoreAll() {}
-
-  static updateGroup() {
-    // TODO
-  }
 
   static Future<bool> updateGroupListOnFirebase({required List<Group> newGroupList, required String userId}) async {
     CollectionReference users = FirebaseFirestore.instance.collection('User');

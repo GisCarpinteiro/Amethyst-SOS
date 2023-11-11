@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
 import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
+import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
@@ -68,7 +69,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => RoutineProvider()),
           ChangeNotifierProvider(create: (_) => GroupProvider()),
           ChangeNotifierProvider(create: (_) => SignUpProvider()),
-          ChangeNotifierProvider(create: (_) => LoginProvider())
+          ChangeNotifierProvider(create: (_) => LoginProvider()),
+          ChangeNotifierProvider(create: (_) => AlertProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

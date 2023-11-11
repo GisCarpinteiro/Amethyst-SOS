@@ -23,8 +23,8 @@ class SharedPrefsManager {
   static Future<bool> backupFromFirestoreToLocal(QueryDocumentSnapshot<Object?> user) async {
     FlutterLogs.logInfo("SharedPrefsManager", "restoreAllCongfigsFromFirebase", "Starting local backup for account");
     String groupsData = await GroupController.getGroupsAsString(user);
-    String alertsData = await AlertController.getAlertsAsString(user); // ! Replace with Firebase
-    String routinesData = await RoutineController.getRoutinesAsString(user); // ! Replace with Firebase
+    String alertsData = await AlertController.getAlertsAsString(user); 
+    String routinesData = await RoutineController.getRoutinesAsString(user);
 
     _sharedPrefs ??= await SharedPreferences.getInstance();
     await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
