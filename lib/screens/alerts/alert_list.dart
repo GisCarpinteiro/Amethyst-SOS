@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
-import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -10,7 +8,6 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado

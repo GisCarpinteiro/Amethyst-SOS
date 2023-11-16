@@ -34,14 +34,16 @@ class SignUpProvider with ChangeNotifier {
     this.birthyear = birthyear;
   }
 
-  createAccount() {
-    AuthController.createAccount(
-        user: User(
-            name: name,
-            email: email,
-            phone: phone,
-            country: country,
-            birthyear: birthyear,
-            gender: "not_implemented_yet"));
+  Future<bool> createAccount() async {
+    return await AuthController.createAccount(
+      password: password,
+      user: User(
+          name: name,
+          email: email,
+          phone: phone,
+          country: country,
+          birthyear: birthyear,
+          gender: "not_implemented_yet"),
+    );
   }
 }

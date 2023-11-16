@@ -96,7 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             label: 'Confirmar Contraseña',
                                             controller: confirmPasswordController,
                                             style: MSosFormFieldStyle.wizard,
-                                            icon: FontAwesomeIcons.lock),
+                                            icon: FontAwesomeIcons.lock,
+                                            validation: MSosFormFieldValidation.password),
                                       ],
                                     ),
                                   ),
@@ -109,11 +110,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                           onPressed: () {
                                             if (_formKey.currentState!.validate()) {
-                                              provider.valuesFromFirstForm(
+                                              if (passwordController.text == confirmPasswordController.text){
+                                                provider.valuesFromFirstForm(
                                                   name: nameController.text,
                                                   email: emailController.text,
                                                   password: passwordController.text);
-                                              Navigator.pushNamed(context, '/signup2');
+                                                Navigator.pushNamed(context, '/signup2');
+                                              } else {
+                                                MSosFloatingMessage.showMessage(context, message: "La contraseña no coincide con su confirmación!");
+                                              }
                                             } else {
                                               MSosFloatingMessage.showMessage(context,
                                                   message: "Datos no válidos", type: MSosMessageType.alert);

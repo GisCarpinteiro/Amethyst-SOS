@@ -55,8 +55,11 @@ class MSosButton extends StatelessWidget {
                   backgroundColor: color,
                 ),
                 onPressed: () {
-                  if (callbackFunction != null) callbackFunction!();
-                  Navigator.pushNamed(context, route ?? './not_found'); // go to next screen
+                  if (callbackFunction != null) {
+                    callbackFunction!();
+                  } else {
+                    Navigator.pushNamed(context, route ?? './not_found');
+                  } // go to next screen
                 },
                 child: MSosText(
                   text,

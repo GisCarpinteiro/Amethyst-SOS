@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
@@ -20,6 +22,8 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
+    final provider = context.read<GroupProvider>();
+
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       body: Container(
@@ -38,12 +42,10 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
                     Container(
                       height: screenHeight * 0.85,
                       width: screenWidth,
-                      decoration: BoxDecoration(
-                          color: MSosColors.white, borderRadius: BorderRadius.circular(20)),
+                      decoration: BoxDecoration(color: MSosColors.white, borderRadius: BorderRadius.circular(20)),
                       // ---------------> This column could be seen as the actual content body of this view template
                       child: Padding(
-                        padding:
-                            EdgeInsets.fromLTRB(screenWidth * 0.12, 30, screenWidth * 0.12, 50),
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.12, 30, screenWidth * 0.12, 50),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -53,20 +55,21 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
                               style: MSosText.wizardTitleStyle,
                             ),
                             ClipRect(
-                              child: Image.asset('lib/assets/trust_group.png', fit: BoxFit.cover),
+                              child: Image.asset('lib/resources/assets/images/trust_group.png', fit: BoxFit.cover),
                             ),
                             const MSosText(
                               'Puedes agregar varios contactos a un grupo de confianza para notificarlos de forma simultánea cuando actives una alerta',
                               style: MSosText.normalStyle,
                             ),
-                            const Column(
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 //TODO: Redirigir a la vista de configuración de grupos de confianza cuándo esté implementado
                                 MSosButton(
-                                    text: 'Crear Grupo',
-                                    route: '/not_found',
-                                    style: MSosButton.continueLargeBtn)
+                                  text: 'Crear Grupo',
+                                  style: MSosButton.continueLargeBtn,
+                                  callbackFunction: () => provider.newGroupContext(context),
+                                )
                               ],
                             ),
                           ],

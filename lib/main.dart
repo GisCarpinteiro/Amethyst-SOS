@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:provider/provider.dart';
-import 'package:vistas_amatista/blocs/alert_blocs/alert_list/alert_list_bloc.dart';
-import 'package:vistas_amatista/blocs/alert_blocs/alert_menu/alert_menu_bloc.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
@@ -35,9 +33,6 @@ import 'package:vistas_amatista/screens/logging/startup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-/* Esta es la clase Main de la aplicación, en ella definimos las rutas por medio 
-de las cuales podemos acceder a las otras vistas */
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -59,8 +54,6 @@ class MyApp extends StatelessWidget {
       // Blocs will be replaced with providers on the road
       providers: [
         BlocProvider(create: (_) => TriggerConfigBloc()),
-        BlocProvider(create: (_) => AlertListBloc()),
-        BlocProvider(create: (_) => AlertMenuBloc()),
       ],
       child: MultiProvider(
         providers: [

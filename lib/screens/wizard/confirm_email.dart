@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import '../../resources/custom_widgets/msos_button.dart';
 import '../../resources/custom_widgets/msos_text.dart';
@@ -23,6 +25,7 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    final provider = context.read<SignUpProvider>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false, //Used to not resize when keyboard appears
@@ -83,10 +86,16 @@ class _StartupScreenState extends State<ConfirmEmailScreen> {
                               
                             ],
                           ),
-                          const MSosButton(
+                          MSosButton(
                                 text: 'Verificar',
-                                route: '/emergency_message_wizard',
                                 style: MSosButton.continueLargeBtn,
+                                callbackFunction: () {
+                                  provider.createAccount().then((successful){
+                                    if (successful){
+                                      Navigator.pushNamed(context, '/emergency_message_wizard');
+                                    }
+                                  });
+                                } ,
                           ),
                         ],
                       ),

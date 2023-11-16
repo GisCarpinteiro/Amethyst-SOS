@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -84,13 +85,14 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                           style: MSosFormFieldStyle.wizard,
                                           inputType: TextInputType.phone,
                                           icon: FontAwesomeIcons.phone,
+                                          validation: MSosFormFieldValidation.phone,
                                         ),
                                         const SizedBox(height: 10),
                                         const CustomDropDownWidget(label: 'Género', items: items),
                                         const SizedBox(height: 10),
                                         // TODO: Podríamos cambiarlo por un multiselect "aunque no es 100% necesario"
                                         MSosFormField(
-                                          label: 'Fecha de Nacimiento',
+                                          label: 'Año de nacimiento',
                                           controller: birthyearCtrl,
                                           style: MSosFormFieldStyle.wizard,
                                           icon: FontAwesomeIcons.cakeCandles,
@@ -112,11 +114,10 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                                   country: countryCtrlr.text,
                                                   phone: phoneCtrlr.text,
                                                   birthyear: int.parse(birthyearCtrl.text));
-                                              provider.createAccount();
                                               Navigator.pushNamed(context, '/confirm_email');
                                             } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(content: Text('Datos Inválidos')));
+                                              MSosFloatingMessage.showMessage(context,
+                                                  message: "Datos inválidos!", type: MSosMessageType.alert);
                                             } // go to next screen
                                           },
                                           child: const MSosText(

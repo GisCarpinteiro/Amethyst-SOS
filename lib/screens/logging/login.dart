@@ -121,7 +121,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                         backgroundColor: MSosColors.transparent,
                                         fixedSize: Size(screenWidth * 0.6, 44)),
                                     onPressed: () {
-                                      context.watch<SignUpProvider>().cleanProvider();
                                       Navigator.pushNamed(context, '/signup');
                                     },
                                     child: const MSosText(
