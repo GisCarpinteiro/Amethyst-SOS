@@ -109,7 +109,6 @@ class MyApp extends StatelessWidget {
               builder: (context) => const NotFoundScreen(),
             );
           },
-
         ),
       ),
     );
@@ -118,7 +117,6 @@ class MyApp extends StatelessWidget {
 
 // Enabling The use of logs on app
 Future<void> initialSetup() async {
-  
   await SharedPrefsManager.initSharedPreferencesInstance();
   await FlutterLogs.initLogs(
       logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],

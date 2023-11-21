@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
+import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_micro_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
@@ -78,22 +80,33 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const MSosText(
-                        "Mapa de Riesgos",
-                        style: MSosText.subtitleStyle,
-                      ),
-                      const Placeholder(
-                        fallbackHeight: 180,
-                        color: MSosColors.grayMedium,
-                      ),
+                      // const MSosText(
+                      //   "Mapa de Riesgos",
+                      //   style: MSosText.subtitleStyle,
+                      // ),
+                      // const Placeholder(
+                      //   fallbackHeight: 180,
+                      //   color: MSosColors.grayMedium,
+                      // ),
                       const SizedBox(height: 20),
                       const MSosText(
-                        "Indicadores",
+                        "disparadores",
                         style: MSosText.subtitleStyle,
                       ),
-                      const Placeholder(
-                        fallbackHeight: 140,
-                        color: MSosColors.grayMedium,
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                child: MSosMicroButton(
+                                  textColor: MSosColors.grayDark,
+                                  backgroundActiveColor: MSosColors.blue,
+                                ),
+                              )
+                            ],
+                          ),
+                          const Row(),
+                        ],
                       ),
                       const SizedBox(height: 20),
                       const MSosText(
@@ -104,7 +117,6 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // TODO: Hacer que ambos botones invoquen el menú flotante
                           MSosButton(
                             text: state.alerts.isEmpty ? "" : state.alerts[state.selectedAlert].name,
                             style: MSosButton.multiOptionButton,
@@ -124,8 +136,7 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             callbackFunction: () {
-                              FlutterLogs.logInfo(
-                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
+                              FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
@@ -164,6 +175,5 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             )));
-    // TODO: Crear navBar 😞
   }
 }
