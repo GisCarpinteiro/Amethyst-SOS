@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/controller/firestore_controller.dart';

@@ -158,8 +158,8 @@ class RoutineProvider with ChangeNotifier {
       // If succesfull then we update shared preferences data locally:
       SharedPrefsManager.updateRoutineList(routinesCopy);
       isEditionContext
-          ? FlutterLogs.logInfo("RoutineProvider", "saveRoutine", "SUCCESS the group has been updated!!!")
-          : FlutterLogs.logInfo("RoutineProvider", "saveRoutine", "SUCCESS the group has been created!!!");
+          ? FlutterLogs.logInfo("RoutineProvider", "saveRoutine", "SUCCESS the routine has been updated!!!")
+          : FlutterLogs.logInfo("RoutineProvider", "saveRoutine", "SUCCESS the routine has been created!!!");
       notifyListeners();
       return null;
     } else {

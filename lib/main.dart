@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:provider/provider.dart';
 import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
+import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
+import 'package:vistas_amatista/providers/app_settings_provider.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
@@ -12,6 +14,7 @@ import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/providers/signup_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
+import 'package:vistas_amatista/screens/configurations/app_settings.dart';
 import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/groups/group_menu.dart';
 import 'package:vistas_amatista/screens/routines/routine_list.dart';
@@ -64,6 +67,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SignUpProvider()),
           ChangeNotifierProvider(create: (_) => LoginProvider()),
           ChangeNotifierProvider(create: (_) => AlertProvider()),
+          ChangeNotifierProvider(create: (_) => AppSettingsProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -96,6 +100,7 @@ class MyApp extends StatelessWidget {
             '/group_menu': (context) => const GroupMenuScreen(),
             '/routine_list': (context) => const RoutineListScreen(),
             '/routine_menu': (context) => const RoutineMenuScreen(),
+            '/app_settings': (context) => const AppSettingsScreen(),
           },
           initialRoute: '/test_demo',
           //This allow us to define a default page when an unexisting route is requested
@@ -104,6 +109,7 @@ class MyApp extends StatelessWidget {
               builder: (context) => const NotFoundScreen(),
             );
           },
+
         ),
       ),
     );
@@ -112,6 +118,8 @@ class MyApp extends StatelessWidget {
 
 // Enabling The use of logs on app
 Future<void> initialSetup() async {
+  
+  await SharedPrefsManager.initSharedPreferencesInstance();
   await FlutterLogs.initLogs(
       logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
       timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,

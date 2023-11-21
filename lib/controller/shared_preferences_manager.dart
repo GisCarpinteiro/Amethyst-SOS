@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:secure_shared_preferences/secure_shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/alert_controller.dart';
@@ -14,10 +15,17 @@ import 'package:vistas_amatista/models/routine.dart';
 
 class SharedPrefsManager {
   static SharedPreferences? _sharedPrefs;
+  static SecureSharedPref? _secureSharedPreferences;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
+  static initSharedPreferencesInstance() async {
+    _secureSharedPreferences = await SecureSharedPref.getInstance();
+    _sharedPrefs = await SharedPreferences.getInstance();
+  }
 
   // This getter is the used to acces shared preferences AKA local data copies from all other places in the APP. That's why _sharedPrefs is an static variable.
-  static SharedPreferences? get instance => _sharedPrefs;
+  static SharedPreferences? get sharedInstance => _sharedPrefs;
+  static SecureSharedPref? get secureSharedInstance => _secureSharedPreferences;
 
   // This method receives an object with all the User data to store it locally through SharedPreferences.
   static Future<bool> backupFromFirestoreToLocal(QueryDocumentSnapshot<Object?> user) async {
@@ -25,11 +33,15 @@ class SharedPrefsManager {
     String groupsData = await GroupController.getGroupsAsString(user);
     String alertsData = await AlertController.getAlertsAsString(user); 
     String routinesData = await RoutineController.getRoutinesAsString(user);
-
+    
     _sharedPrefs ??= await SharedPreferences.getInstance();
     await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
     await _sharedPrefs?.setString('alerts', alertsData == "" ? "[]" : alertsData);
     await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
+    await _sharedPrefs?.setString('name', user.get("name"));
+    await _sharedPrefs?.setString('email', user.get("email"));
+    await _sharedPrefs?.setString('phone', user.get("phone"));
+
     return true;
   }
 

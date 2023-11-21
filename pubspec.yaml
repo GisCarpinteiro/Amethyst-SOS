@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   shared_preferences: ^2.2.1
+  secure_shared_preferences: ^0.0.4
   bloc: ^8.1.2
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2

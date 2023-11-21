@@ -25,6 +25,26 @@ class AlertManager {
 
   static Duration? programmedDesactivationTime;
 
+  // static testBackend() async {
+  //   final url = 'http://10.0.2.2:3000/services/disconnection/init';
+  //   Map<String, dynamic> data = {
+  //     "message": "Necesito tu ayuda!",
+  //     "phone_list": ["3314237139", "3314237139"],
+  //     "location": "NOT_IMPLEMENTED",
+  //     "user_id": "thisIsACustomId"
+  //   };
+
+  //   String json = jsonEncode(data);
+
+  //   try {
+  //     http.Response response = await http.post(Uri.parse(url),
+  //         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'}, body: json);
+  //     print('La respuesta del servidor fué: ${response.body}');
+  //   } catch (e) {
+  //     print('Error al enviar la solicitud: $e');
+  //   }
+  // }
+
   // This method is used when starting service from the Home Screen and pressing the start service Button
   static Future<bool> initServiceManually() async {
     // Verify that there's an alert selected

@@ -53,15 +53,22 @@ class _DemoScreenState extends State<DemoScreen> {
                     height: 20,
                   ),
                   MSosButton(
-                    text: "Home",
-                    route: '/home',
-                    style: MSosButton.subMenuLargeBtn,
-                    callbackFunction: () => provider.logWithEmail(),
-                  ),
+                      text: "Home",
+                      style: MSosButton.subMenuLargeBtn,
+                      callbackFunction: () {
+                        provider.logWithEmail();
+                        Navigator.pushNamed(context, '/home');
+                      }),
                   const SizedBox(
                     height: 20,
                   ),
-                  const MSosButton(text: "Account Settings", route: '/routine_list', style: MSosButton.subMenuLargeBtn),
+                  MSosButton(
+                    text: "Test de RestAPI",
+                    style: MSosButton.subMenuLargeBtn,
+                    callbackFunction: () {
+                      // AlertManager.testBackend();
+                    },
+                  ),
                 ],
               ),
             ),

@@ -24,16 +24,29 @@ class AlertController {
     return "";
   }
 
-  // This method adds a new alert to local alerts data
-  static addAlert(Alert newAlert) {}
-
-  static deleteAlert(int id) {
-    // TODO: eliminar alerta
+  static updateAlertListOnFirebase({required List<Alert> newAlertList, required String userId}) {
+    // We need a reference for the users collection
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
+    // Firebase only accepts maps so we need to convert the list of routines to a list of maps
+    List<Map<dynamic, dynamic>> alertsListAsMaps = List.empty(growable: true);
+    for (Alert alert in newAlertList) {
+      alertsListAsMaps.add(alert.toJson());
+    }
+    //Then we send te request to firebase we the list of alerts as maps
+    return users.doc(userId).update({'alerts': alertsListAsMaps}).then((value) {
+      FlutterLogs.logInfo("AlertsController", "updateAlertsListOnFirebase",
+          "The list of alerts has been updated succesfully with data: $alertsListAsMaps");
+      return true;
+    }).catchError((error) {
+      FlutterLogs.logError("AlertsController", "AlertsGroupListOnFirebase",
+          "Error while trying to update the list of alerts on firestore with description: $error");
+      return false;
+    });
   }
 
   // We get all the values from JSON configs
   static List<Alert> getAlerts() {
-    SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
+    SharedPreferences? sharedPreferences = SharedPrefsManager.sharedInstance;
     List<Alert> alerts = List.empty(growable: true);
 
     String? alertsAsString = sharedPreferences?.getString('alerts');

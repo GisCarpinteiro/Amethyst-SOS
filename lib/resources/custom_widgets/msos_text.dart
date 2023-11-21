@@ -25,7 +25,14 @@ class MSosText extends StatelessWidget {
   final bool? isMultiline;
 
   const MSosText(this.text,
-      {super.key, this.isMultiline, this.size, this.style, this.icon, this.iconSize = 28, this.textColor, this.isCentered = false});
+      {super.key,
+      this.isMultiline,
+      this.size,
+      this.style,
+      this.icon,
+      this.iconSize = 28,
+      this.textColor,
+      this.isCentered = false});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +124,7 @@ class MSosText extends StatelessWidget {
         }
       case MSosText.subtitleStyle:
         return Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: Row(
             children: [
               if (icon != null)
@@ -137,7 +144,7 @@ class MSosText extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                     color: textColor ?? MSosColors.grayDark,
-                  ))),
+                  )), ), 
             ],
           ),
         );

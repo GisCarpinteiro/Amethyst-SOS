@@ -8,6 +8,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_list_item_card.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado
@@ -74,7 +75,15 @@ class AlertSettingsScreen extends StatelessWidget {
                                       Navigator.pushNamed(context, '/alert_menu');
                                     },
                                     deleteCallback: () {
-                                      final result = provider.deleteAlert(state.alerts[index]);
+                                      provider.deleteAlert(state.alerts[index]).then((value) {
+                                        if (value != null) {
+                                          MSosFloatingMessage.showMessage(context,
+                                              message: value, type: MSosMessageType.alert);
+                                        } else {
+                                          MSosFloatingMessage.showMessage(context,
+                                              message: "Alerta eliminada", type: MSosMessageType.info);
+                                        }
+                                      });
                                     },
                                   );
                                 },

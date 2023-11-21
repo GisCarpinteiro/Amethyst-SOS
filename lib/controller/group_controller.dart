@@ -6,7 +6,6 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 
 class GroupController {
-
   static Future<bool> updateGroupListOnFirebase({required List<Group> newGroupList, required String userId}) async {
     CollectionReference users = FirebaseFirestore.instance.collection('User');
     List<Map<dynamic, dynamic>> groupListAsMaps = List.empty(growable: true);
@@ -37,7 +36,7 @@ class GroupController {
   }
 
   static List<Group> getGroups() {
-    SharedPreferences? sharedPreferences = SharedPrefsManager.instance;
+    SharedPreferences? sharedPreferences = SharedPrefsManager.sharedInstance;
     List<Group> groups = List.empty(growable: true);
 
     // TODO: (Gisel) Si no puede obtener datos de shared preferences (no un arreglo vacío sino null) debemos de intentar restaruar shared preferences o mostrar un error

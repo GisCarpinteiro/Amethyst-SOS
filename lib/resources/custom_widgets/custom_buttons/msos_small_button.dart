@@ -9,12 +9,11 @@ class MsosSmallButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback callbackFunction;
 
-
   const MsosSmallButton(
       {super.key,
       required this.text,
       this.color = MSosColors.blue,
-      this.foregroundColor = Colors.white,
+      this.foregroundColor = MSosColors.grayDark,
       this.icon,
       required this.callbackFunction});
 
@@ -23,14 +22,16 @@ class MsosSmallButton extends StatelessWidget {
     return TextButton(
       onPressed: callbackFunction,
       style: TextButton.styleFrom(
-          elevation: 2,
-          shadowColor: MSosColors.grayLight,
-          backgroundColor: color,
-          foregroundColor: foregroundColor),
+        elevation: 2,
+        shadowColor: MSosColors.grayLight,
+        backgroundColor: color,
+        foregroundColor: foregroundColor,
+      ),
       child: MSosText(
         text,
         style: MSosText.buttonStyle,
         size: 14,
+        textColor: foregroundColor,
       ),
     );
   }

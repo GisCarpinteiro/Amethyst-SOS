@@ -10,6 +10,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 /* Vista de configuración para el disparador/activador de alerta provocado
@@ -26,8 +27,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
   //Key used for the login formulary
   final _formKey = GlobalKey<FormState>();
   // FormField Controllers:
-  final alertNameCtrl = TextEditingController();
-  final messageCtrl = TextEditingController();
+
   // Utility Variables to Build the status
 
   @override
@@ -41,8 +41,6 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
     // We read if either is the Edition Screen or the Creation Screen
     bool isEdition = state.isAlertEditionContext;
     // Initialize some values if is an edition of an existing alert or the creation of a new one
-    alertNameCtrl.text = isEdition ? state.name : "Nueva Alerta";
-    messageCtrl.text = isEdition ? state.message : "Necesito tu Ayuda!";
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -66,7 +64,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           MSosText(
-                            isEdition ? state.name : "Crear Alerta",
+                            isEdition ? state.alertNameCtrl.text : "Crear Alerta",
                             style: MSosText.subtitleStyle,
                             icon: Icons.add_circle_rounded,
                           ),
@@ -76,13 +74,13 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                               MSosFormField(
                                 label: "Nombre de la Alerta",
-                                controller: alertNameCtrl,
+                                controller: state.alertNameCtrl,
                               ),
                               const SizedBox(height: 10),
                               MSosFormField(
                                 label: "Mensaje de auxilio",
                                 isMultiLine: true,
-                                controller: messageCtrl,
+                                controller: state.messageCtrl,
                               ),
                               const SizedBox(height: 10),
                               const MSosText("Tiempo de tolerancia"),
@@ -314,12 +312,15 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                 text: isEdition ? "Guardar" : "Crear",
                                 style: MSosButton.smallButton,
                                 color: MSosColors.blue,
-                                callbackFunction: () {
-                                  // We Build The Aler Item on Creation.
-                                  if (isEdition) {
-                                  } else {
-                                    // We update the values for the alert with the same ID
-                                  }
+                                callbackFunction: () async {
+                                  provider.saveAlert().then((errorMessage) {
+                                    if (errorMessage != null) {
+                                      MSosFloatingMessage.showMessage(context,
+                                          message: errorMessage, type: MSosMessageType.alert);
+                                    } else {
+                                      Navigator.pushNamed(context, '/alert_list');
+                                    }
+                                  });
                                 },
                               )
                             ]),

@@ -16,8 +16,8 @@ class MSosMultiOptionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: callbackFunction,
-      style:
-          TextButton.styleFrom(elevation: 2, shadowColor: MSosColors.grayLight, backgroundColor: color, foregroundColor: foregroundColor),
+      style: TextButton.styleFrom(
+          elevation: 2, shadowColor: MSosColors.grayLight, backgroundColor: color, foregroundColor: foregroundColor),
       child: SizedBox(
         width: width,
         child: Row(

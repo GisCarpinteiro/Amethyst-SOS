@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/routines_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
+import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/models/routine.dart';
 import 'package:vistas_amatista/models/user.dart';
@@ -54,6 +56,10 @@ class FirestoreController {
       FlutterLogs.logInfo("FirestoreController", "restoreAllConfigsFromFirebase",
           "User data has been found! Logging In with data: ${user!.data()}");
       SharedPrefsManager.backupFromFirestoreToLocal(user!);
+      final secureSharedPrefs = SharedPrefsManager.secureSharedInstance;
+      if (secureSharedPrefs != null){
+        secureSharedPrefs.putString("password", password!);
+      }
       loggedUserId = user!.id;
       return true;
     });
@@ -70,6 +76,13 @@ class FirestoreController {
     // Check if logged, if yes, then we proceed with the creation.
     return loggedUserId != null
         ? await RoutineController.updateRotineListOnFirebase(newRoutineList: newRoutineList, userId: loggedUserId!)
+        : false;
+  }
+
+  static Future<bool> updateAlertList(List<Alert> newAlertList) async {
+    // Check if logged, if yes, then we proceed with the creation.
+    return loggedUserId != null
+        ? await AlertController.updateAlertListOnFirebase(newAlertList: newAlertList, userId: loggedUserId!)
         : false;
   }
 }

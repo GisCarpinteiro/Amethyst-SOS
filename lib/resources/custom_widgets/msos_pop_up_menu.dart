@@ -27,6 +27,7 @@ class MSosPopUpMenu {
       margin: const EdgeInsets.all(10),
       blockBackgroundInteraction: true,
       routeBlur: 3,
+      isDismissible: true,
       routeColor: const Color(0x22000000),
       borderRadius: BorderRadius.circular(10),
       boxShadows: const [BoxShadow(color: MSosColors.grayDark, blurRadius: 2)],

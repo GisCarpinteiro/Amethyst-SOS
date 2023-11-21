@@ -57,7 +57,6 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
             title: group.name,
             isSelected: state.selectedGroup != null ? (group.id == state.selectedGroup!.id) : false,
             callback: () {
-              print(group.id);
               provider.selectGroup(group);
               selectGroupPopUpMenu.dismissPopUpMenu();
             },
