@@ -1,4 +1,6 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
@@ -25,25 +27,47 @@ class AlertManager {
 
   static Duration? programmedDesactivationTime;
 
-  // static testBackend() async {
-  //   final url = 'http://10.0.2.2:3000/services/disconnection/init';
-  //   Map<String, dynamic> data = {
-  //     "message": "Necesito tu ayuda!",
-  //     "phone_list": ["3314237139", "3314237139"],
-  //     "location": "NOT_IMPLEMENTED",
-  //     "user_id": "thisIsACustomId"
-  //   };
+  static postBackend(String userId) async {
+    final url = 'http://10.0.2.2:8080/services/disconnection';
+    Map<String, dynamic> data = {
+      "alertMessage": "Necesito tu ayuda!",
+      "contacts": ["3314237139", "3314237139"],
+      "location": "NOT_IMPLEMENTED",
+      "userId": userId
+    };
 
-  //   String json = jsonEncode(data);
+    String json = jsonEncode(data);
 
-  //   try {
-  //     http.Response response = await http.post(Uri.parse(url),
-  //         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'}, body: json);
-  //     print('La respuesta del servidor fué: ${response.body}');
-  //   } catch (e) {
-  //     print('Error al enviar la solicitud: $e');
-  //   }
-  // }
+    try {
+      http.Response response = await http.post(Uri.parse(url),
+          headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'}, body: json);
+      print('La respuesta del servidor fué: ${response.body}');
+    } catch (e) {
+      print('Error al enviar la solicitud: $e');
+    }
+  }
+
+  static delBackend(String user) async {
+    final url = 'http://10.0.2.2:8080/services/disconnection/user/$user';
+
+    try {
+      http.Response response = await http.delete(Uri.parse(url));
+      print('La respuesta del servidor fué: ${response.body}');
+    } catch (e) {
+      print('Error al enviar la solicitud: $e');
+    }
+  }
+
+  static putBackend(String user) async {
+    final url = 'http://10.0.2.2:8080/services/disconnection/user/$user';
+
+    try {
+      http.Response response = await http.put(Uri.parse(url), body: "nueva ubicación!");
+      print('La respuesta del servidor fué: ${response.body}');
+    } catch (e) {
+      print('Error al enviar la solicitud: $e');
+    }
+  }
 
   // This method is used when starting service from the Home Screen and pressing the start service Button
   static Future<bool> initServiceManually() async {

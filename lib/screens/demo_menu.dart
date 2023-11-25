@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
 import '../resources/custom_widgets/msos_text.dart';
 
 /* Esta vista es temporal, usada para probar las funcionalidades del proyecto por separado de 
@@ -19,6 +20,7 @@ class DemoScreen extends StatefulWidget {
 class _DemoScreenState extends State<DemoScreen> {
   @override
   Widget build(BuildContext context) {
+    final userid = "thisIsACustomId";
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     //final double screenHeight = MediaQuery.of(context).size.height;
@@ -63,10 +65,30 @@ class _DemoScreenState extends State<DemoScreen> {
                     height: 20,
                   ),
                   MSosButton(
-                    text: "Test de RestAPI",
+                    text: "POST",
                     style: MSosButton.subMenuLargeBtn,
                     callbackFunction: () {
-                      // AlertManager.testBackend();
+                      AlertManager.postBackend(userid);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  MSosButton(
+                    text: "DEL",
+                    style: MSosButton.subMenuLargeBtn,
+                    callbackFunction: () {
+                      AlertManager.delBackend(userid);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  MSosButton(
+                    text: "PUT",
+                    style: MSosButton.subMenuLargeBtn,
+                    callbackFunction: () {
+                      AlertManager.putBackend(userid);
                     },
                   ),
                 ],

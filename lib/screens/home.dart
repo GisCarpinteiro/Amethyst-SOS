@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
@@ -90,19 +89,31 @@ class HomeScreen extends StatelessWidget {
                       // ),
                       const SizedBox(height: 20),
                       const MSosText(
-                        "disparadores",
+                        "Activadores",
                         style: MSosText.subtitleStyle,
                       ),
                       Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                child: MSosMicroButton(
-                                  textColor: MSosColors.grayDark,
-                                  backgroundActiveColor: MSosColors.blue,
-                                ),
-                              )
+                              MSosMiniButton(
+                                text: "desconexión",
+                                callback: () {},
+                                isActive: true,
+                              ),
+                              MSosMiniButton(
+                                text: "backtap",
+                                callback: () {},
+                                isActive: false,
+                                isDisabled: true,
+                              ),
+                              MSosMiniButton(
+                                text: "smartwatch",
+                                callback: () {},
+                                isActive: false,
+                                isDisabled: true,
+                              ),
                             ],
                           ),
                           const Row(),
@@ -136,7 +147,8 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             callbackFunction: () {
-                              FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
+                              FlutterLogs.logInfo(
+                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
@@ -175,5 +187,60 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             )));
+  }
+}
+
+class MSosMiniButton extends StatelessWidget {
+  final bool isDisabled;
+  final String text;
+  final Color backgroundInactiveColor;
+  final Color borderColor;
+  final Color textColor;
+  final double height;
+  final double textSize;
+  final VoidCallback? callback;
+  final bool isActive;
+  final Color textInactiveColor;
+  final Color backgroundActiveColor;
+
+  const MSosMiniButton({
+    super.key,
+    this.text = "Lorem Ipsum",
+    this.isDisabled = false,
+    this.textInactiveColor = MSosColors.white,
+    this.backgroundInactiveColor = MSosColors.white,
+    this.backgroundActiveColor = MSosColors.blue,
+    this.borderColor = MSosColors.blueDark,
+    this.textColor = MSosColors.white,
+    this.height = 24,
+    this.textSize = 12,
+    this.callback,
+    this.isActive = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      onPressed: () {},
+      color: isDisabled
+          ? MSosColors.white
+          : isActive
+              ? backgroundActiveColor
+              : backgroundInactiveColor,
+      height: 24,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(color: isDisabled ? MSosColors.grayLight : MSosColors.blueDark, width: 2),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      elevation: 0,
+      child: MSosText(
+        text,
+        textColor: isDisabled
+            ? MSosColors.grayLight
+            : isActive
+                ? textColor
+                : textInactiveColor,
+        size: 12,
+      ),
+    );
   }
 }
