@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -163,8 +162,8 @@ class RoutineProvider with ChangeNotifier {
       notifyListeners();
       return null;
     } else {
-      FlutterLogs.logError("RoutineProvider", "SaveRoutine",
-          "FAILURE: The routine hasn't been created/updated due to an error when trying to update the firestore data");
+      FlutterLogs.logError(
+          "RoutineProvider", "SaveRoutine", "FAILURE: The routine hasn't been created/updated due to an error when trying to update the firestore data");
       return isEditionContext
           ? "Ah ocurrido un error al actualizar la rutina de forma permanente. Revise su conexión a internet o intente más tarde"
           : "Ah ocurrido un error al crear la rutina de forma permanente. Revise su conexión a internet o intente más tarde";
@@ -183,8 +182,8 @@ class RoutineProvider with ChangeNotifier {
         notifyListeners();
         return null;
       } else {
-        FlutterLogs.logError("RoutineProvider", "deleteRoutine",
-            "FAILURE: The routine hasn't been deleted due to an error when trying to update the firestore data");
+        FlutterLogs.logError(
+            "RoutineProvider", "deleteRoutine", "FAILURE: The routine hasn't been deleted due to an error when trying to update the firestore data");
         return "Ah ocurrido un error al eliminar la rutina de forma permanente. Revise su conexión a internet o intente más tarde";
       }
     } else {

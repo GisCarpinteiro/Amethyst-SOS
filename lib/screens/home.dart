@@ -147,30 +147,30 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             callbackFunction: () {
-                              FlutterLogs.logInfo(
-                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
+                              FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
-                                AlertManager.initServiceManually();
-                                if (AlertManager.isServiceActive) {
-                                  MSosFloatingMessage.showMessage(
-                                    context,
-                                    title: "Servicio Activado",
-                                    message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
-                                    type: MSosMessageType.info,
-                                  );
-                                  alertButtonProvider.enableAlertButton();
-                                } else {
-                                  provider.toggleServiceEnabled();
-                                  AlertManager.stopService();
-                                  MSosFloatingMessage.showMessage(
-                                    context,
-                                    title: "Algo ha fallado!",
-                                    message: 'No se ha podido iniciar el servicio',
-                                    type: MSosMessageType.alert,
-                                  );
-                                }
+                                AlertManager.initServiceManually().then((value) {
+                                  if (AlertManager.isServiceActive) {
+                                    MSosFloatingMessage.showMessage(
+                                      context,
+                                      title: "Servicio Activado",
+                                      message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
+                                      type: MSosMessageType.info,
+                                    );
+                                    alertButtonProvider.enableAlertButton();
+                                  } else {
+                                    provider.toggleServiceEnabled();
+                                    AlertManager.stopService();
+                                    MSosFloatingMessage.showMessage(
+                                      context,
+                                      title: "Algo ha fallado!",
+                                      message: 'No se ha podido iniciar el servicio',
+                                      type: MSosMessageType.alert,
+                                    );
+                                  }
+                                });
                               } else {
                                 AlertManager.stopService();
                                 MSosFloatingMessage.showMessage(
@@ -229,8 +229,7 @@ class MSosMiniButton extends StatelessWidget {
               : backgroundInactiveColor,
       height: 24,
       shape: RoundedRectangleBorder(
-          side: BorderSide(color: isDisabled ? MSosColors.grayLight : MSosColors.blueDark, width: 2),
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          side: BorderSide(color: isDisabled ? MSosColors.grayLight : MSosColors.blueDark, width: 2), borderRadius: BorderRadius.all(Radius.circular(20))),
       elevation: 0,
       child: MSosText(
         text,

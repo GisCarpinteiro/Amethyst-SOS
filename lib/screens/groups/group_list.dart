@@ -32,7 +32,7 @@ class GroupListScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
         appBar: const MSosAppBar(title: 'Grupos', icon: Icons.people_alt_rounded),
         drawer: const MSosDashboard(),
-        bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
+        bottomNavigationBar: const CustomBottomAppBar(isFromGroupScreen: true),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: const MSosAlertButton(),
         body: Container(

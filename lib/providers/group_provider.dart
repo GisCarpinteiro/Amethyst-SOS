@@ -10,6 +10,7 @@ class GroupProvider with ChangeNotifier {
   List<Group> groups = List.empty(growable: true);
   bool isGroupEditionContext = false;
   Group group = const Group(name: "", contacts: []);
+  bool isWizardContext = false;
 
   void getGroupsList() {
     groups = GroupController.getGroups();
@@ -17,6 +18,16 @@ class GroupProvider with ChangeNotifier {
 
   // Set state to create a new Group
   void newGroupContext(BuildContext context) {
+    isWizardContext = false;
+    isGroupEditionContext = false;
+    group = const Group(name: "Nuevo Grupo", contacts: []);
+    Navigator.pushNamed(context, '/group_menu');
+  }
+
+  // Wizard context is almost the same as creation context, the only difference is that allow us to redirect to home instad of to group list.
+  // Also we won't render the alert button  and navBar beffore the configuration on wizard ends
+  void wizardContext(BuildContext context){
+    isWizardContext = true;
     isGroupEditionContext = false;
     group = const Group(name: "Nuevo Grupo", contacts: []);
     Navigator.pushNamed(context, '/group_menu');
@@ -24,6 +35,7 @@ class GroupProvider with ChangeNotifier {
 
   // Set state to edit an already existing group
   void editGroupContext(BuildContext context, Group group) {
+    isWizardContext = false;
     isGroupEditionContext = true;
     this.group = group;
     Navigator.pushNamed(context, '/group_menu');
@@ -96,8 +108,7 @@ class GroupProvider with ChangeNotifier {
       SharedPrefsManager.updateGroupList(groups);
       FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Created!!!");
     } else {
-      FlutterLogs.logError("GroupProvider", "CreateGroup",
-          "FAILURE: The group hasn't been created due to an error when trying to update the firestore data");
+      FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been created due to an error when trying to update the firestore data");
       return "Ah ocurrido un error al guardar el grupo de forma permanente. Revise su conexión o intente más tarde";
     }
     getGroupsList();
@@ -119,8 +130,7 @@ class GroupProvider with ChangeNotifier {
         notifyListeners();
         return null;
       } else {
-        FlutterLogs.logError("GroupProvider", "CreateGroup",
-            "FAILURE: The group hasn't been deleted due to an error when trying to update the firestore data");
+        FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been deleted due to an error when trying to update the firestore data");
         return "Ah ocurrido un error al eliminar el grupo de forma permanente. Revise su conexión o intente más tarde";
       }
     } else {
@@ -150,8 +160,7 @@ class GroupProvider with ChangeNotifier {
         notifyListeners();
         return null;
       } else {
-        FlutterLogs.logError("GroupProvider", "CreateGroup",
-            "FAILURE: The group hasn't been updated due to an error when trying to update the firestore data");
+        FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been updated due to an error when trying to update the firestore data");
         return "Ah ocurrido un error al actualziar el grupo de forma permanente. Revise su conexión o intente más tarde";
       }
     } else {

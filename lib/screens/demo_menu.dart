@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
+import 'package:watch_connectivity/watch_connectivity.dart';
 import '../resources/custom_widgets/msos_text.dart';
 
 /* Esta vista es temporal, usada para probar las funcionalidades del proyecto por separado de 
@@ -25,6 +26,10 @@ class _DemoScreenState extends State<DemoScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     //final double screenHeight = MediaQuery.of(context).size.height;
     final provider = context.read<LoginProvider>();
+    final watch = WatchConnectivity();
+    watch.messageStream.listen((event) {
+      print("received message = $event");
+    });
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears

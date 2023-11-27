@@ -1,6 +1,0 @@
-Hola! este es un documento temporal que nos va a ayudar para recordar cosas que tenemos que hacer y dar consejos de como podríamos implementarlo por ejemplo:
-
-- A la hora de eliminar una alerta o un grupo debemos de a su vez desactivar o eliminar (con advertencia al usuario) las rutinas que lo usan!
-- A su vez creo que la rutina debe de almacenar solo el ID de la alerta para no tener que actualizar la rutina cada que se actualiza una alerta.
-
-Gracias por su atención señorita Gis!

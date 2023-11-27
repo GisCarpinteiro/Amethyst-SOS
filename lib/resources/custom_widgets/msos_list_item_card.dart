@@ -23,13 +23,15 @@ class MSosListItemCard extends StatelessWidget {
       onPressed: callback,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         MSosText(title),
-        if (deleteCallback!= null) IconButton(
-          color: MSosColors.grayMedium,
-          visualDensity: VisualDensity.compact,
-          onPressed: deleteCallback,
-          icon: const Icon(Icons.delete),
-          iconSize: 18,
-        )
+        if (deleteCallback != null)
+          IconButton(
+            style: IconButton.styleFrom(hoverColor: MSosColors.pink),
+            color: MSosColors.grayMedium,
+            visualDensity: VisualDensity.compact,
+            onPressed: deleteCallback,
+            icon: const Icon(Icons.delete),
+            iconSize: 18,
+          )
       ]),
     );
   }

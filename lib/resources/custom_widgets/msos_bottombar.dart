@@ -7,8 +7,7 @@ class CustomBottomAppBar extends StatelessWidget {
   final bool isFromAlertScreen;
   final bool isFromGroupScreen;
 
-  const CustomBottomAppBar({Key? key, this.isFromAlertScreen = false, this.isFromGroupScreen = false})
-      : super(key: key);
+  const CustomBottomAppBar({Key? key, this.isFromAlertScreen = false, this.isFromGroupScreen = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,9 @@ class CustomBottomAppBar extends StatelessWidget {
                       : Image.asset(
                           'lib/resources/assets/images/alert_list_icon.png',
                         ),
-                  onPressed: () {},
+                  onPressed: () {
+                    isFromAlertScreen ? Navigator.pushNamed(context, '/home') : Navigator.pushNamed(context, '/alert_list');
+                  },
                   iconSize: 24,
                 ),
               ),
@@ -62,9 +63,15 @@ class CustomBottomAppBar extends StatelessWidget {
               Expanded(
                 child: IconButton(
                   icon: isFromGroupScreen
-                      ? const FaIcon(FontAwesomeIcons.house)
+                      ? const FaIcon(
+                          FontAwesomeIcons.house,
+                          color: MSosColors.white,
+                          size: 18,
+                        )
                       : Image.asset('lib/resources/assets/images/group_icon.png', fit: BoxFit.fitHeight),
-                  onPressed: () {},
+                  onPressed: () {
+                    isFromGroupScreen ? Navigator.pushNamed(context, '/home') : Navigator.pushNamed(context, '/group_list');
+                  },
                   tooltip: 'Alarm',
                   iconSize: 30,
                 ),

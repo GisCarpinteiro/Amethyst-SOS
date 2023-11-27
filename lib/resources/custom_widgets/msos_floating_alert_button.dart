@@ -11,18 +11,22 @@ class MSosAlertButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BottomBarProvider barStatus = context.watch<BottomBarProvider>();
-    return FloatingActionButton.large(
-      backgroundColor: barStatus.alertButtonEnabled ? MSosColors.pink : MSosColors.grayMedium,
-      shape: const CircleBorder(),
-      onPressed: () {
-        if (!AlertManager.isServiceActive) return;
-        // TODO: Implementar las alertaaaas!!!
-        MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
-      },
-      child: Image.asset(
-        'lib/resources/assets/images/alert_icon.png', // Ruta de la imagen dentro de la carpeta "assets"
-        width: 70, // Ancho de la imagen
-        height: 70,
+    bool keyBoardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
+    return Visibility(
+      visible: !keyBoardIsOpen,
+      child: FloatingActionButton.large(
+        backgroundColor: barStatus.alertButtonEnabled ? MSosColors.pink : MSosColors.grayMedium,
+        shape: const CircleBorder(),
+        onPressed: () {
+          if (!AlertManager.isServiceActive) return;
+          // TODO: Implementar las alertaaaas!!!
+          MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
+        },
+        child: Image.asset(
+          'lib/resources/assets/images/alert_icon.png', // Ruta de la imagen dentro de la carpeta "assets"
+          width: 70, // Ancho de la imagen
+          height: 70,
+        ),
       ),
     );
   }

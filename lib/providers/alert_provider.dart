@@ -53,6 +53,21 @@ class AlertProvider with ChangeNotifier {
     };
   }
 
+  void wizardDefaultAlertCreationContext() {
+    isAlertEditionContext = false;
+    alertNameCtrl.text = "Mi Alerta";
+    toleranceTime = 30;
+    shareLocation = true;
+    triggers = {
+      'backtap_trigger': false,
+      'button_trigger': true,
+      'smartwatch_trigger': false,
+      'disconnection_trigger': true,
+      'smartwatch_disconnection_trigger': false,
+      'voice_trigger': false,
+    };
+  }
+
   void changeToleranceTime() {
     final values = [10, 30, 60, 120, 300];
     toleranceTime = values[toleranceTimeOption];
@@ -61,9 +76,9 @@ class AlertProvider with ChangeNotifier {
   Future<String?> deleteAlert(Alert targetAlert) async {
     //First we check if the alert was on the list to delete it
     List<Alert> alertsCopy = List.from(alerts, growable: true);
-    if (alertsCopy.remove(targetAlert)){
+    if (alertsCopy.remove(targetAlert)) {
       // If successfully removed, then we update the list on firebase
-      if (await FirestoreController.updateAlertList(alertsCopy)){
+      if (await FirestoreController.updateAlertList(alertsCopy)) {
         alerts = alertsCopy;
         SharedPrefsManager.updateAlertList(alerts);
         FlutterLogs.logInfo("AlertsProvider", "deleteAlert", "SUCCESS: The alert has ben deleted!");
@@ -124,8 +139,8 @@ class AlertProvider with ChangeNotifier {
       notifyListeners();
       return null;
     } else {
-      FlutterLogs.logError("AlertProvider", "SaveAlert",
-          "FAILURE: The alert hasn't been created/updated due to an error when trying to update the firestore data");
+      FlutterLogs.logError(
+          "AlertProvider", "SaveAlert", "FAILURE: The alert hasn't been created/updated due to an error when trying to update the firestore data");
       return isAlertEditionContext
           ? "Ah ocurrido un error al actualizar la alerta de forma permanente. Revise su conexión a internet o intente más tarde"
           : "Ah ocurrido un error al crear la alerta de forma permanente. Revise su conexión a internet o intente más tarde";
