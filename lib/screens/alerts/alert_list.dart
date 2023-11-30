@@ -30,6 +30,7 @@ class AlertSettingsScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
         appBar: const MSosAppBar(title: 'Alertas', icon: Icons.crisis_alert),
         drawer: const MSosDashboard(),
+        drawerEnableOpenDragGesture: false,
         bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: const MSosAlertButton(),

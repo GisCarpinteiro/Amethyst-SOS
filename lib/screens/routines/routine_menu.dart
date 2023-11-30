@@ -88,6 +88,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
         resizeToAvoidBottomInset: true,
         appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
         drawer: const MSosDashboard(),
+        drawerEnableOpenDragGesture: false,
         body: Container(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(

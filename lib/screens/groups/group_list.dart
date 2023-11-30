@@ -32,6 +32,7 @@ class GroupListScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
         appBar: const MSosAppBar(title: 'Grupos', icon: Icons.people_alt_rounded),
         drawer: const MSosDashboard(),
+        drawerEnableOpenDragGesture: false,
         bottomNavigationBar: const CustomBottomAppBar(isFromGroupScreen: true),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: const MSosAlertButton(),
@@ -74,14 +75,14 @@ class GroupListScreen extends StatelessWidget {
                                       ),
                                       itemBuilder: (BuildContext context, int index) {
                                         return MSosListItemCard(
-                                            title: state.groups[index].name,
-                                            callback: () {
-                                              provider.editGroupContext(context, state.groups[index]);
-                                            },
-                                            deleteCallback: (){
-                                              provider.deleteGroup(targetGroup: state.groups[index]);
-                                            },
-                                            );
+                                          title: state.groups[index].name,
+                                          callback: () {
+                                            provider.editGroupContext(context, state.groups[index]);
+                                          },
+                                          deleteCallback: () {
+                                            provider.deleteGroup(targetGroup: state.groups[index]);
+                                          },
+                                        );
                                       },
                                     ),
                                   ),

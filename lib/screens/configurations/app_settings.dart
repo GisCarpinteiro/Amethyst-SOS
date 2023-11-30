@@ -37,6 +37,7 @@ class AppSettingsScreen extends StatelessWidget {
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: "Configuración General", icon: Icons.settings),
       drawer: const MSosDashboard(),
+      drawerEnableOpenDragGesture: false,
       body: Container(
           alignment: Alignment.topLeft,
           child: SingleChildScrollView(

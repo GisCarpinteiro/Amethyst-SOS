@@ -23,6 +23,7 @@ class _TriggerSettingsScreenState extends State<TriggerSettingsScreen> {
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: 'Activadores', icon: Icons.sensors_rounded),
       drawer: const MSosDashboard(),
+      drawerEnableOpenDragGesture: false,
       body: Container(
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(

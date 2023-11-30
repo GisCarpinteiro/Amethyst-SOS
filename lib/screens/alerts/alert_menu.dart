@@ -46,6 +46,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: MSosAppBar(title: isEdition ? "Editar Alerta" : "Crear Alerta", icon: Icons.crisis_alert),
       drawer: const MSosDashboard(),
+      drawerEnableOpenDragGesture: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: const MSosAlertButton(),
       bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
@@ -156,7 +157,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               "desde aplicación",
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),
@@ -183,7 +184,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               'desde smartwatch',
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),
@@ -211,7 +212,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               'desconexión con la red',
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),
@@ -244,7 +245,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               'desconexión smartwatch',
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),
@@ -270,7 +271,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               'activación por voz',
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),
@@ -298,7 +299,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                             const MSosText(
                                               'sensor backtap',
                                               size: 12,
-                                              isCentered: true,
+                                              alignment: TextAlign.center,
                                             )
                                           ],
                                         ),

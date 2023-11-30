@@ -19,6 +19,7 @@ import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/groups/group_menu.dart';
 import 'package:vistas_amatista/screens/routines/routine_list.dart';
 import 'package:vistas_amatista/screens/routines/routine_menu.dart';
+import 'package:vistas_amatista/screens/services/smartwatch_menu.dart';
 import 'package:vistas_amatista/screens/wizard/confirm_email.dart';
 import 'package:vistas_amatista/screens/demo_menu.dart';
 import 'package:vistas_amatista/screens/home.dart';
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Amethyst',
 
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
             '/routine_list': (context) => const RoutineListScreen(),
             '/routine_menu': (context) => const RoutineMenuScreen(),
             '/app_settings': (context) => const AppSettingsScreen(),
+            '/smartwatch_menu': (context) => const SmartwatchMenu(),
           },
           initialRoute: '/test_demo',
           //This allow us to define a default page when an unexisting route is requested

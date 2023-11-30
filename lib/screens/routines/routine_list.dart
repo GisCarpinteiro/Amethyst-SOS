@@ -31,6 +31,7 @@ class RoutineListScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
         drawer: const MSosDashboard(),
+        drawerEnableOpenDragGesture: false,
         bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: const MSosAlertButton(),

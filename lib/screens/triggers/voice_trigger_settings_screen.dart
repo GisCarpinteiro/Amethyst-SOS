@@ -32,6 +32,7 @@ class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen>
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: const MSosAppBar(title: 'Activación por voz', icon: Icons.record_voice_over_rounded),
       drawer: const MSosDashboard(),
+      drawerEnableOpenDragGesture: false,
       body: BlocBuilder<TriggerConfigBloc, TriggerConfigState>(
         builder: (context, state) {
           return Container(
@@ -88,8 +89,9 @@ class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen>
                                   value: state.isEnabled,
                                   activeColor: MSosColors.blue,
                                   onChanged: (value) {
-                                    BlocProvider.of<TriggerConfigBloc>(context, listen: false)
-                                        .add(UpdateVoiceCommandTriggerConfig(value, state.voiceCommand, state.toleranceTime));
+                                    BlocProvider.of<TriggerConfigBloc>(context, listen: false).add(
+                                        UpdateVoiceCommandTriggerConfig(
+                                            value, state.voiceCommand, state.toleranceTime));
                                   }),
                             ],
                           ),
@@ -113,15 +115,18 @@ class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen>
                                   textColor: state.toleranceTime != 0 ? null : MSosColors.white,
                                 ),
                                 1: MSosText('30s',
-                                    style: MSosText.normalStyle, textColor: state.toleranceTime != 1 ? null : MSosColors.white),
+                                    style: MSosText.normalStyle,
+                                    textColor: state.toleranceTime != 1 ? null : MSosColors.white),
                                 2: MSosText('60s',
-                                    style: MSosText.normalStyle, textColor: state.toleranceTime != 2 ? null : MSosColors.white),
+                                    style: MSosText.normalStyle,
+                                    textColor: state.toleranceTime != 2 ? null : MSosColors.white),
                                 3: MSosText('120s',
-                                    style: MSosText.normalStyle, textColor: state.toleranceTime != 3 ? null : MSosColors.white)
+                                    style: MSosText.normalStyle,
+                                    textColor: state.toleranceTime != 3 ? null : MSosColors.white)
                               },
                               onValueChanged: (groupValue) {
-                                BlocProvider.of<TriggerConfigBloc>(context, listen: false)
-                                    .add(UpdateVoiceCommandTriggerConfig(state.isEnabled, state.voiceCommand, groupValue!));
+                                BlocProvider.of<TriggerConfigBloc>(context, listen: false).add(
+                                    UpdateVoiceCommandTriggerConfig(state.isEnabled, state.voiceCommand, groupValue!));
                               }),
                           const SizedBox(
                             height: 20,
@@ -181,7 +186,8 @@ class _VoiceTriggerSettingsScreenState extends State<VoiceTriggerSettingsScreen>
                                 onPressed: () {
                                   // TODO: Implementación de voice2text
                                 },
-                                style: TextButton.styleFrom(backgroundColor: MSosColors.blue, foregroundColor: Colors.white),
+                                style: TextButton.styleFrom(
+                                    backgroundColor: MSosColors.blue, foregroundColor: Colors.white),
                                 child: const MSosText(
                                   'Test',
                                   style: MSosText.buttonStyle,

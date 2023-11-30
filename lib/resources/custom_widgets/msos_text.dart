@@ -21,8 +21,8 @@ class MSosText extends StatelessWidget {
   final String? style;
   final IconData? icon;
   final double? iconSize;
-  final bool? isCentered;
   final bool? isMultiline;
+  final TextAlign alignment;
 
   const MSosText(this.text,
       {super.key,
@@ -32,7 +32,7 @@ class MSosText extends StatelessWidget {
       this.icon,
       this.iconSize = 28,
       this.textColor,
-      this.isCentered = false});
+      this.alignment = TextAlign.justify});
 
   @override
   Widget build(BuildContext context) {
@@ -137,14 +137,16 @@ class MSosText extends StatelessWidget {
                 const SizedBox(
                   width: 5,
                 ),
-              Text(text.toUpperCase(),
-                  //textAlign: TextAlign.start,
-                  style: GoogleFonts.lexend(
-                      textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: textColor ?? MSosColors.grayDark,
-                  )), ), 
+              Text(
+                text.toUpperCase(),
+                //textAlign: TextAlign.start,
+                style: GoogleFonts.lexend(
+                    textStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: textColor ?? MSosColors.grayDark,
+                )),
+              ),
             ],
           ),
         );
@@ -162,7 +164,7 @@ class MSosText extends StatelessWidget {
       // DEFAULT TEXT STYLE
       default:
         return Text(text,
-            textAlign: isCentered! ? TextAlign.center : TextAlign.justify,
+            textAlign: alignment,
             maxLines: isMultiline == true ? 10 : 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.lexend(

@@ -10,7 +10,7 @@ class MSosMultiOptionButton extends StatelessWidget {
   final VoidCallback callbackFunction;
   final double width;
 
-  const MSosMultiOptionButton({super.key, this.width = 120, required this.text, required this.callbackFunction});
+  const MSosMultiOptionButton({super.key, this.width = 130, required this.text, required this.callbackFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class MSosMultiOptionButton extends StatelessWidget {
             const FaIcon(
               FontAwesomeIcons.circleChevronDown,
               color: MSosColors.grayLight,
+              size: 18,
             )
           ],
         ),

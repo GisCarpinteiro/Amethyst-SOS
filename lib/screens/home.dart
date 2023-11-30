@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
-import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_micro_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_cardbutton.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
@@ -88,6 +89,7 @@ class HomeScreen extends StatelessWidget {
                       //   color: MSosColors.grayMedium,
                       // ),
                       const SizedBox(height: 20),
+//* ----------------------------- >>> TRIGGERS PANEL <<< ----------------------------------
                       const MSosText(
                         "Activadores",
                         style: MSosText.subtitleStyle,
@@ -95,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               MSosMiniButton(
                                 text: "desconexión",
@@ -120,13 +122,39 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
+//* ----------------------------- >>> SERVICES PANEL <<< ----------------------------------
                       const MSosText(
-                        "Servicio",
+                        "Servicios",
+                        style: MSosText.subtitleStyle,
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          MSosCardButton(
+                            title: "Mapa de Riesgos",
+                            icon: FontAwesomeIcons.earthAmericas,
+                            isDisabled: true,
+                            onPressed: () {},
+                          ),
+                          const SizedBox(width: 10),
+                          MSosCardButton(
+                            title: "Smart Watch",
+                            icon: Icons.watch,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/smartwatch_menu');
+                            },
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+//* ----------------------------- >>> START SERVICE PANEL <<< -----------------------
+                      const MSosText(
+                        "INICIAR",
                         style: MSosText.subtitleStyle,
                       ),
                       // * >>>> Alert and Group Picker Section <<<<
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           MSosButton(
                             text: state.alerts.isEmpty ? "" : state.alerts[state.selectedAlert].name,
@@ -147,7 +175,8 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             callbackFunction: () {
-                              FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
+                              FlutterLogs.logInfo(
+                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
                               // TODO: Iniciar el servicio de alertas!!!!
                               provider.toggleServiceEnabled();
                               if (state.isServiceEnabled) {
@@ -156,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                                     MSosFloatingMessage.showMessage(
                                       context,
                                       title: "Servicio Activado",
-                                      message: 'Alerta "${state.alerts[state.selectedAlert]}" habilitada',
+                                      message: 'Alerta "${state.alerts[state.selectedAlert].name}" habilitada',
                                       type: MSosMessageType.info,
                                     );
                                     alertButtonProvider.enableAlertButton();
@@ -176,7 +205,7 @@ class HomeScreen extends StatelessWidget {
                                 MSosFloatingMessage.showMessage(
                                   context,
                                   title: "Servicio Desactivado",
-                                  message: 'Alerta "${state.alerts[state.selectedAlert]}" deshabilitada',
+                                  message: 'Alerta "${state.alerts[state.selectedAlert].name}" deshabilitada',
                                 );
                                 alertButtonProvider.disableAlertButton();
                               }
@@ -229,7 +258,8 @@ class MSosMiniButton extends StatelessWidget {
               : backgroundInactiveColor,
       height: 24,
       shape: RoundedRectangleBorder(
-          side: BorderSide(color: isDisabled ? MSosColors.grayLight : MSosColors.blueDark, width: 2), borderRadius: BorderRadius.all(Radius.circular(20))),
+          side: BorderSide(color: isDisabled ? MSosColors.grayLight : MSosColors.blueDark, width: 2),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       elevation: 0,
       child: MSosText(
         text,
