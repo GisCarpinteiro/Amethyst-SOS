@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
@@ -86,9 +87,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
     provider.getRoutineList();
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
-        drawer: const MSosDashboard(),
-        drawerEnableOpenDragGesture: false,
+        appBar: const MSosAppBar(title: 'Rutinas', icon: FontAwesomeIcons.route),
         body: Container(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
@@ -165,7 +164,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                               text: "Guardar",
                               style: MSosButton.smallButton,
                               color: MSosColors.blue,
-                              callbackFunction: () {
+                              onPressed: () {
                                 provider.saveRoutine(newRoutineName: routineNameController.text).then((response) {
                                   if (response != null) {
                                     MSosFloatingMessage.showMessage(context,

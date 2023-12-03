@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vistas_amatista/controller/firestore_controller.dart';
+import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
@@ -21,15 +25,11 @@ class DemoScreen extends StatefulWidget {
 class _DemoScreenState extends State<DemoScreen> {
   @override
   Widget build(BuildContext context) {
-    final userid = "thisIsACustomId";
+    const userid = "thisIsACustomId";
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     //final double screenHeight = MediaQuery.of(context).size.height;
     final provider = context.read<LoginProvider>();
-    final watch = WatchConnectivity();
-    watch.messageStream.listen((event) {
-      print("received message = $event");
-    });
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
@@ -62,8 +62,16 @@ class _DemoScreenState extends State<DemoScreen> {
                   MSosButton(
                       text: "Home",
                       style: MSosButton.subMenuLargeBtn,
-                      callbackFunction: () {
-                        provider.logWithEmail();
+                      onPressed: () {
+                        final sharedPrefsInstance = SharedPrefsManager.sharedInstance;
+                        if (sharedPrefsInstance != null) {
+                          final userId = sharedPrefsInstance.getString('id');
+                          if (userId == null) {
+                            provider.logWithEmail();
+                          } else {
+                            FlutterLogs.logInfo("Demo", "HomeButton", "User already logged with id = $userId");
+                          }
+                        }
                         Navigator.pushNamed(context, '/home');
                       }),
                   const SizedBox(
@@ -72,8 +80,8 @@ class _DemoScreenState extends State<DemoScreen> {
                   MSosButton(
                     text: "POST",
                     style: MSosButton.subMenuLargeBtn,
-                    callbackFunction: () {
-                      AlertManager.postBackend(userid);
+                    onPressed: () {
+                      AlertService.postBackend(userid);
                     },
                   ),
                   const SizedBox(
@@ -82,8 +90,8 @@ class _DemoScreenState extends State<DemoScreen> {
                   MSosButton(
                     text: "DEL",
                     style: MSosButton.subMenuLargeBtn,
-                    callbackFunction: () {
-                      AlertManager.delBackend(userid);
+                    onPressed: () {
+                      AlertService.delBackend(userid);
                     },
                   ),
                   const SizedBox(
@@ -92,8 +100,8 @@ class _DemoScreenState extends State<DemoScreen> {
                   MSosButton(
                     text: "PUT",
                     style: MSosButton.subMenuLargeBtn,
-                    callbackFunction: () {
-                      AlertManager.putBackend(userid);
+                    onPressed: () {
+                      AlertService.putBackend(userid);
                     },
                   ),
                 ],

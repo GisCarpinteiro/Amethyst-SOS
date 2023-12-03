@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -28,7 +29,7 @@ class AlertSettingsScreen extends StatelessWidget {
 
     return Scaffold(
         resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
-        appBar: const MSosAppBar(title: 'Alertas', icon: Icons.crisis_alert),
+        appBar: const MSosAppBar(title: 'Alertas', icon: FontAwesomeIcons.circleExclamation),
         drawer: const MSosDashboard(),
         drawerEnableOpenDragGesture: false,
         bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
@@ -58,7 +59,6 @@ class AlertSettingsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            // TODO: Crear la lista dinámica de las alertas configuradas por medio de Bloc
                             SizedBox(
                               height: screenHeight * 0.4,
                               child: ListView.separated(
@@ -92,7 +92,7 @@ class AlertSettingsScreen extends StatelessWidget {
                             ),
                             MSosButton(
                               text: "Crear",
-                              callbackFunction: () {
+                              onPressed: () {
                                 provider.creationContext();
                                 Navigator.pushNamed(context, '/alert_menu');
                               },

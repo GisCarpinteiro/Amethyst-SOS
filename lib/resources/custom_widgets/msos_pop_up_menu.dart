@@ -56,13 +56,13 @@ class MSosPopUpMenu {
                       text: "Cancelar",
                       style: MSosButton.smallButton,
                       color: MSosColors.pink,
-                      callbackFunction: dismissPopUpMenu),
+                      onPressed: dismissPopUpMenu),
                   if (acceptCallbackFunc != null)
                     MSosButton(
                       text: "Aceptar",
                       style: MSosButton.smallButton,
                       color: MSosColors.blue,
-                      callbackFunction: acceptCallbackFunc,
+                      onPressed: acceptCallbackFunc,
                     ),
                 ],
               )

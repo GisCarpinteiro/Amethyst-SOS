@@ -68,7 +68,7 @@ class _CreateTrustGroupWizardScreenState extends State<CreateTrustGroupWizardScr
                                 MSosButton(
                                   text: 'Crear Grupo',
                                   style: MSosButton.continueLargeBtn,
-                                  callbackFunction: () => provider.newGroupContext(context),
+                                  onPressed: () => provider.newGroupContext(context),
                                 )
                               ],
                             ),

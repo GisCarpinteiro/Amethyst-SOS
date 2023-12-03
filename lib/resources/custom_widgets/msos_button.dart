@@ -21,7 +21,7 @@ class MSosButton extends StatelessWidget {
   final IconData? icon;
   final Color textColor;
   final Color color;
-  final VoidCallback? callbackFunction;
+  final VoidCallback? onPressed;
 
   const MSosButton(
       {required this.text,
@@ -31,20 +31,16 @@ class MSosButton extends StatelessWidget {
       this.icon,
       this.color = MSosColors.pink,
       this.textColor = MSosColors.white,
-      this.callbackFunction});
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     switch (style) {
       case MSosButton.smallButton:
         return MsosSmallButton(
-            text: text,
-            color: color,
-            foregroundColor: textColor,
-            icon: icon,
-            callbackFunction: callbackFunction ?? () {});
+            text: text, color: color, foregroundColor: textColor, icon: icon, callbackFunction: onPressed ?? () {});
       case MSosButton.multiOptionButton:
-        return MSosMultiOptionButton(text: text, callbackFunction: callbackFunction ?? () {});
+        return MSosMultiOptionButton(text: text, callbackFunction: onPressed ?? () {});
       case MSosButton.continueLargeBtn:
         return Row(children: [
           Expanded(
@@ -55,8 +51,8 @@ class MSosButton extends StatelessWidget {
                   backgroundColor: color,
                 ),
                 onPressed: () {
-                  if (callbackFunction != null) {
-                    callbackFunction!();
+                  if (onPressed != null) {
+                    onPressed!();
                   } else {
                     Navigator.pushNamed(context, route ?? './not_found');
                   } // go to next screen
@@ -78,9 +74,9 @@ class MSosButton extends StatelessWidget {
                     backgroundColor: MSosColors.white,
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
                 onPressed: () {
-                  if (callbackFunction != null) {
-                    callbackFunction!();
-                  } else { 
+                  if (onPressed != null) {
+                    onPressed!();
+                  } else {
                     Navigator.pushNamed(context, route ?? './not_found');
                   } // go to next screen
                 },

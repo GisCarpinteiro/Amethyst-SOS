@@ -51,7 +51,10 @@ class MSosDashboard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ListTile(
-                  leading: const Icon(Icons.home),
+                  leading: const Icon(
+                    FontAwesomeIcons.house,
+                    size: 20,
+                  ),
                   title: const Text('Inicio'),
                   onTap: () {
                     Navigator.push(
@@ -61,7 +64,10 @@ class MSosDashboard extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.alarm),
+                  leading: const Icon(
+                    FontAwesomeIcons.circleExclamation,
+                    size: 20,
+                  ),
                   title: const Text('Alertas'),
                   onTap: () {
                     Navigator.push(
@@ -81,7 +87,10 @@ class MSosDashboard extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.route_outlined),
+                  leading: const Icon(
+                    FontAwesomeIcons.route,
+                    size: 20,
+                  ),
                   title: const Text('Rutinas'),
                   onTap: () {
                     Navigator.push(
@@ -91,7 +100,10 @@ class MSosDashboard extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.gamepad),
+                  leading: const Icon(
+                    FontAwesomeIcons.toggleOn,
+                    size: 20,
+                  ),
                   title: const Text('Activadores'),
                   onTap: () {
                     Navigator.push(

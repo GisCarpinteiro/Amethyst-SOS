@@ -149,7 +149,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
                             text: "Guardar",
                             style: MSosButton.smallButton,
                             color: MSosColors.blue,
-                            callbackFunction: () {
+                            onPressed: () {
                               provider.saveGroup(groupName: groupNameController.text, context: context);
                             },
                           )

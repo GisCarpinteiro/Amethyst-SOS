@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -29,7 +30,7 @@ class RoutineListScreen extends StatelessWidget {
     provider.getRoutineList();
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: const MSosAppBar(title: 'Rutinas', icon: Icons.people_alt_rounded),
+        appBar: const MSosAppBar(title: 'Rutinas', icon: FontAwesomeIcons.route),
         drawer: const MSosDashboard(),
         drawerEnableOpenDragGesture: false,
         bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
@@ -85,7 +86,7 @@ class RoutineListScreen extends StatelessWidget {
                                   ),
                             MSosButton(
                               text: "Crear Rutina",
-                              callbackFunction: () => context.read<RoutineProvider>().createRoutineContext(context),
+                              onPressed: () => context.read<RoutineProvider>().createRoutineContext(context),
                               style: MSosButton.smallButton,
                               color: MSosColors.blue,
                             ),

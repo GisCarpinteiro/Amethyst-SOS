@@ -88,7 +88,7 @@ class GroupListScreen extends StatelessWidget {
                                   ),
                             MSosButton(
                               text: "Crear Grupo",
-                              callbackFunction: () {
+                              onPressed: () {
                                 context.read<GroupProvider>().newGroupContext(context);
                               },
                               style: MSosButton.smallButton,

@@ -17,7 +17,7 @@ class SharedPrefsManager {
   static SharedPreferences? _sharedPrefs;
   static SecureSharedPref? _secureSharedPreferences;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
+
   static initSharedPreferencesInstance() async {
     _secureSharedPreferences = await SecureSharedPref.getInstance();
     _sharedPrefs = await SharedPreferences.getInstance();
@@ -31,13 +31,14 @@ class SharedPrefsManager {
   static Future<bool> backupFromFirestoreToLocal(QueryDocumentSnapshot<Object?> user) async {
     FlutterLogs.logInfo("SharedPrefsManager", "restoreAllCongfigsFromFirebase", "Starting local backup for account");
     String groupsData = await GroupController.getGroupsAsString(user);
-    String alertsData = await AlertController.getAlertsAsString(user); 
+    String alertsData = await AlertController.getAlertsAsString(user);
     String routinesData = await RoutineController.getRoutinesAsString(user);
-    
+
     _sharedPrefs ??= await SharedPreferences.getInstance();
     await _sharedPrefs?.setString('groups', groupsData == "" ? "[]" : groupsData);
     await _sharedPrefs?.setString('alerts', alertsData == "" ? "[]" : alertsData);
     await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
+    await _sharedPrefs?.setString('id', user.id);
     await _sharedPrefs?.setString('name', user.get("name"));
     await _sharedPrefs?.setString('email', user.get("email"));
     await _sharedPrefs?.setString('phone', user.get("phone"));
@@ -53,7 +54,8 @@ class SharedPrefsManager {
 
   static updateRoutineList(List<Routine> newRoutineList) async {
     String routinesData = jsonEncode(newRoutineList).toString();
-    FlutterLogs.logInfo("SharedPrefsManager", "updateRoutineList", "Updating routine list locally with SharedPreferences");
+    FlutterLogs.logInfo(
+        "SharedPrefsManager", "updateRoutineList", "Updating routine list locally with SharedPreferences");
     await _sharedPrefs?.setString('routines', routinesData == "" ? "[]" : routinesData);
   }
 
@@ -62,5 +64,4 @@ class SharedPrefsManager {
     FlutterLogs.logInfo("SharedPrefsManager", "updateAlertList", "Updating alert list locally with SharedPreferences");
     await _sharedPrefs?.setString('alerts', alertData == "" ? "[]" : alertData);
   }
-
 }

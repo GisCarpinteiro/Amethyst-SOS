@@ -159,7 +159,7 @@ class MSosText extends StatelessWidget {
                 textStyle: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: size ?? 12,
-              color: textColor ?? MSosColors.grayDark,
+              color: textColor ?? MSosColors.grayLight,
             )));
       // DEFAULT TEXT STYLE
       default:

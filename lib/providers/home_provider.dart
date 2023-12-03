@@ -17,20 +17,20 @@ class HomeProvider with ChangeNotifier {
   void toggleServiceEnabled() {
     //TODO: Llamar a alert service para que inicialice con el servicio de las alertas!
     isServiceEnabled = !isServiceEnabled;
-    AlertManager.selectedGroup = groups[selectedGroup];
-    AlertManager.selectedAlert = alerts[selectedAlert];
+    AlertService.selectedGroup = groups[selectedGroup];
+    AlertService.selectedAlert = alerts[selectedAlert];
     notifyListeners();
   }
 
   void selectAlert(int alertIndex) {
     selectedAlert = alertIndex;
-    AlertManager.selectedAlert = alerts[selectedAlert];
+    AlertService.selectedAlert = alerts[selectedAlert];
     notifyListeners();
   }
 
   void selectGroup(int groupIndex) {
     selectedGroup = groupIndex;
-    AlertManager.selectedGroup = groups[selectedGroup];
+    AlertService.selectedGroup = groups[selectedGroup];
     notifyListeners();
   }
 
@@ -38,5 +38,4 @@ class HomeProvider with ChangeNotifier {
     alerts = AlertController.getAlerts();
     groups = GroupController.getGroups();
   }
-  
 }

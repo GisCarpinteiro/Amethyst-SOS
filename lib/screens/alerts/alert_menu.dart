@@ -44,7 +44,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
-      appBar: MSosAppBar(title: isEdition ? "Editar Alerta" : "Crear Alerta", icon: Icons.crisis_alert),
+      appBar: MSosAppBar(title: isEdition ? "Editar Alerta" : "Crear Alerta", icon: FontAwesomeIcons.circleExclamation),
       drawer: const MSosDashboard(),
       drawerEnableOpenDragGesture: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
@@ -313,7 +313,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                 text: isEdition ? "Guardar" : "Crear",
                                 style: MSosButton.smallButton,
                                 color: MSosColors.blue,
-                                callbackFunction: () async {
+                                onPressed: () async {
                                   provider.saveAlert().then((errorMessage) {
                                     if (errorMessage != null) {
                                       MSosFloatingMessage.showMessage(context,

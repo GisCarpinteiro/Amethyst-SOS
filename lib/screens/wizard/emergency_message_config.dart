@@ -72,9 +72,11 @@ class EmergencyMessageWizardScreen extends StatelessWidget {
                                       //----------  >The border radius value could be more than needed to force "roundness"
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: const BorderSide(color: MSosColors.blue, width: 2.0)),
-                                  hintText: 'Hola, este mensaje es para informarte que me encuentro en una situación de riesgo y necesito de tu ayuda',
-                                  hintStyle:
-                                      GoogleFonts.lexend(textStyle: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))),
+                                  hintText:
+                                      'Hola, este mensaje es para informarte que me encuentro en una situación de riesgo y necesito de tu ayuda',
+                                  hintStyle: GoogleFonts.lexend(
+                                      textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w300, fontSize: 14, color: MSosColors.grayLight))),
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -82,10 +84,11 @@ class EmergencyMessageWizardScreen extends StatelessWidget {
                                 MSosButton(
                                   text: 'Siguiente',
                                   style: MSosButton.continueLargeBtn,
-                                  callbackFunction: () {
+                                  onPressed: () {
                                     provider.saveAlert().then((result) {
                                       if (result != null) {
-                                        MSosFloatingMessage.showMessage(context, message: result, type: MSosMessageType.alert);
+                                        MSosFloatingMessage.showMessage(context,
+                                            message: result, type: MSosMessageType.alert);
                                       } else {
                                         Navigator.pushNamed(context, '/trust_group_wizard');
                                       }

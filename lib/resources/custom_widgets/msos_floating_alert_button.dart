@@ -18,7 +18,7 @@ class MSosAlertButton extends StatelessWidget {
         backgroundColor: barStatus.alertButtonEnabled ? MSosColors.pink : MSosColors.grayMedium,
         shape: const CircleBorder(),
         onPressed: () {
-          if (!AlertManager.isServiceActive) return;
+          if (!AlertService.isServiceActive) return;
           // TODO: Implementar las alertaaaas!!!
           MSosFloatingMessage.showMessage(context, message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
         },

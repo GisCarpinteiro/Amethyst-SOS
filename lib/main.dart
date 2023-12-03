@@ -12,6 +12,7 @@ import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/providers/routine_provider.dart';
 import 'package:vistas_amatista/providers/signup_provider.dart';
+import 'package:vistas_amatista/providers/smartwatch_provider.dart';
 import 'package:vistas_amatista/screens/alerts/alert_menu.dart';
 import 'package:vistas_amatista/screens/alerts/alert_list.dart';
 import 'package:vistas_amatista/screens/configurations/app_settings.dart';
@@ -68,7 +69,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SignUpProvider()),
           ChangeNotifierProvider(create: (_) => LoginProvider()),
           ChangeNotifierProvider(create: (_) => AlertProvider()),
-          ChangeNotifierProvider(create: (_) => AppSettingsProvider())
+          ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
+          ChangeNotifierProvider(create: (_) => SmartwatchProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

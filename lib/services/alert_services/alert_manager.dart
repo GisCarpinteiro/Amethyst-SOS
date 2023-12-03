@@ -12,7 +12,7 @@ import 'package:vistas_amatista/services/trigger_services/smartwatch_disconnecti
 import 'package:vistas_amatista/services/trigger_services/smartwatch_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/voice_trigger_service.dart';
 
-class AlertManager {
+class AlertService {
   final ButtonTriggerService buttonTriggerService = ButtonTriggerService();
   final BacktapTriggerService backtapTriggerService = BacktapTriggerService();
   final DisconnectionTriggerService internetDisconnectionTrigger = DisconnectionTriggerService();
