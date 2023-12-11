@@ -82,6 +82,7 @@ class SmartwatchService with ChangeNotifier {
           if (response.isNotEmpty) {
             print(response);
             _subscription?.cancel();
+            startListening2Watch();
             return null;
           }
         }
@@ -99,7 +100,7 @@ class SmartwatchService with ChangeNotifier {
     FlutterLogs.logInfo("SmartWatchService", "ProcessMessageFromWatch", "Message received with data: $data");
     switch (data['type']) {
       case 'START':
-        processStartServiceMessage(data);
+        processStartServiceMessage(data).then((value) => watchConnection.sendMessage({"answer": "SUCCESS"}));
         break;
       case 'STOP':
         break;
@@ -112,18 +113,20 @@ class SmartwatchService with ChangeNotifier {
     return true;
   }
 
-  static Future<void> processStartServiceMessage(Map<String, dynamic> data) async {
+  static Future<bool> processStartServiceMessage(Map<String, dynamic> data) async {
     FlutterLogs.logInfo(
         "SmartwatchService", "ProccessStartServiceMessage", "Trying to start service from smartwatch...");
 
-    AlertService.selectedAlert = Alert.fromJson(data['alert']);
-    AlertService.selectedGroup = Group.fromJson(data['group']);
+    AlertService.selectedAlert = Alert.fromJson(json.decode(data['alert']));
+    AlertService.selectedGroup = Group.fromJson(json.decode(data['group']));
     final serviceResponse = await AlertService.initServiceManually();
     if (serviceResponse == null) {
       if (homeProvider != null && bottomBarProvider != null) {
         homeProvider!.startServiceStateFromWatch();
         bottomBarProvider!.enableAlertButton();
+        return true;
       }
     }
+    return false;
   }
 }

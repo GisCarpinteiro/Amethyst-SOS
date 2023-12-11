@@ -11,7 +11,6 @@ import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeProvider with ChangeNotifier {
-  BuildContext? buildContext;
   bool isServiceEnabled =
       false; // Status needed to change the color an behavior of some widgets/elements on homescreen.
   Alert? selectedAlert = AlertService.selectedAlert; // Name of the actual alert picked by the multi option widget
@@ -28,9 +27,6 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setContext(BuildContext context) {
-    buildContext = context;
-  }
 
   void startServiceStateFromWatch() {
     selectedAlert = AlertService.selectedAlert;

@@ -13,6 +13,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_but
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,8 +26,9 @@ class HomeScreen extends StatelessWidget {
     final HomeProvider provider = context.read<HomeProvider>();
     final BottomBarProvider alertButtonProvider = context.read<BottomBarProvider>();
     final HomeProvider state = context.watch<HomeProvider>();
-    provider.setContext(context);
     provider.getAlertAndGroupList();
+    SmartwatchService.homeProvider = provider;
+    SmartwatchService.bottomBarProvider = alertButtonProvider;
     late MSosPopUpMenu selectAlertPopUpMenu;
     late MSosPopUpMenu selectGroupPopUpMenu;
 
@@ -174,14 +176,6 @@ class HomeScreen extends StatelessWidget {
             )));
   }
 }
-
-
-
-
-
-
-
-
 
 // * ------------------ >>> CUSTOM WIDGETS (ONLY USED IN HOME) <<< -----------------------------
 class MSosMiniButton extends StatelessWidget {

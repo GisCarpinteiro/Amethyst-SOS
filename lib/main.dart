@@ -36,11 +36,11 @@ import 'package:vistas_amatista/screens/wizard/signup.dart';
 import 'package:vistas_amatista/screens/wizard/signup2.dart';
 import 'package:vistas_amatista/screens/logging/startup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 import 'firebase_options.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   initialSetup();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -75,7 +75,6 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Amethyst',
-
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             useMaterial3: true,
