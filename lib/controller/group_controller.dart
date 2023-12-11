@@ -36,7 +36,7 @@ class GroupController {
   }
 
   static List<Group> getGroups() {
-    SharedPreferences? sharedPreferences = SharedPrefsManager.sharedInstance;
+    SharedPreferences? sharedPreferences = SharedPrefsManager.sharedInstance; 
     List<Group> groups = List.empty(growable: true);
 
     // TODO: (Gisel) Si no puede obtener datos de shared preferences (no un arreglo vacío sino null) debemos de intentar restaruar shared preferences o mostrar un error

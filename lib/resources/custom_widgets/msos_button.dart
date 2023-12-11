@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_multi_option_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/custom_buttons/msos_small_button.dart';

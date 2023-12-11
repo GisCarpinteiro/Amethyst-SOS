@@ -5,6 +5,7 @@ import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class GroupProvider with ChangeNotifier {
   List<Group> groups = List.empty(growable: true);
@@ -26,7 +27,7 @@ class GroupProvider with ChangeNotifier {
 
   // Wizard context is almost the same as creation context, the only difference is that allow us to redirect to home instad of to group list.
   // Also we won't render the alert button  and navBar beffore the configuration on wizard ends
-  void wizardContext(BuildContext context){
+  void wizardContext(BuildContext context) {
     isWizardContext = true;
     isGroupEditionContext = false;
     group = const Group(name: "Nuevo Grupo", contacts: []);
@@ -106,9 +107,13 @@ class GroupProvider with ChangeNotifier {
     if (await FirestoreController.updateGroupList(groups)) {
       // Then we update the shared preferences data to store it locally:
       SharedPrefsManager.updateGroupList(groups);
+      if (SmartwatchService.automaticSync) {
+        SmartwatchService.sendSyncMessage();
+      }
       FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Created!!!");
     } else {
-      FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been created due to an error when trying to update the firestore data");
+      FlutterLogs.logError("GroupProvider", "CreateGroup",
+          "FAILURE: The group hasn't been created due to an error when trying to update the firestore data");
       return "Ah ocurrido un error al guardar el grupo de forma permanente. Revise su conexión o intente más tarde";
     }
     getGroupsList();
@@ -126,11 +131,15 @@ class GroupProvider with ChangeNotifier {
         // if removed succesfully on firestore then we delete it locally too.
         groups = finalList;
         SharedPrefsManager.updateGroupList(groups);
+        if (SmartwatchService.automaticSync) {
+          SmartwatchService.sendSyncMessage();
+        }
         FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Deleted!!!");
         notifyListeners();
         return null;
       } else {
-        FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been deleted due to an error when trying to update the firestore data");
+        FlutterLogs.logError("GroupProvider", "CreateGroup",
+            "FAILURE: The group hasn't been deleted due to an error when trying to update the firestore data");
         return "Ah ocurrido un error al eliminar el grupo de forma permanente. Revise su conexión o intente más tarde";
       }
     } else {
@@ -156,11 +165,15 @@ class GroupProvider with ChangeNotifier {
         // if updated succesfully on firestore then we update it locally to.
         groups = finalList;
         SharedPrefsManager.updateGroupList(groups);
+        if (SmartwatchService.automaticSync) {
+          SmartwatchService.sendSyncMessage();
+        }
         FlutterLogs.logInfo("GroupProvider", "CreateGroup", "SUCCESS: The Group Has been Updated!!!");
         notifyListeners();
         return null;
       } else {
-        FlutterLogs.logError("GroupProvider", "CreateGroup", "FAILURE: The group hasn't been updated due to an error when trying to update the firestore data");
+        FlutterLogs.logError("GroupProvider", "CreateGroup",
+            "FAILURE: The group hasn't been updated due to an error when trying to update the firestore data");
         return "Ah ocurrido un error al actualziar el grupo de forma permanente. Revise su conexión o intente más tarde";
       }
     } else {

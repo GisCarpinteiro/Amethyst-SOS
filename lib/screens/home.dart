@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vistas_amatista/providers/bottombar_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
@@ -13,9 +12,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
-import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,19 +25,20 @@ class HomeScreen extends StatelessWidget {
     final HomeProvider provider = context.read<HomeProvider>();
     final BottomBarProvider alertButtonProvider = context.read<BottomBarProvider>();
     final HomeProvider state = context.watch<HomeProvider>();
+    provider.setContext(context);
     provider.getAlertAndGroupList();
     late MSosPopUpMenu selectAlertPopUpMenu;
     late MSosPopUpMenu selectGroupPopUpMenu;
 
+//* -------------------------- >>> POP_UP MENUS <<< -------------------------------------------
     selectAlertPopUpMenu = MSosPopUpMenu(context,
         title: "Alertas",
         formChildren: state.alerts.map((alert) {
-          int alertIndex = state.alerts.indexOf(alert);
           return MSosOptionCard(
             title: alert.name,
-            isSelected: alertIndex == state.selectedAlert,
+            isSelected: alert == state.selectedAlert,
             callback: () {
-              provider.selectAlert(alertIndex);
+              provider.selectAlert(alert);
               selectAlertPopUpMenu.dismissPopUpMenu();
             },
           );
@@ -49,12 +47,11 @@ class HomeScreen extends StatelessWidget {
     selectGroupPopUpMenu = MSosPopUpMenu(context,
         title: "Grupos",
         formChildren: state.groups.map((group) {
-          int groupIndex = state.groups.indexOf(group);
           return MSosOptionCard(
             title: group.name,
-            isSelected: groupIndex == state.selectedGroup,
+            isSelected: group == state.selectedGroup,
             callback: () {
-              provider.selectGroup(groupIndex);
+              provider.selectGroup(group);
               selectGroupPopUpMenu.dismissPopUpMenu();
             },
           );
@@ -80,14 +77,6 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // const MSosText(
-                      //   "Mapa de Riesgos",
-                      //   style: MSosText.subtitleStyle,
-                      // ),
-                      // const Placeholder(
-                      //   fallbackHeight: 180,
-                      //   color: MSosColors.grayMedium,
-                      // ),
                       const SizedBox(height: 20),
 //* ----------------------------- >>> TRIGGERS PANEL <<< ----------------------------------
                       const MSosText(
@@ -157,12 +146,12 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           MSosButton(
-                            text: state.alerts.isEmpty ? "" : state.alerts[state.selectedAlert].name,
+                            text: state.selectedAlert == null ? "" : state.selectedAlert!.name,
                             style: MSosButton.multiOptionButton,
                             onPressed: () => selectAlertPopUpMenu.showPopUpMenu(context),
                           ),
                           MSosButton(
-                            text: state.groups.isEmpty ? "" : state.groups[state.selectedGroup].name,
+                            text: state.selectedGroup == null ? "" : state.selectedGroup!.name,
                             style: MSosButton.multiOptionButton,
                             onPressed: () => selectGroupPopUpMenu.showPopUpMenu(context),
                           ),
@@ -175,40 +164,7 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             onPressed: () {
-                              FlutterLogs.logInfo(
-                                  "ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
-                              // TODO: Iniciar el servicio de alertas!!!!
-                              provider.toggleServiceEnabled();
-                              if (state.isServiceEnabled) {
-                                AlertService.initServiceManually().then((value) {
-                                  if (AlertService.isServiceActive) {
-                                    MSosFloatingMessage.showMessage(
-                                      context,
-                                      title: "Servicio Activado",
-                                      message: 'Alerta "${state.alerts[state.selectedAlert].name}" habilitada',
-                                      type: MSosMessageType.info,
-                                    );
-                                    alertButtonProvider.enableAlertButton();
-                                  } else {
-                                    provider.toggleServiceEnabled();
-                                    AlertService.stopService();
-                                    MSosFloatingMessage.showMessage(
-                                      context,
-                                      title: "Algo ha fallado!",
-                                      message: 'No se ha podido iniciar el servicio',
-                                      type: MSosMessageType.alert,
-                                    );
-                                  }
-                                });
-                              } else {
-                                AlertService.stopService();
-                                MSosFloatingMessage.showMessage(
-                                  context,
-                                  title: "Servicio Desactivado",
-                                  message: 'Alerta "${state.alerts[state.selectedAlert].name}" deshabilitada',
-                                );
-                                alertButtonProvider.disableAlertButton();
-                              }
+                              provider.startAlertService(context);
                             }),
                       ])
                     ],
@@ -219,6 +175,15 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
+
+
+// * ------------------ >>> CUSTOM WIDGETS (ONLY USED IN HOME) <<< -----------------------------
 class MSosMiniButton extends StatelessWidget {
   final bool isDisabled;
   final String text;

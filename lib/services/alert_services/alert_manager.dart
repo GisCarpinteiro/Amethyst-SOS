@@ -23,6 +23,7 @@ class AlertService {
   static Alert? selectedAlert;
   static Group? selectedGroup;
   static bool isServiceActive = false;
+  static AlertState alertState = AlertState.disabled;
   static bool basicPermissionsSatisfied = false;
 
   static Duration? programmedDesactivationTime;
@@ -70,39 +71,36 @@ class AlertService {
   }
 
   // This method is used when starting service from the Home Screen and pressing the start service Button
-  static Future<bool> initServiceManually() async {
+  static Future<String?> initServiceManually() async {
     // Verify that there's an alert selected
     if (selectedAlert == null) {
       FlutterLogs.logError(
           "AlertManager", "initServiceManually()", "No alert has been selected to start the alert service");
-      return false;
+      return "No se ha seleccionado una alerta para iniciar el servicio";
     } else if (selectedGroup == null) {
       FlutterLogs.logError(
           "AlertManager", "initServiceManually()", "No group has been seleted to start the alert service");
-
-      return false;
+      return "No se ha seleccionado un grupo para iniciar el servicio";
     }
 
     // * What do we need to do after activating an alert?
-
     // * First we check if needed permissions have been granted. if not, we try to ask for them.
     if (!basicPermissionsSatisfied) {
       basicPermissionsSatisfied = await PermissionsManager.requestAllBasicPermissions();
       if (!basicPermissionsSatisfied) {
         FlutterLogs.logError("AlertManager", "InitServiceManually()",
             "One or more basic permissions have not been granted, canceling service start");
-        return false;
+        return "Uno o más premisos básicos no se han otorgados, aseguresé de haberlos aceptado o hágalo desde el menú de configuración del dispositivo";
       }
     }
-    // Start all the configured trigger services:
-    if (!initTriggerServices()) {
-      FlutterLogs.logError("AlertManager", "InitServiceManually()", "One or more services couldn't initiate");
-    }
-
     FlutterLogs.logInfo("AlertManager", "InitServiceManually()", "ALERT SERVICE STARTED");
     isServiceActive = true;
-
-    return true;
+    alertState = AlertState.inactive;
+    // Start all the configured trigger services:
+    if (!initTriggerServices()) {
+      FlutterLogs.logError("AlertManager", "InitServiceManually()", "One or more services couldn't start");
+    }
+    return null;
   }
 
   static stopService() {

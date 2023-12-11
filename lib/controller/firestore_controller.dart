@@ -13,7 +13,7 @@ import 'package:vistas_amatista/models/user.dart';
 class FirestoreController {
   // This variable is really important since if it's null it means User is not logged in yet.
   static QueryDocumentSnapshot? user;
-  static String? loggedUserId;
+  static String? loggedUserId = SharedPrefsManager.sharedInstance?.getString('id');
 
   static Future<bool> createAccount(String id, User user) async {
     FlutterLogs.logInfo("FirestoreController", "createAccount", "Trying to create account on firestore");
@@ -51,13 +51,13 @@ class FirestoreController {
       } else if (querySnapshot.docs.length > 1) {
         FlutterLogs.logWarn("FirestoreController", "restoreAllConfigsFromFirebase",
             "There are two ore more users with the same Email! only one of them will be used");
-      } 
+      }
       user = querySnapshot.docs[0];
       FlutterLogs.logInfo("FirestoreController", "restoreAllConfigsFromFirebase",
           "User data has been found! Logging In with data: ${user!.data()}");
       SharedPrefsManager.backupFromFirestoreToLocal(user!);
       final secureSharedPrefs = SharedPrefsManager.secureSharedInstance;
-      if (secureSharedPrefs != null){
+      if (secureSharedPrefs != null) {
         secureSharedPrefs.putString("password", password!);
       }
       loggedUserId = user!.id;

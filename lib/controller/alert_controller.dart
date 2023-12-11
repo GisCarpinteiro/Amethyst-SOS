@@ -7,12 +7,6 @@ import 'package:vistas_amatista/models/alert.dart';
 
 // This class has the methods to update te JSON of the local User Data
 class AlertController {
-  // This method restores/creates the data based on a new logged fetching from the remote DB.
-  static restoreAll() {}
-
-  // This method updates the local alerts data.
-  static updateAlert(Alert targetAlert) {}
-
   static Future<String> getAlertsAsString(QueryDocumentSnapshot<Object?> user) async {
     try {
       final data = jsonEncode(user.get("alerts")).toString();

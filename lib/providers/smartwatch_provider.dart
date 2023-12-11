@@ -7,7 +7,7 @@ class SmartwatchProvider with ChangeNotifier {
   bool isSync = false;
   bool isReachable = false;
   int toleranceTimeOption = 0;
-  bool automaticSincronization = false;
+  bool automaticSincronization = SmartwatchService.automaticSync;
   final sharedPrefsInstance = SharedPrefsManager.sharedInstance;
 
   void updateState({bool? isSync, bool? isReachable}) {
@@ -26,6 +26,7 @@ class SmartwatchProvider with ChangeNotifier {
   }
 
   void changeAutomaticSincronization(bool option) {
+    SmartwatchService.automaticSync = option;
     automaticSincronization = option;
     notifyListeners();
   }

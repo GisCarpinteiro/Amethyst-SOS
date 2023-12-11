@@ -4,6 +4,7 @@ import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/alert.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class AlertProvider with ChangeNotifier {
   List<Alert> alerts = [];
@@ -82,6 +83,9 @@ class AlertProvider with ChangeNotifier {
         alerts = alertsCopy;
         SharedPrefsManager.updateAlertList(alerts);
         FlutterLogs.logInfo("AlertsProvider", "deleteAlert", "SUCCESS: The alert has ben deleted!");
+        if (SmartwatchService.automaticSync) {
+          SmartwatchService.sendSyncMessage();
+        }
         notifyListeners();
         return null;
       } else {
@@ -133,14 +137,17 @@ class AlertProvider with ChangeNotifier {
     if (await FirestoreController.updateAlertList(alertsCopy)) {
       // If succesfull then we update shared preferences data locally:
       SharedPrefsManager.updateAlertList(alertsCopy);
+      if (SmartwatchService.automaticSync) {
+          SmartwatchService.sendSyncMessage();
+      }
       isAlertEditionContext
           ? FlutterLogs.logInfo("AlertProvider", "saveAlert", "SUCCESS the alert has been updated!!!")
           : FlutterLogs.logInfo("AlertProvider", "saveALert", "SUCCESS the aelrt has been created!!!");
       notifyListeners();
       return null;
     } else {
-      FlutterLogs.logError(
-          "AlertProvider", "SaveAlert", "FAILURE: The alert hasn't been created/updated due to an error when trying to update the firestore data");
+      FlutterLogs.logError("AlertProvider", "SaveAlert",
+          "FAILURE: The alert hasn't been created/updated due to an error when trying to update the firestore data");
       return isAlertEditionContext
           ? "Ah ocurrido un error al actualizar la alerta de forma permanente. Revise su conexión a internet o intente más tarde"
           : "Ah ocurrido un error al crear la alerta de forma permanente. Revise su conexión a internet o intente más tarde";
