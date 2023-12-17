@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
-import 'package:vistas_amatista/providers/bottombar_provider.dart';
+import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
-import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
+import 'package:vistas_amatista/services/alert_services/alert_service.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 
 class SmartwatchService with ChangeNotifier {
   static HomeProvider? homeProvider;
-  static BottomBarProvider? bottomBarProvider;
+  static AlertButtonProvider? bottomBarProvider;
   static final sharedPrefsInstance = SharedPrefsManager.sharedInstance;
   static final watchConnection = WatchConnectivity();
   static bool isSynchronized = false;
@@ -28,7 +28,7 @@ class SmartwatchService with ChangeNotifier {
   static void startListening2Watch({int? times}) {
     _subscription?.cancel();
     // If the service is active, we must receive unlimited messages, if not, only the defined times
-    if (times != null && !AlertService.isServiceActive) watchConnection.messageStream.take(times);
+    if (times != null) watchConnection.messageStream.take(times);
     _subscription = watchConnection.messageStream.listen((message) => processMessageFromWatch(message));
   }
 
@@ -41,6 +41,8 @@ class SmartwatchService with ChangeNotifier {
     return isReachable;
   }
 
+  // * --------------------------- >>> DATA TRANSMISION ERRORS <<< ----------------------- * //
+
   //* A sync message needs to be sended to update the info that the watch has regarding groups, alerts, status of the service and other variables.
   //* This sync could be triggered mannualy, or automatically while the service is reachable
   static Future<String?> sendSyncMessage() async {
@@ -50,16 +52,30 @@ class SmartwatchService with ChangeNotifier {
       "groups": sharedPrefsInstance?.get("groups"),
       "toleranceDisconnectionTime": toleranceTimeInSeconds
     };
-    return await send(syncMessage);
+    final errorMessage = await send(syncMessage);
+    if (errorMessage != null) {
+      isSynchronized = false;
+      return errorMessage;
+    } else {
+      isSynchronized = true;
+      return null;
+    }
   }
 
   static Future<String?> sendStartServiceMessage() async {
+    FlutterLogs.logInfo("SmartwatchService", "sendStartServiceMessage", "Sending start service message to smartwatch");
     final Map<String, dynamic> message = {
       "type": "START",
-      "alert": AlertService.selectedAlert?.toJson(),
-      "group": AlertService.selectedGroup?.toJson(),
+      "alert": jsonEncode(AlertService.selectedAlert!.toJson()),
+      "group": jsonEncode(AlertService.selectedGroup!.toJson()),
       "toleranceDisconnectionTime": toleranceTimeInSeconds
     };
+    return await send(message);
+  }
+
+  static Future<String?> sendStopServiceMessage() async {
+    FlutterLogs.logInfo("SmartwatchService", "sendStopServiceMessage", "Sending stop service message to smartwatch");
+    final Map<String, dynamic> message = {"type": "STOP"};
     return await send(message);
   }
 
@@ -74,20 +90,21 @@ class SmartwatchService with ChangeNotifier {
         // We reasign the callback function that the stream does when data has been received
         _subscription?.onData((data) {
           response = data;
-          print("response from watch: $response");
+          FlutterLogs.logInfo(
+              "SmartwatchService", "send -> StreamSubscription.onData()", "Response from smartwatch: $response");
         });
 
         while (DateTime.now().difference(startTime) < const Duration(milliseconds: 2000)) {
           await Future.delayed(const Duration(milliseconds: 100));
           if (response.isNotEmpty) {
-            print(response);
-            _subscription?.cancel();
             startListening2Watch();
             return null;
           }
         }
+        startListening2Watch();
         return "Tiempo de espera ha sido excedido";
       } catch (e) {
+        startListening2Watch();
         return "Error";
       }
     } else {
@@ -96,13 +113,14 @@ class SmartwatchService with ChangeNotifier {
   }
 
   // * --------------------- >>> DATA RECEPTION METHODS <<< --------------------------------- * //
-  static bool processMessageFromWatch(Map<String, dynamic> data) {
+  static Future<bool> processMessageFromWatch(Map<String, dynamic> data) async {
     FlutterLogs.logInfo("SmartWatchService", "ProcessMessageFromWatch", "Message received with data: $data");
     switch (data['type']) {
       case 'START':
-        processStartServiceMessage(data).then((value) => watchConnection.sendMessage({"answer": "SUCCESS"}));
+        await processStartServiceMessage(data);
         break;
       case 'STOP':
+        await processStopServiceMessage(data);
         break;
       case 'ACTIVATE':
         break;
@@ -115,18 +133,36 @@ class SmartwatchService with ChangeNotifier {
 
   static Future<bool> processStartServiceMessage(Map<String, dynamic> data) async {
     FlutterLogs.logInfo(
-        "SmartwatchService", "ProccessStartServiceMessage", "Trying to start service from smartwatch...");
+        "SmartwatchService", "ProccessStartServiceMessage", "Trying to START service from smartwatch...");
 
     AlertService.selectedAlert = Alert.fromJson(json.decode(data['alert']));
     AlertService.selectedGroup = Group.fromJson(json.decode(data['group']));
     final serviceResponse = await AlertService.initServiceManually();
     if (serviceResponse == null) {
       if (homeProvider != null && bottomBarProvider != null) {
-        homeProvider!.startServiceStateFromWatch();
+        homeProvider!.startServiceFromWatch();
         bottomBarProvider!.enableAlertButton();
+        await watchConnection.sendMessage({"response": "SUCCESS"});
         return true;
       }
     }
+    await watchConnection.sendMessage({"response": "FAILURE"});
+    return false;
+  }
+
+  static Future<bool> processStopServiceMessage(Map<String, dynamic> data) async {
+    FlutterLogs.logInfo(
+        "SmartwatchService", "ProccessStartServiceMessage", "Trying to STOP service from smartwatch...");
+
+    if (await AlertService.stopService() == null) {
+      if (homeProvider != null && bottomBarProvider != null) {
+        homeProvider!.stopServiceFromWatch();
+        bottomBarProvider!.disableAlertButton();
+        await watchConnection.sendMessage({"response": "SUCCESS"});
+        return true;
+      }
+    }
+    await watchConnection.sendMessage({"response": "FAILURE"});
     return false;
   }
 }

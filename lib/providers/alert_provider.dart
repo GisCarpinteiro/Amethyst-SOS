@@ -4,6 +4,7 @@ import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/alert.dart';
+import 'package:vistas_amatista/services/alert_services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class AlertProvider with ChangeNotifier {
@@ -86,6 +87,7 @@ class AlertProvider with ChangeNotifier {
         if (SmartwatchService.automaticSync) {
           SmartwatchService.sendSyncMessage();
         }
+        AlertService.selectedAlert = null;
         notifyListeners();
         return null;
       } else {
@@ -137,8 +139,9 @@ class AlertProvider with ChangeNotifier {
     if (await FirestoreController.updateAlertList(alertsCopy)) {
       // If succesfull then we update shared preferences data locally:
       SharedPrefsManager.updateAlertList(alertsCopy);
+      AlertService.selectedAlert = null;
       if (SmartwatchService.automaticSync) {
-          SmartwatchService.sendSyncMessage();
+        SmartwatchService.sendSyncMessage();
       }
       isAlertEditionContext
           ? FlutterLogs.logInfo("AlertProvider", "saveAlert", "SUCCESS the alert has been updated!!!")

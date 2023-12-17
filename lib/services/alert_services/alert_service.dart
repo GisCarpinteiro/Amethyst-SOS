@@ -1,7 +1,9 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:vistas_amatista/api/rest_api.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/services/alert_services/permissions_manager.dart';
@@ -13,6 +15,7 @@ import 'package:vistas_amatista/services/trigger_services/smartwatch_trigger_ser
 import 'package:vistas_amatista/services/trigger_services/voice_trigger_service.dart';
 
 class AlertService {
+  // TriggerServices
   final ButtonTriggerService buttonTriggerService = ButtonTriggerService();
   final BacktapTriggerService backtapTriggerService = BacktapTriggerService();
   final DisconnectionTriggerService internetDisconnectionTrigger = DisconnectionTriggerService();
@@ -25,6 +28,11 @@ class AlertService {
   static bool isServiceActive = false;
   static AlertState alertState = AlertState.disabled;
   static bool basicPermissionsSatisfied = false;
+
+  static bool isCountdownActive = false;
+
+  static StreamSubscription<int>? countdownStream;
+  static int countdown = 0;
 
   static Duration? programmedDesactivationTime;
 
@@ -103,16 +111,35 @@ class AlertService {
     return null;
   }
 
-  static stopService() {
+  static Future<String?> stopService() async {
     if (!stopTriggerServices()) {
       FlutterLogs.logError("AlertManager", "stopServices()", "One or more services couldn't been stoped!");
+      return "No todos los servicios de activadores pudieron ser detenidos!";
     }
     isServiceActive = false;
+    return null;
   }
 
   static bool initServiceWithRoutine(
       {required Alert routineAlert, required Group routineGroup, Duration? desactivationTime}) {
     return true;
+  }
+
+  static void startActivationCountdown({required int toleranceSeconds, required Function(int) onEvent}) {
+    countdownStream?.cancel();
+    onEvent(toleranceSeconds);
+    //First we need to create the countdown stream to end it until
+    countdownStream =
+        Stream<int>.periodic(const Duration(seconds: 1), (value) => value).take(toleranceSeconds).listen((eventValue) {
+      onEvent(toleranceSeconds - 1 - eventValue);
+    });
+    countdownStream?.onDone(() {
+      RestConnector.sendAlertMessage(AlertService.selectedAlert!, AlertService.selectedGroup!);
+    });
+  }
+
+  static Future<void> stopActivationCountdown() async {
+    await countdownStream?.cancel();
   }
 
   static bool initTriggerServices() {

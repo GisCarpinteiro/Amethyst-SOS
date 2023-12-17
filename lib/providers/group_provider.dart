@@ -5,6 +5,7 @@ import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
+import 'package:vistas_amatista/services/alert_services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class GroupProvider with ChangeNotifier {
@@ -107,6 +108,7 @@ class GroupProvider with ChangeNotifier {
     if (await FirestoreController.updateGroupList(groups)) {
       // Then we update the shared preferences data to store it locally:
       SharedPrefsManager.updateGroupList(groups);
+      AlertService.selectedGroup = null;
       if (SmartwatchService.automaticSync) {
         SmartwatchService.sendSyncMessage();
       }
@@ -131,6 +133,7 @@ class GroupProvider with ChangeNotifier {
         // if removed succesfully on firestore then we delete it locally too.
         groups = finalList;
         SharedPrefsManager.updateGroupList(groups);
+        AlertService.selectedGroup = null;
         if (SmartwatchService.automaticSync) {
           SmartwatchService.sendSyncMessage();
         }
@@ -165,6 +168,7 @@ class GroupProvider with ChangeNotifier {
         // if updated succesfully on firestore then we update it locally to.
         groups = finalList;
         SharedPrefsManager.updateGroupList(groups);
+        AlertService.selectedGroup = null;
         if (SmartwatchService.automaticSync) {
           SmartwatchService.sendSyncMessage();
         }

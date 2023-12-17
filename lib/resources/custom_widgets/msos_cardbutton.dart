@@ -32,9 +32,9 @@ class MSosCardButton extends StatelessWidget {
           style: TextButton.styleFrom(
               backgroundColor: isDisabled ? disabledBackgroundColor : backgroundColor,
               padding: const EdgeInsets.all(10),
-              shape: const RoundedRectangleBorder(
-                  side: BorderSide(color: MSosColors.white, width: 2),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: isDisabled ? MSosColors.grayDark : MSosColors.darkPink, width: 2),
+                  borderRadius: const BorderRadius.all(Radius.circular(20))),
               elevation: 2,
               shadowColor: MSosColors.grayLight),
           onPressed: onPressed,

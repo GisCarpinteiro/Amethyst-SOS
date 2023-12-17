@@ -5,9 +5,9 @@ import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
-import 'package:vistas_amatista/providers/bottombar_provider.dart';
+import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
-import 'package:vistas_amatista/services/alert_services/alert_manager.dart';
+import 'package:vistas_amatista/services/alert_services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeProvider with ChangeNotifier {
@@ -27,8 +27,7 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-  void startServiceStateFromWatch() {
+  void startServiceFromWatch() {
     selectedAlert = AlertService.selectedAlert;
     selectedGroup = AlertService.selectedGroup;
     isServiceEnabled = true;
@@ -36,58 +35,54 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> startAlertService(BuildContext context) async {
-    FlutterLogs.logInfo("ButtomBar", "Start Service Button Callback", "Starting Alert Service...");
-    // TODO: Iniciar el servicio de alertas!!!!
-    toggleServiceEnabled();
-    if (isServiceEnabled) {
-      AlertService.initServiceManually().then((value) {
-        context.read<BottomBarProvider>().enableAlertButton();
-        if (AlertService.isServiceActive) {
-          MSosFloatingMessage.showMessage(
-            context,
-            title: "Servicio Activado",
-            message: 'Alerta "${selectedAlert!.name}" habilitada',
-            type: MSosMessageType.info,
-          );
-          if (SmartwatchService.isReachable) {
+  void stopServiceFromWatch() {
+    isServiceEnabled = false;
+    alertState = AlertState.disabled;
+    notifyListeners();
+  }
+
+  Future<String?> startAlertService(BuildContext context) async {
+    final buttonProvider = context.read<AlertButtonProvider>();
+    FlutterLogs.logInfo("HomeProvider", "StartAlertService", "Starting Alert Service...");
+    // First we verify an alert and group has been selected
+    if (selectedAlert == null) return "No se ha seleccionado una alerta!";
+    if (selectedGroup == null) return "No se ha seleccionado un grupo";
+    AlertService.selectedAlert = selectedAlert;
+    AlertService.selectedGroup = selectedGroup;
+    AlertService.initServiceManually().then((errorMessage) {
+      // We process if there was an error
+      if (errorMessage != null) return errorMessage;
+      buttonProvider.enableAlertButton();
+      // Then we validate the service has been initialized
+      if (!AlertService.isServiceActive) return "No se ha podido iniciar el servicio";
+      isServiceEnabled = true;
+      notifyListeners();
+      // If the smartwatch is reachable and syncronized, we try to send a message to it
+      if (SmartwatchService.isReachable && SmartwatchService.isSynchronized) {
+        FlutterLogs.logInfo("Home", "StartSmartwatchAlertService", "SMARTWATCH: Trying to start service on smartwatch");
+        SmartwatchService.sendStartServiceMessage().then((value) {
+          if (value != null) {
+            FlutterLogs.logError("Home", "StartSmartwatchAlertService",
+                "SMARTWATCH: The following error occurred when trying to init service on smartwatch: $value");
+            MSosFloatingMessage.showMessage(context, message: value, type: MSosMessageType.alert);
+          } else {
             FlutterLogs.logInfo(
-                "Home", "StartSmartwatchAlertService", "SMARTWATCH: Trying to start service on smartwatch");
-            SmartwatchService.sendStartServiceMessage().then((value) {
-              if (value != null) {
-                FlutterLogs.logError("Home", "StartSmartwatchAlertService",
-                    "SMARTWATCH: The following error occurred when trying to init service on smartwatch: $value");
-                MSosFloatingMessage.showMessage(context, message: "value", type: MSosMessageType.alert);
-              } else {
-                FlutterLogs.logInfo(
-                    "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");
-              }
-            });
+                "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");
           }
-          return true;
-        } else {
-          toggleServiceEnabled();
-          AlertService.stopService();
-          MSosFloatingMessage.showMessage(
-            context,
-            title: "Algo ha fallado!",
-            message: 'No se ha podido iniciar el servicio',
-            type: MSosMessageType.alert,
-          );
-          return false;
-        }
-      });
-    } else {
-      AlertService.stopService();
-      context.read<BottomBarProvider>().disableAlertButton();
-      MSosFloatingMessage.showMessage(
-        context,
-        title: "Servicio Desactivado",
-        message: 'Alerta "${selectedAlert!.name}" deshabilitada',
-      );
-      return false;
-    }
-    return false;
+        });
+      }
+      return null;
+    });
+  }
+
+  Future<String?> stopAlertService(BuildContext context) async {
+    AlertService.stopService().then((errorMessage) {
+      if (errorMessage != null) return errorMessage;
+      context.read<AlertButtonProvider>().disableAlertButton();
+      isServiceEnabled = false;
+      notifyListeners();
+    });
+    return null;
   }
 
   void selectAlert(Alert alert) {
@@ -105,6 +100,8 @@ class HomeProvider with ChangeNotifier {
   void getAlertAndGroupList() {
     alerts = AlertController.getAlerts();
     groups = GroupController.getGroups();
+    AlertService.selectedAlert = AlertService.selectedAlert ?? (alerts.isEmpty ? null : alerts[0]);
+    AlertService.selectedGroup = AlertService.selectedGroup ?? (alerts.isEmpty ? null : groups[0]);
     selectedAlert = AlertService.selectedAlert;
     selectedGroup = AlertService.selectedGroup;
   }

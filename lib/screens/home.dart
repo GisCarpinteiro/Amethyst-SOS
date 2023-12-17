@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vistas_amatista/providers/bottombar_provider.dart';
+import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -9,9 +9,10 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_cardbutton.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
@@ -24,11 +25,12 @@ class HomeScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     //We initialize the view by fetching the saved values from the configs
     final HomeProvider provider = context.read<HomeProvider>();
-    final BottomBarProvider alertButtonProvider = context.read<BottomBarProvider>();
+    final AlertButtonProvider alertButtonProvider = context.read<AlertButtonProvider>();
     final HomeProvider state = context.watch<HomeProvider>();
     provider.getAlertAndGroupList();
     SmartwatchService.homeProvider = provider;
     SmartwatchService.bottomBarProvider = alertButtonProvider;
+    SmartwatchService.startListening2Watch();
     late MSosPopUpMenu selectAlertPopUpMenu;
     late MSosPopUpMenu selectGroupPopUpMenu;
 
@@ -150,12 +152,16 @@ class HomeScreen extends StatelessWidget {
                           MSosButton(
                             text: state.selectedAlert == null ? "" : state.selectedAlert!.name,
                             style: MSosButton.multiOptionButton,
-                            onPressed: () => selectAlertPopUpMenu.showPopUpMenu(context),
+                            onPressed: () => {
+                              if (!state.isServiceEnabled) {selectAlertPopUpMenu.showPopUpMenu(context)}
+                            },
                           ),
                           MSosButton(
                             text: state.selectedGroup == null ? "" : state.selectedGroup!.name,
                             style: MSosButton.multiOptionButton,
-                            onPressed: () => selectGroupPopUpMenu.showPopUpMenu(context),
+                            onPressed: () => {
+                              if (!state.isServiceEnabled) {selectGroupPopUpMenu.showPopUpMenu(context)}
+                            },
                           ),
                         ],
                       ),
@@ -166,7 +172,29 @@ class HomeScreen extends StatelessWidget {
                             style: MSosButton.smallButton,
                             color: state.isServiceEnabled ? MSosColors.pink : MSosColors.blue,
                             onPressed: () {
-                              provider.startAlertService(context);
+                              if (state.isServiceEnabled) {
+                                provider.stopAlertService(context).then((errorMessage) {
+                                  if (errorMessage != null) {
+                                    MSosFloatingMessage.showMessage(context,
+                                        message: errorMessage, type: MSosMessageType.alert);
+                                  } else {
+                                    MSosFloatingMessage.showMessage(context,
+                                        message: "Se ha detenido el servicio correctamente",
+                                        type: MSosMessageType.info);
+                                  }
+                                });
+                              } else {
+                                provider.startAlertService(context).then((errorMessage) {
+                                  if (errorMessage != null) {
+                                    MSosFloatingMessage.showMessage(context,
+                                        message: errorMessage, type: MSosMessageType.alert);
+                                  } else {
+                                    MSosFloatingMessage.showMessage(context,
+                                        message: "Se ha iniciado el servicio correctamente",
+                                        type: MSosMessageType.info);
+                                  }
+                                });
+                              }
                             }),
                       ])
                     ],

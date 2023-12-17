@@ -6,7 +6,7 @@ import 'package:vistas_amatista/blocs/trigger_blocs/trigger_config_bloc.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/providers/app_settings_provider.dart';
-import 'package:vistas_amatista/providers/bottombar_provider.dart';
+import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
@@ -36,7 +36,6 @@ import 'package:vistas_amatista/screens/wizard/signup.dart';
 import 'package:vistas_amatista/screens/wizard/signup2.dart';
 import 'package:vistas_amatista/screens/logging/startup.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:vistas_amatista/services/smartwatch_service.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -63,7 +62,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomeProvider()),
-          ChangeNotifierProvider(create: (_) => BottomBarProvider()),
+          ChangeNotifierProvider(create: (_) => AlertButtonProvider()),
           ChangeNotifierProvider(create: (_) => RoutineProvider()),
           ChangeNotifierProvider(create: (_) => GroupProvider()),
           ChangeNotifierProvider(create: (_) => SignUpProvider()),

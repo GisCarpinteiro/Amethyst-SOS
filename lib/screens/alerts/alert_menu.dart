@@ -8,7 +8,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_floating_alert_button.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
@@ -45,8 +45,6 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: MSosAppBar(title: isEdition ? "Editar Alerta" : "Crear Alerta", icon: FontAwesomeIcons.circleExclamation),
-      drawer: const MSosDashboard(),
-      drawerEnableOpenDragGesture: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: const MSosAlertButton(),
       bottomNavigationBar: const CustomBottomAppBar(isFromAlertScreen: true),
