@@ -5,7 +5,7 @@ import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class GroupProvider with ChangeNotifier {

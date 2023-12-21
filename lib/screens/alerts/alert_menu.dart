@@ -203,9 +203,9 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                                         ? MSosColors.blue
                                                         : MSosColors.grayLight),
                                                 icon: const FaIcon(
-                                                  FontAwesomeIcons.towerCell,
+                                                  Icons.wifi_off_rounded,
                                                   color: MSosColors.white,
-                                                  size: 18,
+                                                  size: 24,
                                                 )),
                                             const MSosText(
                                               'desconexión con la red',

@@ -1,12 +1,16 @@
 // This class is the one in charge to define and control the logic of the service of alert activation based on the configurations for each alert
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:vistas_amatista/api/rest_api.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
-import 'package:vistas_amatista/services/alert_services/permissions_manager.dart';
+import 'package:vistas_amatista/providers/home_provider.dart';
+import 'package:vistas_amatista/services/disconnection_service.dart';
+import 'package:vistas_amatista/services/location_service.dart';
+import 'package:vistas_amatista/services/permissions_manager.dart';
 import 'package:vistas_amatista/services/trigger_services/backtap_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/button_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/internet_disconnection_service.dart';
@@ -15,6 +19,12 @@ import 'package:vistas_amatista/services/trigger_services/smartwatch_trigger_ser
 import 'package:vistas_amatista/services/trigger_services/voice_trigger_service.dart';
 
 class AlertService {
+  static const UPDATE_LOCATION_FAILURE =
+      "No fué posible actualizar la ubicación en el servidor para el servicio de activación por desconexión, conéctese a internet y trate de detener el servicio para evitar una falsa alarma";
+  static const SMARTWATCH_HAS_DISCONNECTED =
+      "El smartwatch se ha desconectado, lo que ha provocado que se dispare la cuenta regresiva para activar las alertas";
+  static const DISCONNECTION_SERVICE_ALERTED =
+      "El servidor ha enviado los mensajes de alerta debido a una desconexión prolongada";
   // TriggerServices
   final ButtonTriggerService buttonTriggerService = ButtonTriggerService();
   final BacktapTriggerService backtapTriggerService = BacktapTriggerService();
@@ -28,16 +38,17 @@ class AlertService {
   static bool isServiceActive = false;
   static AlertState alertState = AlertState.disabled;
   static bool basicPermissionsSatisfied = false;
+  static Set<String> activeMessages = <String>{
+    "Este es un mensaje de notificación",
+    "Y este de acá simplemente es otro, no paran de salir, de hecho este es hasta un poco más largo"
+  };
 
   static bool isCountdownActive = false;
-
   static StreamSubscription<int>? countdownStream;
   static int countdown = 0;
 
-  static Duration? programmedDesactivationTime;
-
   static postBackend(String userId) async {
-    final url = 'http://10.0.2.2:8080/services/disconnection';
+    const url = 'http://10.0.2.2:8080/services/disconnection';
     Map<String, dynamic> data = {
       "alertMessage": "Necesito tu ayuda!",
       "contacts": ["3314237139", "3314237139"],
@@ -101,6 +112,17 @@ class AlertService {
         return "Uno o más premisos básicos no se han otorgados, aseguresé de haberlos aceptado o hágalo desde el menú de configuración del dispositivo";
       }
     }
+    // * We confirm that the location service is able to provide us the locations
+    if (!await LocationService.initLocationService()) {
+      FlutterLogs.logError("AlertManager", "InitServiceManually()", "Location Service failed to start");
+      return "El servicio de ubicación no pudo iniciar, asegurate de haber concedido los permisos correspondientes";
+    }
+    // * Then we try to send a ping to the server to start communications and send messages.
+
+    // * Then we will start the stream in charge to update location on the alert service periodically
+
+    // * Then, if disconnection service is enabled we start the stream in charge to send updates to the server
+
     FlutterLogs.logInfo("AlertManager", "InitServiceManually()", "ALERT SERVICE STARTED");
     isServiceActive = true;
     alertState = AlertState.inactive;
@@ -125,16 +147,17 @@ class AlertService {
     return true;
   }
 
-  static void startActivationCountdown({required int toleranceSeconds, required Function(int) onEvent}) {
+  static void startActivationCountdown(
+      {required int toleranceSeconds, required void Function(int) onEvent, required void Function() onDone}) {
     countdownStream?.cancel();
     onEvent(toleranceSeconds);
     //First we need to create the countdown stream to end it until
     countdownStream =
         Stream<int>.periodic(const Duration(seconds: 1), (value) => value).take(toleranceSeconds).listen((eventValue) {
+      if (eventValue == toleranceSeconds - 1) {
+        onDone();
+      }
       onEvent(toleranceSeconds - 1 - eventValue);
-    });
-    countdownStream?.onDone(() {
-      RestConnector.sendAlertMessage(AlertService.selectedAlert!, AlertService.selectedGroup!);
     });
   }
 
@@ -172,7 +195,7 @@ class AlertService {
 
   static bool stopTriggerServices() {
     if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger]) {
-      // TODO: Implementar la inicialización del disconnection trigger
+      DisconnectionService.stopDisconnectionService();
     }
 
     if (selectedAlert!.triggers[Alert.buttonTrigger]) {

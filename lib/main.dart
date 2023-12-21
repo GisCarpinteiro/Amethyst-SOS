@@ -7,6 +7,7 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/providers/app_settings_provider.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
+import 'package:vistas_amatista/providers/disconnection_menu_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
@@ -20,6 +21,7 @@ import 'package:vistas_amatista/screens/groups/group_list.dart';
 import 'package:vistas_amatista/screens/groups/group_menu.dart';
 import 'package:vistas_amatista/screens/routines/routine_list.dart';
 import 'package:vistas_amatista/screens/routines/routine_menu.dart';
+import 'package:vistas_amatista/screens/services/disconnection_menu.dart';
 import 'package:vistas_amatista/screens/services/smartwatch_menu.dart';
 import 'package:vistas_amatista/screens/wizard/confirm_email.dart';
 import 'package:vistas_amatista/screens/demo_menu.dart';
@@ -69,7 +71,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => LoginProvider()),
           ChangeNotifierProvider(create: (_) => AlertProvider()),
           ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
-          ChangeNotifierProvider(create: (_) => SmartwatchProvider())
+          ChangeNotifierProvider(create: (_) => SmartwatchProvider()),
+          ChangeNotifierProvider(create: (_) => DisconnectionProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -103,6 +106,7 @@ class MyApp extends StatelessWidget {
             '/routine_menu': (context) => const RoutineMenuScreen(),
             '/app_settings': (context) => const AppSettingsScreen(),
             '/smartwatch_menu': (context) => const SmartwatchMenu(),
+            '/disconnection_menu': (context) => const DisconnectionMenu(),
           },
           initialRoute: '/test_demo',
           //This allow us to define a default page when an unexisting route is requested

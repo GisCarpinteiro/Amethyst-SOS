@@ -6,7 +6,7 @@ import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 import '../resources/custom_widgets/msos_text.dart';
 
@@ -101,8 +101,7 @@ class _DemoScreenState extends State<DemoScreen> {
                     text: "PUT",
                     style: MSosButton.subMenuLargeBtn,
                     onPressed: () {
-                      //AlertService.putBackend(userid);
-                      AlertService.startActivationCountdown(toleranceSeconds: 10, onEvent: (value) => print(value));
+                      AlertService.putBackend(userid);
                     },
                   ),
                 ],

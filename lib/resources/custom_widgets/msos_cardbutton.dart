@@ -39,16 +39,17 @@ class MSosCardButton extends StatelessWidget {
               shadowColor: MSosColors.grayLight),
           onPressed: onPressed,
           child: SizedBox(
-            height: 80,
+            height: 60,
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 70,
+                    width: 90,
                     child: MSosText(
                       title,
+                      size: 13,
                       alignment: TextAlign.start,
                       isMultiline: true,
                       textColor: foregroundColor,

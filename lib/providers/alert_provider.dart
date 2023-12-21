@@ -4,7 +4,7 @@ import 'package:vistas_amatista/controller/alert_controller.dart';
 import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/models/alert.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class AlertProvider with ChangeNotifier {

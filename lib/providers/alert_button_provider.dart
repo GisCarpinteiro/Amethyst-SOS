@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/api/rest_alert_connector.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 
 class AlertButtonProvider with ChangeNotifier {
   bool alertButtonEnabled = false;
@@ -29,12 +30,24 @@ class AlertButtonProvider with ChangeNotifier {
     if (!AlertService.isServiceActive) return;
     alertCoundownActivated = true;
     AlertService.isCountdownActive = true;
-    AlertService.startActivationCountdown(onEvent: showCountDown, toleranceSeconds: toleranceSeconds);
+    RestConnector.sendAlertMessage(AlertService.selectedAlert!, AlertService.selectedGroup!);
+    AlertService.startActivationCountdown(
+        onEvent: showCountDown, toleranceSeconds: toleranceSeconds, onDone: stopAlertCountdown);
     notifyListeners();
   }
 
+  void terminateAlertCountdown() {
+    RestConnector.cancelAlertMessage().then((result) {
+      if (result) {
+        AlertService.stopActivationCountdown();
+        AlertService.isCountdownActive = false;
+        alertCoundownActivated = false;
+        notifyListeners();
+      }
+    });
+  }
+
   void stopAlertCountdown() {
-    AlertService.stopActivationCountdown();
     AlertService.isCountdownActive = false;
     alertCoundownActivated = false;
     notifyListeners();

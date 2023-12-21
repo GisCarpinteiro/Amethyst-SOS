@@ -22,8 +22,6 @@ class SmartwatchMenu extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const MSosAppBar(title: 'Smartwatch', icon: Icons.watch),
-        drawer: const MSosDashboard(),
-        drawerEnableOpenDragGesture: false,
         body: Container(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
@@ -53,6 +51,7 @@ class SmartwatchMenu extends StatelessWidget {
                             if (errorMessage == null) {
                               MSosFloatingMessage.showMessage(context,
                                   message: "Reloj emparejado!", type: MSosMessageType.info);
+                              Navigator.pushNamed(context, '/home');
                             } else {
                               MSosFloatingMessage.showMessage(
                                 context,

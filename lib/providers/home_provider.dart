@@ -7,8 +7,9 @@ import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
+import 'package:vistas_amatista/services/disconnection_service.dart';
 
 class HomeProvider with ChangeNotifier {
   bool isServiceEnabled =
@@ -18,6 +19,7 @@ class HomeProvider with ChangeNotifier {
   AlertState alertState = AlertState.disabled; // State of the alert (active, inactive, waiting, disable)
   List<Alert> alerts = [];
   List<Group> groups = [];
+  bool pendingAlertMessages = false;
 
   void toggleServiceEnabled() {
     //TODO: Llamar a alert service para que inicialice con el servicio de las alertas!
@@ -56,8 +58,6 @@ class HomeProvider with ChangeNotifier {
       // Then we validate the service has been initialized
       if (!AlertService.isServiceActive) return "No se ha podido iniciar el servicio";
       isServiceEnabled = true;
-      notifyListeners();
-      // If the smartwatch is reachable and syncronized, we try to send a message to it
       if (SmartwatchService.isReachable && SmartwatchService.isSynchronized) {
         FlutterLogs.logInfo("Home", "StartSmartwatchAlertService", "SMARTWATCH: Trying to start service on smartwatch");
         SmartwatchService.sendStartServiceMessage().then((value) {
@@ -71,8 +71,11 @@ class HomeProvider with ChangeNotifier {
           }
         });
       }
-      return null;
+      notifyListeners();
     });
+    // If the smartwatch is reachable and syncronized, we try to send a message to it
+    await DisconnectionService.startDisconnectionService();
+    return null;
   }
 
   Future<String?> stopAlertService(BuildContext context) async {

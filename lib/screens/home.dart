@@ -14,6 +14,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_option_card.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -81,40 +82,39 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
 //* ----------------------------- >>> TRIGGERS PANEL <<< ----------------------------------
-                      const MSosText(
-                        "Activadores",
-                        style: MSosText.subtitleStyle,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              MSosMiniButton(
-                                text: "desconexión",
-                                callback: () {},
-                                isActive: true,
-                              ),
-                              MSosMiniButton(
-                                text: "backtap",
-                                callback: () {},
-                                isActive: false,
-                                isDisabled: true,
-                              ),
-                              MSosMiniButton(
-                                text: "smartwatch",
-                                callback: () {},
-                                isActive: false,
-                                isDisabled: true,
-                              ),
-                            ],
-                          ),
-                          const Row(),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
+                      // const MSosText(
+                      //   "Activadores Habilitados",
+                      //   style: MSosText.subtitleStyle,
+                      // ),
+                      // Column(
+                      //   children: [
+                      //     Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         MSosMiniButton(
+                      //           text: "desconexión",
+                      //           callback: () {},
+                      //           isActive: true,
+                      //         ),
+                      //         MSosMiniButton(
+                      //           text: "backtap",
+                      //           callback: () {},
+                      //           isActive: false,
+                      //           isDisabled: true,
+                      //         ),
+                      //         MSosMiniButton(
+                      //           text: "smartwatch",
+                      //           callback: () {},
+                      //           isActive: false,
+                      //           isDisabled: true,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     const Row(),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 20),
 //* ----------------------------- >>> SERVICES PANEL <<< ----------------------------------
                       const MSosText(
                         "Servicios",
@@ -127,12 +127,35 @@ class HomeScreen extends StatelessWidget {
                             title: "Mapa de Riesgos",
                             icon: FontAwesomeIcons.earthAmericas,
                             isDisabled: true,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/disconnection_menu');
+                            },
                           ),
                           const SizedBox(width: 10),
                           MSosCardButton(
-                            title: "Smart Watch",
+                            title: "Servicios de Smartwatch",
                             icon: Icons.watch,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/smartwatch_menu');
+                            },
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          MSosCardButton(
+                            title: "Desconexión a Internet",
+                            icon: Icons.wifi_off_rounded,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/disconnection_menu');
+                            },
+                          ),
+                          const SizedBox(width: 10),
+                          MSosCardButton(
+                            title: "Activadores extras",
+                            icon: FontAwesomeIcons.shield,
+                            isDisabled: true,
                             onPressed: () {
                               Navigator.pushNamed(context, '/smartwatch_menu');
                             },
@@ -196,7 +219,35 @@ class HomeScreen extends StatelessWidget {
                                 });
                               }
                             }),
-                      ])
+                      ]),
+                      const SizedBox(height: 20),
+                      Visibility(
+                        visible: AlertService.activeMessages.isNotEmpty,
+                        child: Column(
+                          children: [
+                            const MSosText(
+                              "Notificaciones",
+                              style: MSosText.subtitleStyle,
+                            ),
+                            const SizedBox(height: 5),
+                            SizedBox(
+                              height: 140,
+                              child: ListView.separated(
+                                itemCount: AlertService.activeMessages.length,
+                                separatorBuilder: (BuildContext context, int index) => const Divider(
+                                  height: 8,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return MSosText(
+                                    AlertService.activeMessages.elementAt(index),
+                                    isMultiline: true,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),

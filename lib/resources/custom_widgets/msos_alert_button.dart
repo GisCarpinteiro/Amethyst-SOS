@@ -5,7 +5,7 @@ import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 
 class MSosAlertButton extends StatelessWidget {
   const MSosAlertButton({super.key});
@@ -18,7 +18,6 @@ class MSosAlertButton extends StatelessWidget {
     return Visibility(
       visible: !keyBoardIsOpen,
       child: FloatingActionButton.large(
-          
           backgroundColor: state.alertButtonEnabled ? MSosColors.pink : MSosColors.grayDark,
           shape: const CircleBorder(),
           onPressed: () {
@@ -30,10 +29,10 @@ class MSosAlertButton extends StatelessWidget {
               MSosFloatingMessage.showMessage(context,
                   message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
             } else {
-              provider.stopAlertCountdown();
+              provider.terminateAlertCountdown();
             }
           },
-          child: state.alertCoundownActivated && state.alertButtonEnabled
+          child: state.alertCoundownActivated
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

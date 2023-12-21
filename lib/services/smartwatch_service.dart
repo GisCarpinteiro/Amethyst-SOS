@@ -8,7 +8,7 @@ import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
-import 'package:vistas_amatista/services/alert_services/alert_service.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 
 class SmartwatchService with ChangeNotifier {
