@@ -3,20 +3,24 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:vistas_amatista/api/rest_alert_connector.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
-import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/services/disconnection_service.dart';
 import 'package:vistas_amatista/services/location_service.dart';
 import 'package:vistas_amatista/services/permissions_manager.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 import 'package:vistas_amatista/services/trigger_services/backtap_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/button_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/internet_disconnection_service.dart';
 import 'package:vistas_amatista/services/trigger_services/smartwatch_disconnection_service.dart';
 import 'package:vistas_amatista/services/trigger_services/smartwatch_trigger_service.dart';
 import 'package:vistas_amatista/services/trigger_services/voice_trigger_service.dart';
+
+import '../resources/custom_widgets/msos_snackbar.dart';
 
 class AlertService {
   static const UPDATE_LOCATION_FAILURE =
@@ -35,9 +39,11 @@ class AlertService {
 
   static Alert? selectedAlert;
   static Group? selectedGroup;
+  static BuildContext? homeContext;
   static bool isServiceActive = false;
   static AlertState alertState = AlertState.disabled;
   static bool basicPermissionsSatisfied = false;
+  static int timeLeft = 0;
   static Set<String> activeMessages = <String>{
     "Este es un mensaje de notificación",
     "Y este de acá simplemente es otro, no paran de salir, de hecho este es hasta un poco más largo"
@@ -90,7 +96,7 @@ class AlertService {
   }
 
   // This method is used when starting service from the Home Screen and pressing the start service Button
-  static Future<String?> initServiceManually() async {
+  static Future<String?> start({bool fromWatch = false}) async {
     // Verify that there's an alert selected
     if (selectedAlert == null) {
       FlutterLogs.logError(
@@ -102,7 +108,6 @@ class AlertService {
       return "No se ha seleccionado un grupo para iniciar el servicio";
     }
 
-    // * What do we need to do after activating an alert?
     // * First we check if needed permissions have been granted. if not, we try to ask for them.
     if (!basicPermissionsSatisfied) {
       basicPermissionsSatisfied = await PermissionsManager.requestAllBasicPermissions();
@@ -117,25 +122,27 @@ class AlertService {
       FlutterLogs.logError("AlertManager", "InitServiceManually()", "Location Service failed to start");
       return "El servicio de ubicación no pudo iniciar, asegurate de haber concedido los permisos correspondientes";
     }
-    // * Then we try to send a ping to the server to start communications and send messages.
-
-    // * Then we will start the stream in charge to update location on the alert service periodically
-
-    // * Then, if disconnection service is enabled we start the stream in charge to send updates to the server
 
     FlutterLogs.logInfo("AlertManager", "InitServiceManually()", "ALERT SERVICE STARTED");
     isServiceActive = true;
     alertState = AlertState.inactive;
     // Start all the configured trigger services:
-    if (!initTriggerServices()) {
+    if (!initServices(fromWatch: fromWatch)) {
       FlutterLogs.logError("AlertManager", "InitServiceManually()", "One or more services couldn't start");
     }
     return null;
   }
 
-  static Future<String?> stopService() async {
-    if (!stopTriggerServices()) {
-      FlutterLogs.logError("AlertManager", "stopServices()", "One or more services couldn't been stoped!");
+  static Future<String?> stop() async {
+    if (isCountdownActive) {
+      final response = await RestConnector.cancelAlertMessage();
+      if (!response) {
+        FlutterLogs.logError("AlertManager", "stopService()", "One or more services couldn't been stoped!");
+      }
+      stopActivationCountdown();
+    }
+    if (!stopServices()) {
+      FlutterLogs.logError("AlertManager", "stopService()", "One or more services couldn't been stoped!");
       return "No todos los servicios de activadores pudieron ser detenidos!";
     }
     isServiceActive = false;
@@ -157,33 +164,37 @@ class AlertService {
       if (eventValue == toleranceSeconds - 1) {
         onDone();
       }
-      onEvent(toleranceSeconds - 1 - eventValue);
+      timeLeft = toleranceSeconds - 1 - eventValue;
+      onEvent(timeLeft);
     });
   }
 
   static Future<void> stopActivationCountdown() async {
+    isCountdownActive = false;
     await countdownStream?.cancel();
   }
 
-  static bool initTriggerServices() {
+  static bool initServices({bool fromWatch = false}) {
+    FlutterLogs.logInfo("AlertService", "initServices", "Trying to start the services");
+
     if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger]) {
-      // TODO: Implementar la inicialización del disconnection trigger
+      DisconnectionService.startDisconnectionService();
     }
 
-    if (selectedAlert!.triggers[Alert.buttonTrigger]) {
-      // TODO: Implementar la lógica necesaria para habilitar el botón como disparador
-    }
-
-    if (selectedAlert!.triggers[Alert.backtapTrigger]) {
-      // TODO: Implementar el servicio de backtap para la activación de las alertas (Probablemente solo aplique para iOS)
-    }
-
-    if (selectedAlert!.triggers[Alert.voiceTrigger]) {
-      // TODO: Implemenentar la lógica para habilitar y hacer uso del activador por comandos de voz
-    }
-
-    if (selectedAlert!.triggers[Alert.smartwatcTrigger]) {
-      // TODO: Implementar la lógica para poder activar las alertas desde el smartawtch e iniciar la conexión con la app
+    if (selectedAlert!.triggers[Alert.smartwatchTrigger] && !fromWatch) {
+      if (SmartwatchService.isReachable && SmartwatchService.isSynchronized) {
+        FlutterLogs.logInfo("AlertService", "initServices", "SMARTWATCH: Trying to start smartwatch service");
+        SmartwatchService.sendStartServiceMessage().then((value) {
+          if (value != null) {
+            FlutterLogs.logError("Home", "StartSmartwatchAlertService",
+                "SMARTWATCH: The following error occurred when trying to init service on smartwatch: $value");
+            MSosFloatingMessage.showMessage(homeContext!, message: value, type: MSosMessageType.alert);
+          } else {
+            FlutterLogs.logInfo(
+                "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");
+          }
+        });
+      }
     }
 
     if (selectedAlert!.triggers[Alert.smartwatchDisconnectionTrigger]) {
@@ -193,29 +204,13 @@ class AlertService {
     return true;
   }
 
-  static bool stopTriggerServices() {
+  static bool stopServices() {
     if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger]) {
       DisconnectionService.stopDisconnectionService();
     }
 
-    if (selectedAlert!.triggers[Alert.buttonTrigger]) {
-      // TODO: Implementar la lógica necesaria para habilitar el botón como disparador
-    }
-
-    if (selectedAlert!.triggers[Alert.backtapTrigger]) {
-      // TODO: Implementar el servicio de backtap para la activación de las alertas (Probablemente solo aplique para iOS)
-    }
-
-    if (selectedAlert!.triggers[Alert.voiceTrigger]) {
-      // TODO: Implemenentar la lógica para habilitar y hacer uso del activador por comandos de voz
-    }
-
-    if (selectedAlert!.triggers[Alert.smartwatcTrigger]) {
-      // TODO: Implementar la lógica para poder activar las alertas desde el smartawtch e iniciar la conexión con la app
-    }
-
-    if (selectedAlert!.triggers[Alert.smartwatchDisconnectionTrigger]) {
-      // TODO: Crear la implementación de el servicio de desconexión a internet ()
+    if (selectedAlert!.triggers[Alert.smartwatchTrigger]) {
+      SmartwatchService.sendStopServiceMessage();
     }
     return true;
   }

@@ -22,7 +22,6 @@ class MSosAlertButton extends StatelessWidget {
           shape: const CircleBorder(),
           onPressed: () {
             if (!AlertService.isServiceActive) return;
-            // TODO: Implementar las alertaaaas!!!
             if (!state.alertCoundownActivated) {
               // If the alert is not under countdown activation we start it on press
               provider.startAlertCountdown(toleranceSeconds: AlertService.selectedAlert!.toleranceSeconds);

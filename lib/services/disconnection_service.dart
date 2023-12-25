@@ -1,17 +1,19 @@
 import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/api/rest_alert_connector.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
-import 'package:vistas_amatista/models/alert.dart';
+import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/location_service.dart';
 
 class DisconnectionService {
   static int toleranceMinutes = 5;
-  static bool isServiceEnabled = true;
+  static bool isServiceEnabled = false;
   // The warning state happends when a location update fails to be sended to server.
   static bool warningState = false;
+  static bool isActive = false;
+  static BuildContext? globalContext;
 
   static StreamSubscription<bool>? updateLocationSubscription;
 
@@ -48,30 +50,30 @@ class DisconnectionService {
     }
 
     // If the service was correctly initiated then we start the stram in charge to update the location periodically
-    updateLocationSubscription?.cancel();
+    await updateLocationSubscription?.cancel();
 
     updateLocationSubscription =
-        Stream<bool>.periodic(Duration(seconds: toleranceMinutes), (value) => true).listen((event) {
-      updateLocation().then((value) {
-        if (!value) {
-          if (!warningState) {
-            AlertService.activeMessages.add(AlertService.UPDATE_LOCATION_FAILURE);
-            warningState = true;
-          } else {
-            AlertService.activeMessages.remove(AlertService.UPDATE_LOCATION_FAILURE);
-            AlertService.activeMessages.add(AlertService.DISCONNECTION_SERVICE_ALERTED);
-            stopDisconnectionService();
-            warningState = false;
-          }
-        } else {
-          if (warningState) {
-            AlertService.activeMessages.remove(AlertService.UPDATE_LOCATION_FAILURE);
-            warningState = false;
-          }
-        }
-      });
-    });
+        Stream<bool>.periodic(Duration(seconds: toleranceMinutes), (value) => true).listen((event) async {
+      final isUpdated = await updateLocation();
 
+      if (!isUpdated) {
+        if (warningState) {
+          warningState = false;
+          MSosFloatingMessage.showMessage(globalContext!,
+              type: MSosMessageType.alert,
+              title: "Servicio de Desconexión:",
+              message:
+                  "La actualización de ubicación falló dos veces consecutivas. Las alertas serán enviadas por el servidor");
+          await updateLocationSubscription?.cancel();
+        } else {
+          warningState = true;
+          MSosFloatingMessage.showMessage(globalContext!,
+              type: MSosMessageType.alert,
+              title: "Servicio de Desconexión:",
+              message: "No se actualizó la última actualización! podría causar envió de alerta involuntario");
+        }
+      }
+    });
     return true;
   }
 
@@ -81,14 +83,11 @@ class DisconnectionService {
     }
     final String? userId = SharedPrefsManager.sharedInstance!.getString("id");
     if (userId == null) return false;
-    RestConnector.terminateDisconnectionService(userId).then((successful) {
-      if (!successful) return false;
-      updateLocationSubscription?.cancel();
-      FlutterLogs.logInfo("DisconnectionService", "stopDisconnectionService",
-          "TERMINATED: Disconnection service has been succesfully stoped");
-      return true;
-    });
-    return false;
+    if (!await RestConnector.terminateDisconnectionService(userId)) return false;
+    await updateLocationSubscription?.cancel();
+    FlutterLogs.logInfo("DisconnectionService", "stopDisconnectionService",
+        "TERMINATED: Disconnection service has been succesfully stoped");
+    return true;
   }
 
   static Future<bool> updateLocation() async {

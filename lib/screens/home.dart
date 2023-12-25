@@ -15,6 +15,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_pop_up_menu.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
+import 'package:vistas_amatista/services/disconnection_service.dart';
 import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,11 +27,14 @@ class HomeScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     //We initialize the view by fetching the saved values from the configs
     final HomeProvider provider = context.read<HomeProvider>();
-    final AlertButtonProvider alertButtonProvider = context.read<AlertButtonProvider>();
+
     final HomeProvider state = context.watch<HomeProvider>();
     provider.getAlertAndGroupList();
-    SmartwatchService.homeProvider = provider;
-    SmartwatchService.bottomBarProvider = alertButtonProvider;
+    // * We need to provide context to the different services so they can send toasts and refresh UI components:
+    SmartwatchService.homeContext ??= context;
+    AlertService.homeContext ??= context;
+    DisconnectionService.globalContext ??= context;
+
     SmartwatchService.startListening2Watch();
     late MSosPopUpMenu selectAlertPopUpMenu;
     late MSosPopUpMenu selectGroupPopUpMenu;
@@ -202,6 +206,7 @@ class HomeScreen extends StatelessWidget {
                                         message: errorMessage, type: MSosMessageType.alert);
                                   } else {
                                     MSosFloatingMessage.showMessage(context,
+                                        title: "SERVICIO DE ALERTAS:",
                                         message: "Se ha detenido el servicio correctamente",
                                         type: MSosMessageType.info);
                                   }
@@ -213,6 +218,7 @@ class HomeScreen extends StatelessWidget {
                                         message: errorMessage, type: MSosMessageType.alert);
                                   } else {
                                     MSosFloatingMessage.showMessage(context,
+                                        title: "SERVICIO DE ALERTAS:",
                                         message: "Se ha iniciado el servicio correctamente",
                                         type: MSosMessageType.info);
                                   }

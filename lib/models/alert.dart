@@ -21,7 +21,7 @@ class Alert {
   static const buttonTrigger = 'button_trigger';
   static const voiceTrigger = 'voice_trigger';
   static const internetDisconnectionTrigger = 'disconnection_trigger';
-  static const smartwatcTrigger = 'smartwatch_trigger';
+  static const smartwatchTrigger = 'smartwatch_trigger';
   static const smartwatchDisconnectionTrigger = 'smartwatch_disconnection_trigger';
 
   const Alert(
@@ -35,7 +35,7 @@ class Alert {
         backtapTrigger: false,
         voiceTrigger: false,
         internetDisconnectionTrigger: true,
-        smartwatcTrigger: false,
+        smartwatchTrigger: false,
         smartwatchDisconnectionTrigger: false,
       }});
 

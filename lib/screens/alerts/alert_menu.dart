@@ -38,6 +38,8 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
     final state = context.watch<AlertProvider>();
     final provider = context.read<AlertProvider>();
 
+    
+
     // We read if either is the Edition Screen or the Creation Screen
     bool isEdition = state.isAlertEditionContext;
     // Initialize some values if is an edition of an existing alert or the creation of a new one

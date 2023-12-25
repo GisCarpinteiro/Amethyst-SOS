@@ -55,7 +55,7 @@ class SmartwatchMenu extends StatelessWidget {
                             } else {
                               MSosFloatingMessage.showMessage(
                                 context,
-                                title: "No fué posible sincronizarse con el smartwatch.",
+                                title: "SERVICIO DE SMARTWATCH",
                                 message: "Verifique que emparejado y que la app Amatista está abierta",
                                 type: MSosMessageType.alert,
                               );

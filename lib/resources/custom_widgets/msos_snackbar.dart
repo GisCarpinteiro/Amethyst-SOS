@@ -19,13 +19,14 @@ class MSosFloatingMessage {
                 ? MSosText(
                     title,
                     textColor: MSosColors.white,
-                    size: 16,
+                    style: MSosText.subtitleStyle,
                   )
                 : null,
             icon: icon,
             messageText: MSosText(
               message,
               textColor: MSosColors.white,
+              isMultiline: true,
             ),
             duration: const Duration(seconds: 3),
             backgroundColor: switch (type) {

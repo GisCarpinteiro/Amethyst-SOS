@@ -30,11 +30,13 @@ class AlertProvider with ChangeNotifier {
   }
 
   void editionContext(Alert targetAlert) {
+    final optionValues = {10: 0, 30: 1, 60: 2, 120: 3, 300: 4};
     targetAlertId = targetAlert.id;
     isAlertEditionContext = true;
     alertNameCtrl.text = targetAlert.name;
     messageCtrl.text = targetAlert.message;
     toleranceTime = targetAlert.toleranceSeconds;
+    toleranceTimeOption = optionValues[toleranceTime] ?? 1;
     shareLocation = targetAlert.shareLocation;
     triggers = targetAlert.triggers;
   }

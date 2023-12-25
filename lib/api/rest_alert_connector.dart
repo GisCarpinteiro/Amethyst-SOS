@@ -129,7 +129,7 @@ class RestConnector {
     final uri = "$LOCALHOST$DISSCONNECTION_SERVICE/user/$userid";
     try {
       http.Response response = await http.put(Uri.parse(uri),
-          headers: <String, String>{"location": location}).timeout(const Duration(milliseconds: 2000));
+          headers: <String, String>{"location": location}).timeout(const Duration(milliseconds: 1000));
       if (response.statusCode == 200) {
         return true;
       } else {

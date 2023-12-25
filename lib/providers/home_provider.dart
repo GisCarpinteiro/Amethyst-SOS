@@ -6,10 +6,7 @@ import 'package:vistas_amatista/controller/group_controller.dart';
 import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
-import 'package:vistas_amatista/services/smartwatch_service.dart';
-import 'package:vistas_amatista/services/disconnection_service.dart';
 
 class HomeProvider with ChangeNotifier {
   bool isServiceEnabled =
@@ -51,35 +48,22 @@ class HomeProvider with ChangeNotifier {
     if (selectedGroup == null) return "No se ha seleccionado un grupo";
     AlertService.selectedAlert = selectedAlert;
     AlertService.selectedGroup = selectedGroup;
-    AlertService.initServiceManually().then((errorMessage) {
+    AlertService.start().then((errorMessage) {
       // We process if there was an error
       if (errorMessage != null) return errorMessage;
       buttonProvider.enableAlertButton();
       // Then we validate the service has been initialized
       if (!AlertService.isServiceActive) return "No se ha podido iniciar el servicio";
       isServiceEnabled = true;
-      if (SmartwatchService.isReachable && SmartwatchService.isSynchronized) {
-        FlutterLogs.logInfo("Home", "StartSmartwatchAlertService", "SMARTWATCH: Trying to start service on smartwatch");
-        SmartwatchService.sendStartServiceMessage().then((value) {
-          if (value != null) {
-            FlutterLogs.logError("Home", "StartSmartwatchAlertService",
-                "SMARTWATCH: The following error occurred when trying to init service on smartwatch: $value");
-            MSosFloatingMessage.showMessage(context, message: value, type: MSosMessageType.alert);
-          } else {
-            FlutterLogs.logInfo(
-                "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");
-          }
-        });
-      }
+      // If the smartwatch is reachable and syncronized, we try to send a message to it
       notifyListeners();
     });
-    // If the smartwatch is reachable and syncronized, we try to send a message to it
-    await DisconnectionService.startDisconnectionService();
+
     return null;
   }
 
   Future<String?> stopAlertService(BuildContext context) async {
-    AlertService.stopService().then((errorMessage) {
+    AlertService.stop().then((errorMessage) {
       if (errorMessage != null) return errorMessage;
       context.read<AlertButtonProvider>().disableAlertButton();
       isServiceEnabled = false;
