@@ -5,7 +5,7 @@ import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
 // This class is used to show snackbars, the equivalent of Toast messages on android
-enum MSosMessageType { info, alert, hint }
+enum MSosMessageType { info, error, hint }
 
 class MSosFloatingMessage {
   // Info message on Screen
@@ -32,7 +32,7 @@ class MSosFloatingMessage {
             backgroundColor: switch (type) {
               null => MSosColors.grayMedium,
               MSosMessageType.info => MSosColors.blue,
-              MSosMessageType.alert => MSosColors.pink,
+              MSosMessageType.error => MSosColors.pink,
               MSosMessageType.hint => MSosColors.grayMedium,
             })
         .show(context);

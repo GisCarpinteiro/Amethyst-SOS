@@ -79,7 +79,7 @@ class AlertSettingsScreen extends StatelessWidget {
                                       provider.deleteAlert(state.alerts[index]).then((value) {
                                         if (value != null) {
                                           MSosFloatingMessage.showMessage(context,
-                                              message: value, type: MSosMessageType.alert);
+                                              message: value, type: MSosMessageType.error);
                                         } else {
                                           MSosFloatingMessage.showMessage(context,
                                               message: "Alerta eliminada", type: MSosMessageType.info);

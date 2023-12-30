@@ -53,7 +53,7 @@ class GroupProvider with ChangeNotifier {
                 MSosFloatingMessage.showMessage(
                   context,
                   message: response,
-                  type: MSosMessageType.alert,
+                  type: MSosMessageType.error,
                 )
               }
             else
@@ -67,7 +67,7 @@ class GroupProvider with ChangeNotifier {
                 MSosFloatingMessage.showMessage(
                   context,
                   message: response,
-                  type: MSosMessageType.alert,
+                  type: MSosMessageType.error,
                 )
               }
             else

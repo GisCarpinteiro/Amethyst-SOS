@@ -63,7 +63,7 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
       if (contactFormKey.currentState!.validate()) {
         popUpFlushMenu.dismissPopUpMenu();
         if (!provider.createNewContact(contactName: contactNameController.text, phone: phoneController.text)) {
-          MSosFloatingMessage.showMessage(context, message: "El contacto ya existe", type: MSosMessageType.alert);
+          MSosFloatingMessage.showMessage(context, message: "El contacto ya existe", type: MSosMessageType.error);
         }
       }
     });

@@ -7,6 +7,8 @@ import 'package:vistas_amatista/models/alert.dart';
 import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
+import 'package:vistas_amatista/services/disconnection_service.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class HomeProvider with ChangeNotifier {
   bool isServiceEnabled =
@@ -17,6 +19,11 @@ class HomeProvider with ChangeNotifier {
   List<Alert> alerts = [];
   List<Group> groups = [];
   bool pendingAlertMessages = false;
+  // SECONDARY SERVICES STATES: true = active, false = inactive, null = inactive due to errors,
+  bool riskMapState = false;
+  bool extraTriggersState = false;
+  bool smartwatchServiceState = SmartwatchService.isReachable;
+  bool disconnectionServiceState = DisconnectionService.isActive;
 
   void toggleServiceEnabled() {
     //TODO: Llamar a alert service para que inicialice con el servicio de las alertas!
@@ -82,6 +89,12 @@ class HomeProvider with ChangeNotifier {
     selectedGroup = group;
     AlertService.selectedGroup = selectedGroup;
     notifyListeners();
+  }
+
+  void refreshHomeScreenState() {
+    getAlertAndGroupList();
+    smartwatchServiceState = SmartwatchService.isReachable;
+    disconnectionServiceState = DisconnectionService.isServiceEnabled;
   }
 
   void getAlertAndGroupList() {

@@ -38,8 +38,6 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
     final state = context.watch<AlertProvider>();
     final provider = context.read<AlertProvider>();
 
-    
-
     // We read if either is the Edition Screen or the Creation Screen
     bool isEdition = state.isAlertEditionContext;
     // Initialize some values if is an edition of an existing alert or the creation of a new one
@@ -317,7 +315,7 @@ class _AlertMenuScreenState extends State<AlertMenuScreen> {
                                   provider.saveAlert().then((errorMessage) {
                                     if (errorMessage != null) {
                                       MSosFloatingMessage.showMessage(context,
-                                          message: errorMessage, type: MSosMessageType.alert);
+                                          message: errorMessage, type: MSosMessageType.error);
                                     } else {
                                       Navigator.pushNamed(context, '/alert_list');
                                     }

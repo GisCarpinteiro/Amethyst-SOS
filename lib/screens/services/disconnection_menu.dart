@@ -44,7 +44,10 @@ class DisconnectionMenu extends StatelessWidget {
                       const SizedBox(height: 5),
                       CupertinoSwitch(
                         value: state.isGlobalyEnabled,
-                        onChanged: (value) => provider.toggleGlobalyEnabled(value),
+                        onChanged: (value) {
+                          provider.toggleGlobalyEnabled(value);
+                          Navigator.popAndPushNamed(context, '/home');
+                        },
                         activeColor: MSosColors.blue,
                       ),
                       const SizedBox(height: 10),

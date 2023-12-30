@@ -10,15 +10,19 @@ class MSosCardButton extends StatelessWidget {
   final IconData icon;
   final Color backgroundColor;
   final Color foregroundColor;
+  final Color errorBackgroundColor;
   final Color disabledBackgroundColor;
   final VoidCallback onPressed;
+  final bool errorState;
   final bool isDisabled;
 
   const MSosCardButton({
     this.title = "hello world",
     this.icon = Icons.play_arrow,
-    this.backgroundColor = MSosColors.pink,
+    this.backgroundColor = MSosColors.blue,
+    this.errorBackgroundColor = MSosColors.pink,
     this.foregroundColor = MSosColors.white,
+    this.errorState = false,
     this.disabledBackgroundColor = MSosColors.grayMedium,
     this.isDisabled = false,
     required this.onPressed,
@@ -30,10 +34,20 @@ class MSosCardButton extends StatelessWidget {
     return Expanded(
       child: TextButton(
           style: TextButton.styleFrom(
-              backgroundColor: isDisabled ? disabledBackgroundColor : backgroundColor,
+              backgroundColor: isDisabled
+                  ? disabledBackgroundColor
+                  : errorState
+                      ? errorBackgroundColor
+                      : backgroundColor,
               padding: const EdgeInsets.all(10),
               shape: RoundedRectangleBorder(
-                  side: BorderSide(color: isDisabled ? MSosColors.grayDark : MSosColors.darkPink, width: 2),
+                  side: BorderSide(
+                      color: isDisabled
+                          ? MSosColors.grayDark
+                          : errorState
+                              ? MSosColors.darkPink
+                              : MSosColors.blueDark,
+                      width: 2),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               elevation: 2,
               shadowColor: MSosColors.grayLight),

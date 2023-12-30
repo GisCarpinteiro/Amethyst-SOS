@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
@@ -29,13 +28,13 @@ class HomeScreen extends StatelessWidget {
     final HomeProvider provider = context.read<HomeProvider>();
 
     final HomeProvider state = context.watch<HomeProvider>();
-    provider.getAlertAndGroupList();
+    SmartwatchService.startListening2Watch();
+    provider.refreshHomeScreenState();
     // * We need to provide context to the different services so they can send toasts and refresh UI components:
     SmartwatchService.homeContext ??= context;
     AlertService.homeContext ??= context;
     DisconnectionService.globalContext ??= context;
 
-    SmartwatchService.startListening2Watch();
     late MSosPopUpMenu selectAlertPopUpMenu;
     late MSosPopUpMenu selectGroupPopUpMenu;
 
@@ -87,38 +86,38 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
 //* ----------------------------- >>> TRIGGERS PANEL <<< ----------------------------------
-                      // const MSosText(
-                      //   "Activadores Habilitados",
-                      //   style: MSosText.subtitleStyle,
-                      // ),
-                      // Column(
-                      //   children: [
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //         MSosMiniButton(
-                      //           text: "desconexión",
-                      //           callback: () {},
-                      //           isActive: true,
-                      //         ),
-                      //         MSosMiniButton(
-                      //           text: "backtap",
-                      //           callback: () {},
-                      //           isActive: false,
-                      //           isDisabled: true,
-                      //         ),
-                      //         MSosMiniButton(
-                      //           text: "smartwatch",
-                      //           callback: () {},
-                      //           isActive: false,
-                      //           isDisabled: true,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     const Row(),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 20),
+                      /* const MSosText(
+                        "Activadores Habilitados",
+                        style: MSosText.subtitleStyle,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              MSosMiniButton(
+                                text: "desconexión",
+                                callback: () {},
+                                isActive: true,
+                              ),
+                              MSosMiniButton(
+                                text: "backtap",
+                                callback: () {},
+                                isActive: false,
+                                isDisabled: true,
+                              ),
+                              MSosMiniButton(
+                                text: "smartwatch",
+                                callback: () {},
+                                isActive: false,
+                                isDisabled: true,
+                              ),
+                            ],
+                          ),
+                          const Row(),
+                        ],
+                      ),
+                      const SizedBox(height: 20), */
 //* ----------------------------- >>> SERVICES PANEL <<< ----------------------------------
                       const MSosText(
                         "Servicios",
@@ -130,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                           MSosCardButton(
                             title: "Mapa de Riesgos",
                             icon: FontAwesomeIcons.earthAmericas,
-                            isDisabled: true,
+                            isDisabled: !state.riskMapState,
                             onPressed: () {
                               Navigator.pushNamed(context, '/disconnection_menu');
                             },
@@ -139,6 +138,7 @@ class HomeScreen extends StatelessWidget {
                           MSosCardButton(
                             title: "Servicios de Smartwatch",
                             icon: Icons.watch,
+                            isDisabled: !state.smartwatchServiceState,
                             onPressed: () {
                               Navigator.pushNamed(context, '/smartwatch_menu');
                             },
@@ -151,6 +151,7 @@ class HomeScreen extends StatelessWidget {
                           MSosCardButton(
                             title: "Desconexión a Internet",
                             icon: Icons.wifi_off_rounded,
+                            isDisabled: !state.disconnectionServiceState,
                             onPressed: () {
                               Navigator.pushNamed(context, '/disconnection_menu');
                             },
@@ -159,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                           MSosCardButton(
                             title: "Activadores extras",
                             icon: FontAwesomeIcons.shield,
-                            isDisabled: true,
+                            isDisabled: !state.extraTriggersState,
                             onPressed: () {
                               Navigator.pushNamed(context, '/smartwatch_menu');
                             },
@@ -203,7 +204,7 @@ class HomeScreen extends StatelessWidget {
                                 provider.stopAlertService(context).then((errorMessage) {
                                   if (errorMessage != null) {
                                     MSosFloatingMessage.showMessage(context,
-                                        message: errorMessage, type: MSosMessageType.alert);
+                                        message: errorMessage, type: MSosMessageType.error);
                                   } else {
                                     MSosFloatingMessage.showMessage(context,
                                         title: "SERVICIO DE ALERTAS:",
@@ -215,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                                 provider.startAlertService(context).then((errorMessage) {
                                   if (errorMessage != null) {
                                     MSosFloatingMessage.showMessage(context,
-                                        message: errorMessage, type: MSosMessageType.alert);
+                                        message: errorMessage, type: MSosMessageType.error);
                                   } else {
                                     MSosFloatingMessage.showMessage(context,
                                         title: "SERVICIO DE ALERTAS:",

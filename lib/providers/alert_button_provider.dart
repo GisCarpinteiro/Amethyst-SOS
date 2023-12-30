@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vistas_amatista/api/rest_alert_connector.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
+import 'package:vistas_amatista/services/smartwatch_service.dart';
 
 class AlertButtonProvider with ChangeNotifier {
   bool alertButtonEnabled = false;
@@ -20,35 +21,55 @@ class AlertButtonProvider with ChangeNotifier {
   void disableAlertButton() {
     alertButtonEnabled = false;
     if (alertCoundownActivated) {
-      AlertService.stopActivationCountdown();
+      AlertService.cancelAlert();
       alertCoundownActivated = false;
     }
 
     notifyListeners();
   }
 
-  Future<void> startAlertCountdown({int toleranceSeconds = 30}) async {
-    if (!AlertService.isServiceActive) return;
+  Future<bool?> startAlertCountdown({int toleranceSeconds = 30}) async {
+    if (!AlertService.isServiceActive) return false;
     loading = true;
     notifyListeners();
-    await RestConnector.sendAlertMessage(AlertService.selectedAlert!, AlertService.selectedGroup!);
+    final successful = await RestConnector.sendAlertMessage(AlertService.selectedAlert!, AlertService.selectedGroup!);
     loading = false;
-    alertCoundownActivated = true;
-    AlertService.isCountdownActive = true;
-    AlertService.startActivationCountdown(
-        onEvent: showCountDown, toleranceSeconds: toleranceSeconds, onDone: stopAlertCountdown);
-    notifyListeners();
+    if (successful == true) {
+      alertCoundownActivated = true;
+      AlertService.isCountdownActive = true;
+      AlertService.activateAlertCountdown(
+          onEvent: showCountDown, toleranceSeconds: toleranceSeconds, onDone: stopAlertCountdown);
+      notifyListeners();
+      // If the smartwatch is reachable we try to send a message to it
+      if (await SmartwatchService.checkIfReachable()) {
+        // Sync if needed before update
+        if (SmartwatchService.isSynchronized == false) {
+          await SmartwatchService.sendSyncMessage();
+        }
+        SmartwatchService.sendAlerActivationMessage();
+      }
+      return true;
+    } else {
+      return successful;
+    }
   }
 
-  Future<void> terminateAlertCountdown() async {
-    RestConnector.cancelAlertMessage().then((result) {
-      if (result) {
-        AlertService.stopActivationCountdown();
-        AlertService.isCountdownActive = false;
+  Future<bool> terminateAlertCountdown() async {
+    loading = true;
+    notifyListeners();
+    AlertService.cancelAlert().then((value) async {
+      if (value) {
         alertCoundownActivated = false;
+        loading = false;
         notifyListeners();
+        if (await SmartwatchService.checkIfReachable()) {
+          SmartwatchService.sendAlertCancelationMessage();
+        }
+        return true;
       }
     });
+    loading = false;
+    return false;
   }
 
   void stopAlertCountdown() {

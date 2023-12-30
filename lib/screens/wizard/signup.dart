@@ -110,18 +110,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                           onPressed: () {
                                             if (_formKey.currentState!.validate()) {
-                                              if (passwordController.text == confirmPasswordController.text){
+                                              if (passwordController.text == confirmPasswordController.text) {
                                                 provider.valuesFromFirstForm(
-                                                  name: nameController.text,
-                                                  email: emailController.text,
-                                                  password: passwordController.text);
+                                                    name: nameController.text,
+                                                    email: emailController.text,
+                                                    password: passwordController.text);
                                                 Navigator.pushNamed(context, '/signup2');
                                               } else {
-                                                MSosFloatingMessage.showMessage(context, message: "La contraseña no coincide con su confirmación!");
+                                                MSosFloatingMessage.showMessage(context,
+                                                    message: "La contraseña no coincide con su confirmación!");
                                               }
                                             } else {
                                               MSosFloatingMessage.showMessage(context,
-                                                  message: "Datos no válidos", type: MSosMessageType.alert);
+                                                  message: "Datos no válidos", type: MSosMessageType.error);
                                             } // go to next screen
                                           },
                                           child: const MSosText(

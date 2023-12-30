@@ -17,7 +17,7 @@ class RestConnector {
 
   // * -------------------->>> request under the path /alerts <<< ------------------- * //
 
-  static Future<bool> sendAlertMessage(Alert alert, Group group) async {
+  static Future<bool?> sendAlertMessage(Alert alert, Group group) async {
     const uri = LOCALHOST + ALERTS_SERVICE_ROUTE;
     final String? userId = sharedPrefsInsance!.getString('id');
     final String? location = (await LocationService.getCurrentLocation());
@@ -47,7 +47,7 @@ class RestConnector {
       http.Response response = await http
           .post(Uri.parse(uri),
               headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'}, body: messageAsJson)
-          .timeout(const Duration(milliseconds: 2000));
+          .timeout(const Duration(milliseconds: 5000));
       if (response.statusCode == 200) {
         FlutterLogs.logInfo("RestConnector", "sendAlertMessage",
             "SUCCESS: The alert message was succesfully send to server and is waiting for a cancelation message within the tolerance time before being send");
@@ -55,7 +55,7 @@ class RestConnector {
       } else {
         FlutterLogs.logError("RestConnector", "sendAlertMessage",
             "FAILURE: Error while sending POST request to server with status: ${response.statusCode} and body: ${response.body}");
-        return false;
+        return null;
       }
     } catch (e) {
       FlutterLogs.logError("RestConnector", "sendAlertMessage", "FAILURE: There was an error sending the message: $e");

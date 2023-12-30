@@ -7,6 +7,7 @@ class SmartwatchProvider with ChangeNotifier {
   bool isSync = false;
   bool isReachable = false;
   int toleranceTimeOption = 0;
+  bool isSyncLoading = false;
   bool automaticSincronization = SmartwatchService.automaticSync;
   final sharedPrefsInstance = SharedPrefsManager.sharedInstance;
 
@@ -16,8 +17,14 @@ class SmartwatchProvider with ChangeNotifier {
   }
 
   Future<String?> syncWatch() async {
+    isSyncLoading = true;
+    notifyListeners();
     FlutterLogs.logInfo("SmartwatchProvider", "syncWatch", "Trying to sync up with the smartwatch");
-    return await SmartwatchService.sendSyncMessage();
+    return await SmartwatchService.sendSyncMessage().then((value) {
+      isSyncLoading = false;
+      notifyListeners();
+      return value;
+    });
   }
 
   void changeToleranceOption(int option) {

@@ -60,7 +60,7 @@ class DisconnectionService {
         if (warningState) {
           warningState = false;
           MSosFloatingMessage.showMessage(globalContext!,
-              type: MSosMessageType.alert,
+              type: MSosMessageType.error,
               title: "Servicio de Desconexión:",
               message:
                   "La actualización de ubicación falló dos veces consecutivas. Las alertas serán enviadas por el servidor");
@@ -68,7 +68,7 @@ class DisconnectionService {
         } else {
           warningState = true;
           MSosFloatingMessage.showMessage(globalContext!,
-              type: MSosMessageType.alert,
+              type: MSosMessageType.error,
               title: "Servicio de Desconexión:",
               message: "No se actualizó la última actualización! podría causar envió de alerta involuntario");
         }

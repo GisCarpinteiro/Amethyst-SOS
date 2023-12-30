@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vistas_amatista/providers/smartwatch_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
 
@@ -42,26 +42,39 @@ class SmartwatchMenu extends StatelessWidget {
                         alignment: TextAlign.justify,
                       ),
                       const SizedBox(height: 10),
-                      MSosButton(
-                        text: "Sincronizar",
-                        style: MSosButton.smallButton,
-                        color: MSosColors.blue,
-                        onPressed: () {
-                          provider.syncWatch().then((errorMessage) {
-                            if (errorMessage == null) {
-                              MSosFloatingMessage.showMessage(context,
-                                  message: "Reloj emparejado!", type: MSosMessageType.info);
-                              Navigator.pushNamed(context, '/home');
-                            } else {
-                              MSosFloatingMessage.showMessage(
-                                context,
-                                title: "SERVICIO DE SMARTWATCH",
-                                message: "Verifique que emparejado y que la app Amatista está abierta",
-                                type: MSosMessageType.alert,
-                              );
-                            }
-                          });
-                        },
+                      Row(
+                        children: [
+                          MSosButton(
+                            text: "Sincronizar",
+                            style: MSosButton.smallButton,
+                            color: MSosColors.blue,
+                            onPressed: () async {
+                              await provider.syncWatch().then((errorMessage) {
+                                if (errorMessage == null) {
+                                  MSosFloatingMessage.showMessage(context,
+                                      message: "Reloj emparejado!", type: MSosMessageType.info);
+                                  Navigator.pushNamed(context, '/home');
+                                } else {
+                                  MSosFloatingMessage.showMessage(
+                                    context,
+                                    title: "SERVICIO DE SMARTWATCH",
+                                    message: "Verifique que emparejado y que la app Amatista está abierta",
+                                    type: MSosMessageType.error,
+                                  );
+                                }
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Visibility(
+                              visible: state.isSyncLoading,
+                              child: LoadingAnimationWidget.inkDrop(
+                                color: MSosColors.blueDark,
+                                size: 28,
+                              ))
+                        ],
                       ),
                       const SizedBox(height: 20),
                       const MSosText(

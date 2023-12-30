@@ -117,7 +117,7 @@ class _LogInScreenState extends State<SignUpScreen2> {
                                               Navigator.pushNamed(context, '/confirm_email');
                                             } else {
                                               MSosFloatingMessage.showMessage(context,
-                                                  message: "Datos inválidos!", type: MSosMessageType.alert);
+                                                  message: "Datos inválidos!", type: MSosMessageType.error);
                                             } // go to next screen
                                           },
                                           child: const MSosText(

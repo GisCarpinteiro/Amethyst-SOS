@@ -168,7 +168,7 @@ class _RoutineMenuScreenState extends State<RoutineMenuScreen> {
                                 provider.saveRoutine(newRoutineName: routineNameController.text).then((response) {
                                   if (response != null) {
                                     MSosFloatingMessage.showMessage(context,
-                                        message: response, type: MSosMessageType.alert);
+                                        message: response, type: MSosMessageType.error);
                                   } else {
                                     Navigator.pushNamed(context, "/routine_list");
                                   }

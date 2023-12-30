@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
 import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
@@ -24,9 +25,24 @@ class MSosAlertButton extends StatelessWidget {
             if (!AlertService.isServiceActive) return;
             if (!state.alertCoundownActivated) {
               // If the alert is not under countdown activation we start it on press
-              provider.startAlertCountdown(toleranceSeconds: AlertService.selectedAlert!.toleranceSeconds);
-              MSosFloatingMessage.showMessage(context,
-                  message: "¡Se ha activado la alerta!", type: MSosMessageType.alert);
+              provider
+                  .startAlertCountdown(toleranceSeconds: AlertService.selectedAlert!.toleranceSeconds)
+                  .then((successful) {
+                if (successful == true) {
+                  MSosFloatingMessage.showMessage(context,
+                      title: "Servicio de Alertas", message: "¡Se ha activado la alerta!", type: MSosMessageType.info);
+                } else if (successful == false) {
+                  MSosFloatingMessage.showMessage(context,
+                      title: "Servicio de Alertas",
+                      message: "No se pudo activar la alerta, error en el servidor!",
+                      type: MSosMessageType.error);
+                } else if (successful == null) {
+                  MSosFloatingMessage.showMessage(context,
+                      title: "Servicio de Alertas",
+                      message: "Error de conexión, confirme que se encuentra conectado a internet",
+                      type: MSosMessageType.error);
+                }
+              });
             } else {
               provider.terminateAlertCountdown();
             }
@@ -39,10 +55,12 @@ class MSosAlertButton extends StatelessWidget {
                     const FaIcon(FontAwesomeIcons.stop, color: MSosColors.white, size: 22)
                   ],
                 )
-              : FaIcon(
-                  FontAwesomeIcons.solidPaperPlane,
-                  color: state.alertButtonEnabled ? MSosColors.white : MSosColors.grayLight,
-                )),
+              : state.loading
+                  ? LoadingAnimationWidget.inkDrop(color: Colors.white, size: 50)
+                  : FaIcon(
+                      FontAwesomeIcons.solidPaperPlane,
+                      color: state.alertButtonEnabled ? MSosColors.white : MSosColors.grayLight,
+                    )),
     );
   }
 }

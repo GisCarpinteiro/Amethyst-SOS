@@ -139,7 +139,7 @@ class AlertService {
       if (!response) {
         FlutterLogs.logError("AlertManager", "stopService()", "One or more services couldn't been stoped!");
       }
-      stopActivationCountdown();
+      cancelAlert();
     }
     if (!stopServices()) {
       FlutterLogs.logError("AlertManager", "stopService()", "One or more services couldn't been stoped!");
@@ -154,7 +154,7 @@ class AlertService {
     return true;
   }
 
-  static void startActivationCountdown(
+  static void activateAlertCountdown(
       {required int toleranceSeconds, required void Function(int) onEvent, required void Function() onDone}) {
     countdownStream?.cancel();
     onEvent(toleranceSeconds);
@@ -169,9 +169,19 @@ class AlertService {
     });
   }
 
-  static Future<void> stopActivationCountdown() async {
-    isCountdownActive = false;
-    await countdownStream?.cancel();
+  static Future<bool> cancelAlert() async {
+    FlutterLogs.logInfo("AlertService", "cancelAlert", "Trying to cancel alert");
+    final result = await RestConnector.cancelAlertMessage();
+    if (result) {
+      FlutterLogs.logInfo("AlertService", "cancelAlert", "SUCCESS: Alert was succesfully canceled");
+      isCountdownActive = false;
+      isCountdownActive = false;
+      await countdownStream?.cancel();
+      return true;
+    }
+    FlutterLogs.logError(
+        "AlertService", "cancelAlert", "FAILURE: The alert was not canceled due to an error on server");
+    return false;
   }
 
   static bool initServices({bool fromWatch = false}) {
@@ -188,7 +198,7 @@ class AlertService {
           if (value != null) {
             FlutterLogs.logError("Home", "StartSmartwatchAlertService",
                 "SMARTWATCH: The following error occurred when trying to init service on smartwatch: $value");
-            MSosFloatingMessage.showMessage(homeContext!, message: value, type: MSosMessageType.alert);
+            MSosFloatingMessage.showMessage(homeContext!, message: value, type: MSosMessageType.error);
           } else {
             FlutterLogs.logInfo(
                 "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");

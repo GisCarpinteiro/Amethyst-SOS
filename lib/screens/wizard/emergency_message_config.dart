@@ -88,7 +88,7 @@ class EmergencyMessageWizardScreen extends StatelessWidget {
                                     provider.saveAlert().then((result) {
                                       if (result != null) {
                                         MSosFloatingMessage.showMessage(context,
-                                            message: result, type: MSosMessageType.alert);
+                                            message: result, type: MSosMessageType.error);
                                       } else {
                                         Navigator.pushNamed(context, '/trust_group_wizard');
                                       }
