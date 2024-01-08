@@ -53,6 +53,7 @@ dependencies:
   watch_connectivity: ^0.1.6
   location: ^5.0.3
   loading_animation_widget: ^1.2.0+4
+  flutter_local_notifications: ^16.3.0
   http: ^0.13.6
   
   

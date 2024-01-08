@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
@@ -22,6 +21,8 @@ class SmartwatchService with ChangeNotifier {
   static int toleranceTimeInSeconds = 120;
   static bool automaticSync = true;
   static StreamSubscription<Map<String, dynamic>>? _subscription;
+  static StreamSubscription<bool>? _watchDisconnectionSub;
+  static bool warningState = false;
 
   // * ------------------------ >>> GENERAL METHODS <<< ----------------------------------- * //
 
@@ -59,6 +60,7 @@ class SmartwatchService with ChangeNotifier {
       return errorMessage;
     } else {
       isSynchronized = true;
+      isReachable = true;
       return null;
     }
   }
@@ -230,5 +232,53 @@ class SmartwatchService with ChangeNotifier {
       await watchConnection.sendMessage({"response": "SUCCESS"});
       return true;
     }
+  }
+
+  // * ------------------->>> Smartwatch Disconnection Service <<< --------------------- * //
+
+  static void startSmartwatchDisconnectionService() {
+    _watchDisconnectionSub = Stream<bool>.periodic(const Duration(seconds: 5), (value) => true).listen((event) async {
+      final value = await checkIfReachable();
+      if (value) {
+        FlutterLogs.logInfo(
+            'SmartwatchService', 'smartwatchDisconnectionSubscription', 'Smartwatch keeps being reachable!');
+        if (warningState) {
+          warningState = false;
+        }
+      } else {
+        if (warningState) {
+          final errorMsg = await AlertService.start();
+          if (errorMsg == null) {
+            FlutterLogs.logInfo('SmartwatcService', 'smartwatchDisconnectionSubscription',
+                'The alert has been activated due to a long disconnection with the smartwatch');
+            MSosFloatingMessage.showMessage(homeContext!,
+                title: 'SERVICIO DE SMARTWATCH:',
+                type: MSosMessageType.error,
+                message: 'La alerta ha sido activada debido a una desconexión con el smartwatch');
+          } else {
+            FlutterLogs.logError('SmartwatcService', 'smartwatchDisconnectionSubscriptiona',
+                'The alert has been activated due to a long disconnection with the smartwatch');
+            MSosFloatingMessage.showMessage(homeContext!,
+                title: 'SERVICIO DE SMARTWATCH:',
+                type: MSosMessageType.error,
+                message:
+                    'La alerta no pudo ser activada por desconexión con el smartwatch, compruebe su conexión a internet');
+            await stopSmartwatchDisconnectionService();
+          }
+          warningState = false;
+        } else {
+          warningState = true;
+          MSosFloatingMessage.showMessage(homeContext!,
+              title: 'SERVICIO DE SMARTWATCH:',
+              type: MSosMessageType.error,
+              message:
+                  'Se perdió la conexión con el smartwatch, entrando en estado de alerta. Compruebe que está conectado y que la app está activa');
+        }
+      }
+    });
+  }
+
+  static Future<void> stopSmartwatchDisconnectionService() async {
+    await _watchDisconnectionSub?.cancel();
   }
 }

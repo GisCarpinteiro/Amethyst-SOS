@@ -9,7 +9,7 @@ import 'package:vistas_amatista/models/group.dart';
 import 'package:vistas_amatista/services/location_service.dart';
 
 class RestConnector {
-  static const String LOCALHOST = 'http://10.0.2.2:8080';
+  static const String LOCALHOST = 'https://amatista-e701ad4f652f.herokuapp.com';
   static const String ALERTS_SERVICE_ROUTE = '/alerts';
   static const String DISSCONNECTION_SERVICE = "/services/disconnection";
   static const String CLOUD_SERVER = '';
@@ -21,6 +21,8 @@ class RestConnector {
     const uri = LOCALHOST + ALERTS_SERVICE_ROUTE;
     final String? userId = sharedPrefsInsance!.getString('id');
     final String? location = (await LocationService.getCurrentLocation());
+    final String? userName = sharedPrefsInsance!.getString('name');
+    final String? sendersPhone = sharedPrefsInsance!.getString('phone');
 
     if (userId == null || location == null) return false;
 
@@ -31,6 +33,8 @@ class RestConnector {
       }).toList(),
       //"location": "${position.latitude},${position.longitude}",
       "userId": userId,
+      "userName": userName,
+      "phone": sendersPhone,
       "activationMethod": "NOT_IMPLEMENTED",
       "useSms": false,
       "useWApp": true,

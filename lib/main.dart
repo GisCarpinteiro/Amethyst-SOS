@@ -7,6 +7,7 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/alert_provider.dart';
 import 'package:vistas_amatista/providers/app_settings_provider.dart';
 import 'package:vistas_amatista/providers/alert_button_provider.dart';
+import 'package:vistas_amatista/providers/dashboard_provider.dart';
 import 'package:vistas_amatista/providers/disconnection_menu_provider.dart';
 import 'package:vistas_amatista/providers/group_provider.dart';
 import 'package:vistas_amatista/providers/home_provider.dart';
@@ -38,6 +39,7 @@ import 'package:vistas_amatista/screens/wizard/signup.dart';
 import 'package:vistas_amatista/screens/wizard/signup2.dart';
 import 'package:vistas_amatista/screens/logging/startup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vistas_amatista/services/notifications_service.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -72,7 +74,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => AlertProvider()),
           ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
           ChangeNotifierProvider(create: (_) => SmartwatchProvider()),
-          ChangeNotifierProvider(create: (_) => DisconnectionProvider())
+          ChangeNotifierProvider(create: (_) => DisconnectionProvider()),
+          ChangeNotifierProvider(create: (_) => DashboardProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -124,6 +127,7 @@ class MyApp extends StatelessWidget {
 // Enabling The use of logs on app
 Future<void> initialSetup() async {
   await SharedPrefsManager.initSharedPreferencesInstance();
+  await NotificationService.initNotifications();
   await FlutterLogs.initLogs(
       logLevelsEnabled: [LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.SEVERE],
       timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,

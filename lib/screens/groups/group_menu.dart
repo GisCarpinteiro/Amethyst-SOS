@@ -76,8 +76,6 @@ class _GroupMenuScreenState extends State<GroupMenuScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true, //Used to not resize when keyboard appears
       appBar: MSosAppBar(title: isEdition ? "Editar Grupo" : "Crear Grupo", icon: Icons.crisis_alert),
-      drawer: state.isWizardContext ? null : const MSosDashboard(),
-      drawerEnableOpenDragGesture: false,
       bottomNavigationBar: state.isWizardContext ? null : const CustomBottomAppBar(isFromGroupScreen: true),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: state.isWizardContext ? null : const MSosAlertButton(),

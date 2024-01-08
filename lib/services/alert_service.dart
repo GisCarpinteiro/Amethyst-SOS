@@ -2,9 +2,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:vistas_amatista/api/rest_alert_connector.dart';
 import 'package:vistas_amatista/models/alert.dart';
@@ -52,48 +50,6 @@ class AlertService {
   static bool isCountdownActive = false;
   static StreamSubscription<int>? countdownStream;
   static int countdown = 0;
-
-  static postBackend(String userId) async {
-    const url = 'http://10.0.2.2:8080/services/disconnection';
-    Map<String, dynamic> data = {
-      "alertMessage": "Necesito tu ayuda!",
-      "contacts": ["3314237139", "3314237139"],
-      "location": "NOT_IMPLEMENTED",
-      "userId": userId
-    };
-
-    String json = jsonEncode(data);
-
-    try {
-      http.Response response = await http.post(Uri.parse(url),
-          headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'}, body: json);
-      print('La respuesta del servidor fué: ${response.body}');
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-    }
-  }
-
-  static delBackend(String user) async {
-    final url = 'http://10.0.2.2:8080/services/disconnection/user/$user';
-
-    try {
-      http.Response response = await http.delete(Uri.parse(url));
-      print('La respuesta del servidor fué: ${response.body}');
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-    }
-  }
-
-  static putBackend(String user) async {
-    final url = 'http://10.0.2.2:8080/services/disconnection/user/$user';
-
-    try {
-      http.Response response = await http.put(Uri.parse(url), body: "nueva ubicación!");
-      print('La respuesta del servidor fué: ${response.body}');
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-    }
-  }
 
   // This method is used when starting service from the Home Screen and pressing the start service Button
   static Future<String?> start({bool fromWatch = false}) async {
@@ -187,12 +143,13 @@ class AlertService {
   static bool initServices({bool fromWatch = false}) {
     FlutterLogs.logInfo("AlertService", "initServices", "Trying to start the services");
 
-    if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger]) {
+    if (selectedAlert!.triggers[Alert.internetDisconnectionTrigger] && DisconnectionService.isServiceEnabled) {
+      FlutterLogs.logInfo("AlertService", 'initServices', 'Starting Internet Disconnection Service...');
       DisconnectionService.startDisconnectionService();
     }
 
     if (selectedAlert!.triggers[Alert.smartwatchTrigger] && !fromWatch) {
-      if (SmartwatchService.isReachable && SmartwatchService.isSynchronized) {
+      if (SmartwatchService.isReachable) {
         FlutterLogs.logInfo("AlertService", "initServices", "SMARTWATCH: Trying to start smartwatch service");
         SmartwatchService.sendStartServiceMessage().then((value) {
           if (value != null) {
@@ -202,13 +159,13 @@ class AlertService {
           } else {
             FlutterLogs.logInfo(
                 "Home", "StartSmartwatchAlertService", "SMARTWATCH: The service has started on smartwatch too");
+            if (selectedAlert!.triggers[Alert.smartwatchDisconnectionTrigger]) {
+              FlutterLogs.logInfo("AlertService", 'initServices', 'Starting Smartwatch Disconnection Service...');
+              SmartwatchService.startSmartwatchDisconnectionService();
+            }
           }
         });
-      }
-    }
-
-    if (selectedAlert!.triggers[Alert.smartwatchDisconnectionTrigger]) {
-      // TODO: Crear la implementación de el servicio de desconexión a internet ()
+      } 
     }
 
     return true;
@@ -221,6 +178,10 @@ class AlertService {
 
     if (selectedAlert!.triggers[Alert.smartwatchTrigger]) {
       SmartwatchService.sendStopServiceMessage();
+    }
+
+    if (selectedAlert!.triggers[Alert.smartwatchDisconnectionTrigger]) {
+      SmartwatchService.stopSmartwatchDisconnectionService();
     }
     return true;
   }

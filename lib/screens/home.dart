@@ -138,7 +138,8 @@ class HomeScreen extends StatelessWidget {
                           MSosCardButton(
                             title: "Servicios de Smartwatch",
                             icon: Icons.watch,
-                            isDisabled: !state.smartwatchServiceState,
+                            isDisabled:
+                                (!state.smartwatchServiceState || !state.selectedAlert?.triggers['smartwatch_trigger']),
                             onPressed: () {
                               Navigator.pushNamed(context, '/smartwatch_menu');
                             },

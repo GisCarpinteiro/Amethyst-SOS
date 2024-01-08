@@ -7,7 +7,6 @@ import 'package:vistas_amatista/resources/colors/default_theme.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_bottombar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/resources/custom_widgets/msos_dashboard.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_alert_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_formfield.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';

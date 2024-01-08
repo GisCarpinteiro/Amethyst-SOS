@@ -101,7 +101,7 @@ class HomeProvider with ChangeNotifier {
     alerts = AlertController.getAlerts();
     groups = GroupController.getGroups();
     AlertService.selectedAlert = AlertService.selectedAlert ?? (alerts.isEmpty ? null : alerts[0]);
-    AlertService.selectedGroup = AlertService.selectedGroup ?? (alerts.isEmpty ? null : groups[0]);
+    AlertService.selectedGroup = AlertService.selectedGroup ?? (groups.isEmpty ? null : groups[0]);
     selectedAlert = AlertService.selectedAlert;
     selectedGroup = AlertService.selectedGroup;
   }

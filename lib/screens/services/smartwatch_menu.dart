@@ -8,6 +8,7 @@ import 'package:vistas_amatista/resources/custom_widgets/msos_appbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_text.dart';
+import 'package:vistas_amatista/services/alert_service.dart';
 
 class SmartwatchMenu extends StatelessWidget {
   const SmartwatchMenu({super.key});
@@ -76,6 +77,13 @@ class SmartwatchMenu extends StatelessWidget {
                               ))
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      if (!AlertService.selectedAlert?.triggers['smartwatch_trigger'])
+                        const MSosText(
+                          'La alerta actual no tiene configurado el smartwatch cómo disparador, configurelo si desea hacer uso de este servicio',
+                          isMultiline: true,
+                          textColor: MSosColors.darkPink,
+                        ),
                       const SizedBox(height: 20),
                       const MSosText(
                         "Configuración",

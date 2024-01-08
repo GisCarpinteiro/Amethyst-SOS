@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vistas_amatista/controller/firestore_controller.dart';
 import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/providers/login_provider.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_button.dart';
-import 'package:vistas_amatista/services/alert_service.dart';
-import 'package:watch_connectivity/watch_connectivity.dart';
+import 'package:vistas_amatista/services/notifications_service.dart';
 import '../resources/custom_widgets/msos_text.dart';
 
 /* Esta vista es temporal, usada para probar las funcionalidades del proyecto por separado de 
@@ -25,7 +22,6 @@ class DemoScreen extends StatefulWidget {
 class _DemoScreenState extends State<DemoScreen> {
   @override
   Widget build(BuildContext context) {
-    const userid = "thisIsACustomId";
     //Obtaining screen dimensions for easier to read code.
     final double screenWidth = MediaQuery.of(context).size.width;
     //final double screenHeight = MediaQuery.of(context).size.height;
@@ -44,13 +40,16 @@ class _DemoScreenState extends State<DemoScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const MSosText(
-                    "Test/Demo Screen!",
+                    "Menú de Demo",
                     style: MSosText.sectionTitleStyle,
                     icon: Icons.construction_outlined,
                   ),
-                  const SizedBox(
-                    height: 20,
+                  const SizedBox(height: 20),
+                  const MSosText(
+                    'Esta vista es exclusiva de la versión demo, lo que nos permite acceder con un usuario por default de prueba para probar las funcionalidades de la aplicación',
+                    isMultiline: true,
                   ),
+                  const SizedBox(height: 20),
                   const MSosButton(
                     text: "Wizard",
                     route: '/startup',
@@ -76,33 +75,6 @@ class _DemoScreenState extends State<DemoScreen> {
                       }),
                   const SizedBox(
                     height: 20,
-                  ),
-                  MSosButton(
-                    text: "POST",
-                    style: MSosButton.subMenuLargeBtn,
-                    onPressed: () {
-                      AlertService.postBackend(userid);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(
-                    text: "DEL",
-                    style: MSosButton.subMenuLargeBtn,
-                    onPressed: () {
-                      AlertService.delBackend(userid);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  MSosButton(
-                    text: "PUT",
-                    style: MSosButton.subMenuLargeBtn,
-                    onPressed: () {
-                      AlertService.putBackend(userid);
-                    },
                   ),
                 ],
               ),

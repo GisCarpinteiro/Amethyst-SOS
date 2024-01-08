@@ -6,6 +6,7 @@ import 'package:vistas_amatista/controller/shared_preferences_manager.dart';
 import 'package:vistas_amatista/resources/custom_widgets/msos_snackbar.dart';
 import 'package:vistas_amatista/services/alert_service.dart';
 import 'package:vistas_amatista/services/location_service.dart';
+import 'package:vistas_amatista/services/notifications_service.dart';
 
 class DisconnectionService {
   static int toleranceMinutes = 5;
@@ -26,15 +27,19 @@ class DisconnectionService {
 
     // Then we make a POST into the disconnection service endpoint
     final String? userId = SharedPrefsManager.sharedInstance?.getString('id');
+    final String? userName = SharedPrefsManager.sharedInstance?.getString('name');
+    final String? phone = SharedPrefsManager.sharedInstance?.getString('phone');
     final String? location = await LocationService.getCurrentLocation();
 
-    if (userId == null || location == null) return false;
+    if (userId == null || location == null || phone == null || userName == null) return false;
 
     FlutterLogs.logInfo(
         "DisconnectionService", "startDisconnectionService", "Trying to initiate the disconnection service...");
 
     final Map<String, dynamic> requestBody = {
       "userId": userId,
+      "phone": phone,
+      "userName": userName,
       "alertMessage": AlertService.selectedAlert!.message,
       "contacts": AlertService.selectedGroup!.contacts.map((contact) {
         return contact['phone'];
@@ -53,7 +58,7 @@ class DisconnectionService {
     await updateLocationSubscription?.cancel();
 
     updateLocationSubscription =
-        Stream<bool>.periodic(Duration(seconds: toleranceMinutes), (value) => true).listen((event) async {
+        Stream<bool>.periodic(Duration(minutes: toleranceMinutes), (value) => true).listen((event) async {
       final isUpdated = await updateLocation();
 
       if (!isUpdated) {
@@ -64,9 +69,11 @@ class DisconnectionService {
               title: "Servicio de Desconexión:",
               message:
                   "La actualización de ubicación falló dos veces consecutivas. Las alertas serán enviadas por el servidor");
+          NotificationService.showNotification(message: "No se ha actualizado la ubicación dos veces seguidas, nuestro servidor enviará las alertas por tí");
           await updateLocationSubscription?.cancel();
         } else {
           warningState = true;
+          NotificationService.showNotification(message: "No fué posible actualizar tu ubicación, asegurate de estar conectado a internet o enviaremos las alertas por tí dentro de aproximadamente $toleranceMinutes minutos");
           MSosFloatingMessage.showMessage(globalContext!,
               type: MSosMessageType.error,
               title: "Servicio de Desconexión:",

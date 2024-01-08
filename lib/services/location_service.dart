@@ -14,7 +14,7 @@ class LocationService {
   static Future<String?> getCurrentLocation() async {
     if (!await checkAvailabilityAndPermissions()) return null;
     final locationData = await location.getLocation();
-    return "${locationData.latitude}/${locationData.longitude}";
+    return "${locationData.latitude},${locationData.longitude}";
   }
 
   static Future<bool> checkAvailabilityAndPermissions() async {
